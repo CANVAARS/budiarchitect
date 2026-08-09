@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Galeri Seni Mewah 3D</title>
   
   <!-- Import Map Three.js -->
@@ -23,7 +23,7 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body, html { width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: var(--bg-dark); color: var(--text); }
+    body, html { width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: var(--bg-dark); color: var(--text); touch-action: none; }
 
     #canvas-container { width: 100%; height: 100%; display: block; }
 
@@ -40,9 +40,10 @@
     #instructions {
       position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
       background: rgba(10, 9, 18, 0.85); border: 1px solid rgba(232, 201, 124, 0.3);
-      padding: 12px 28px; border-radius: 50px; backdrop-filter: blur(10px);
-      font-size: 0.85rem; letter-spacing: 0.05em; pointer-events: none; z-index: 2;
+      padding: 10px 20px; border-radius: 50px; backdrop-filter: blur(10px);
+      font-size: 0.8rem; letter-spacing: 0.05em; pointer-events: none; z-index: 2;
       text-align: center; color: var(--text); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      white-space: nowrap;
     }
 
     /* Layar Awal (Click to Enter) */
@@ -53,8 +54,8 @@
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       cursor: pointer; text-align: center; padding: 20px;
     }
-    #start-prompt h1 { font-size: 3rem; color: var(--accent); margin-bottom: 12px; font-weight: 300; letter-spacing: 2px; }
-    #start-prompt p { font-size: 1.1rem; color: #a09ab5; margin-bottom: 25px; }
+    #start-prompt h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 12px; font-weight: 300; letter-spacing: 2px; }
+    #start-prompt p { font-size: 1rem; color: #a09ab5; margin-bottom: 25px; }
     .btn-enter {
       background: linear-gradient(135deg, #e8c97c, #cfa863); color: #0a0912;
       padding: 14px 32px; border-radius: 30px; font-weight: 600; text-transform: uppercase;
@@ -85,19 +86,78 @@
       color: #fff; font-size: 1.8rem; cursor: pointer; transition: color 0.2s;
     }
     .close-btn:hover { color: var(--accent); }
+
+    /* ==========================================
+       KONTROL NAVIGASI KURSOR UNTUK HP (DPAD)
+       ========================================== */
+    #mobile-controls {
+      position: absolute;
+      bottom: 25px;
+      left: 20px;
+      width: 140px;
+      height: 140px;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 5px;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .dpad-btn {
+      background: rgba(18, 16, 28, 0.7);
+      border: 1px solid rgba(232, 201, 124, 0.4);
+      color: var(--accent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      backdrop-filter: blur(8px);
+      touch-action: manipulation;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .dpad-btn:active {
+      background: var(--accent);
+      color: #000;
+      transform: scale(0.95);
+    }
+
+    /* Penataan Tombol D-Pad Cross */
+    #btn-up    { grid-column: 2; grid-row: 1; }
+    #btn-left  { grid-column: 1; grid-row: 2; }
+    #btn-right { grid-column: 3; grid-row: 2; }
+    #btn-down  { grid-column: 2; grid-row: 3; }
+
+    /* Sembunyikan instruksi PC & atur D-Pad saat di HP */
+    @media (max-width: 768px) {
+      #instructions { font-size: 0.75rem; bottom: 10px; }
+    }
   </style>
 </head>
 <body>
 
   <div id="start-prompt">
     <h1>PAMERAN SENI MODERN</h1>
-    <p>Jelajahi galeri interaktif dengan kualitas 3D realitis</p>
+    <p>Jelajahi galeri interaktif dengan kualitas 3D realistis</p>
     <div class="btn-enter">Klik Untuk Masuk Ruangan</div>
   </div>
 
   <div id="crosshair"></div>
   <div id="instructions">
-    Gunakan <b>WASD / Panah</b> untuk jalan &middot; <b>Mouse</b> untuk melihat sekitar &middot; <b>Klik Lukisan / Banner</b> untuk interaksi
+    <b>WASD / Tombol Layar</b> untuk jalan &middot; <b>Geser Layar</b> untuk melihat sekitar
+  </div>
+
+  <!-- Tombol Kursor HP (Virtual D-Pad) -->
+  <div id="mobile-controls">
+    <div class="dpad-btn" id="btn-up">▲</div>
+    <div class="dpad-btn" id="btn-left">◄</div>
+    <div class="dpad-btn" id="btn-right">►</div>
+    <div class="dpad-btn" id="btn-down">▼</div>
   </div>
 
   <div id="canvas-container"></div>
@@ -121,16 +181,28 @@
     import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
     // ==========================================
-    // 1. DATA 20 GAMBAR LUKISAN
+    // 1. DATA 20 GAMBAR LUKISAN (Berdasarkan Folder)
     // ==========================================
-    const DAFTAR_GAMBAR = Array.from({ length: 20 }, (_, i) => ({
-      id: i + 1,
-      judul: `Masterpiece #${i + 1}`,
-      deskripsi: `Karya seni abstrak bernilai tinggi nomor ${i + 1}. Pencahayaan sorot khusus digunakan untuk menonjolkan tekstur dan gradasi warna kanvas.`,
-      url: `Galer/Galeri_Seni_Modern.html`
-    }));
+    const daftarFolder = [
+      { nama: "Azhar", jumlahGambar: 5 },
+      { nama: "Heri", jumlahGambar: 5 },
+      { nama: "Budi", jumlahGambar: 5 },
+      { nama: "Warkim", jumlahGambar: 5 }
+    ];
 
-    // Data 20 Banner Pameran di Tengah Ruangan (ditata zig-zag 4 kolom x 5 baris)
+    let idCounter = 1;
+
+    const DAFTAR_GAMBAR = daftarFolder.flatMap((folder) =>
+      Array.from({ length: folder.jumlahGambar }, (_, i) => ({
+        id: idCounter++,
+        seniman: folder.nama,
+        judul: `Masterpiece #${i + 1} (${folder.nama})`,
+        deskripsi: `Karya seni bernilai tinggi nomor ${i + 1} dari ${folder.nama}. Pencahayaan sorot khusus digunakan untuk menonjolkan tekstur dan gradasi warna kanvas.`,
+        url: `Galeri/${folder.nama}/${i + 1}.png`
+      }))
+    );
+
+    // Data 20 Banner Pameran di Tengah Ruangan
     const BANNER_DATA = Array.from({ length: 20 }, (_, i) => ({
       id: i + 1,
       judul: `Banner Pameran #${i + 1}`,
@@ -146,15 +218,14 @@
     scene.background = new THREE.Color(0xf3f2ee);
     scene.fog = new THREE.FogExp2(0xf3f2ee, 0.012);
 
-    // Dimensi Ruangan Pameran (ruangan LEBAR, bukan lorong sempit memanjang)
-    const ROOM_WIDTH = 32;   // lebar ruangan (sumbu X)
-    const ROOM_DEPTH = 42;   // kedalaman ruangan (sumbu Z)
+    const ROOM_WIDTH = 32;   
+    const ROOM_DEPTH = 42;   
     const TINGGI_RUANGAN = 6.5;
-    const ROOM_CENTER_Z = -ROOM_DEPTH / 2 + 14; // titik tengah ruangan, relatif ke pintu masuk
-    const ENTRANCE_Z = ROOM_CENTER_Z + ROOM_DEPTH / 2 - 3; // batas kamera dekat pintu masuk
+    const ROOM_CENTER_Z = -ROOM_DEPTH / 2 + 14; 
+    const ENTRANCE_Z = ROOM_CENTER_Z + ROOM_DEPTH / 2 - 3; 
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 150);
-    camera.position.set(0, 1.7, ENTRANCE_Z - 2); // Posisi awal dekat pintu masuk ruangan
+    camera.position.set(0, 1.7, ENTRANCE_Z - 2); 
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -164,9 +235,8 @@
     container.appendChild(renderer.domElement);
 
     // ==========================================
-    // 3. LANTAI KAYU, DINDING PUTIH, PILAR & TRACK LIGHTING (gaya museum nyata)
+    // 3. LANTAI KAYU, DINDING PUTIH, PILAR & TRACK LIGHTING
     // ==========================================
-    // A. Tekstur Lantai Kayu Parket Hangat (satin, tidak seperti cermin)
     function createWoodFloorTexture() {
       const canvas = document.createElement('canvas');
       canvas.width = 1024; canvas.height = 1024;
@@ -178,7 +248,6 @@
         ctx.fillStyle = `rgb(${r},${g},${b})`;
         ctx.fillRect(i * plankWidth, 0, plankWidth - 1.5, 1024);
       }
-      // serat kayu halus
       ctx.strokeStyle = 'rgba(60,38,18,0.12)';
       ctx.lineWidth = 1;
       for (let i = 0; i < 220; i++) {
@@ -188,7 +257,6 @@
         ctx.bezierCurveTo(x + 8, 300, x - 8, 700, x + (Math.random() - 0.5) * 16, 1024);
         ctx.stroke();
       }
-      // sambungan antar papan (plank seams)
       ctx.strokeStyle = 'rgba(45,28,14,0.35)';
       ctx.lineWidth = 2;
       for (let i = 0; i <= plankCount; i++) {
@@ -212,7 +280,6 @@
     floor.position.set(0, 0, ROOM_CENTER_Z);
     scene.add(floor);
 
-    // B. Plafon Putih Bersih
     const ceilGeo = new THREE.PlaneGeometry(ROOM_WIDTH, ROOM_DEPTH);
     const ceilMat = new THREE.MeshStandardMaterial({ color: 0xf7f6f2, roughness: 0.92 });
     const ceiling = new THREE.Mesh(ceilGeo, ceilMat);
@@ -220,7 +287,6 @@
     ceiling.position.set(0, TINGGI_RUANGAN, ROOM_CENTER_Z);
     scene.add(ceiling);
 
-    // C. Rel Track Lighting Putih Hangat (menggantikan LED neon warna-warni)
     const trackRailMat = new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.4, metalness: 0.6 });
     const trackFixtureMat = new THREE.MeshStandardMaterial({ color: 0x1c1c1c, roughness: 0.3, metalness: 0.7 });
 
@@ -244,7 +310,6 @@
     createTrackRail(-ROOM_WIDTH / 4);
     createTrackRail(ROOM_WIDTH / 4);
 
-    // D. Dinding Putih Bersih (kiri, kanan, belakang — depan tetap terbuka sebagai pintu masuk)
     const wallMat = new THREE.MeshStandardMaterial({ color: 0xf5f4f0, roughness: 0.95 });
 
     const wallLeft = new THREE.Mesh(new THREE.PlaneGeometry(ROOM_DEPTH, TINGGI_RUANGAN), wallMat);
@@ -261,7 +326,6 @@
     wallBack.position.set(0, TINGGI_RUANGAN / 2, ROOM_CENTER_Z - ROOM_DEPTH / 2);
     scene.add(wallBack);
 
-    // E. Pilar/Kolom Putih Pemisah Ruang (khas denah museum modern)
     const pillarMat = new THREE.MeshStandardMaterial({ color: 0xf2f1ec, roughness: 0.92 });
     function createPillar(x, z) {
       const pillar = new THREE.Mesh(new THREE.BoxGeometry(1.1, TINGGI_RUANGAN, 1.1), pillarMat);
@@ -274,30 +338,25 @@
       createPillar(pillarX, ROOM_CENTER_Z + dz);
     });
 
-    // Pencahayaan Dasar Ruangan (terang & merata seperti museum nyata)
     scene.add(new THREE.AmbientLight(0xffffff, 0.55));
     scene.add(new THREE.HemisphereLight(0xffffff, 0xdad6c8, 0.5));
 
     // ==========================================
-    // 4. PEMASANGAN LUKISAN + LAMPU SOROT (SPOTLIGHT)
+    // 4. PEMASANGAN LUKISAN + SPOTLIGHT
     // ==========================================
     const textureLoader = new THREE.TextureLoader();
     const interactiveObjects = [];
 
-    // Memasang satu lukisan lengkap dengan bingkai + spotlight + kap lampu.
-    // wallSide: -1 = dinding kiri, 1 = dinding kanan, 0 = dinding belakang
     function mountPainting(item, xPos, zPos, rotY, wallSide) {
       const group = new THREE.Group();
       group.position.set(xPos, 2.3, zPos);
       group.rotation.y = rotY;
 
-      // Bingkai Lukisan Mewah
       const frameGeo = new THREE.BoxGeometry(2.4, 2.4, 0.08);
       const frameMat = new THREE.MeshStandardMaterial({ color: 0x1f1f1f, roughness: 0.4, metalness: 0.3 });
       const frame = new THREE.Mesh(frameGeo, frameMat);
       group.add(frame);
 
-      // Kanvas Lukisan
       const texture = textureLoader.load(item.url);
       const artGeo = new THREE.PlaneGeometry(2.2, 2.2);
       const artMat = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.4 });
@@ -309,7 +368,6 @@
       interactiveObjects.push(artMesh);
       scene.add(group);
 
-      // LAMPU MENYOROT LUKISAN (Spotlight) — arah offset menyesuaikan dinding
       const lampX = wallSide === 0 ? xPos : xPos - wallSide * 1.5;
       const lampZ = wallSide === 0 ? zPos + 1.5 : zPos;
 
@@ -318,7 +376,6 @@
       spotLight.target = artMesh;
       scene.add(spotLight);
 
-      // Kap Lampu Fisik di Plafon
       const lampHousing = new THREE.Mesh(
         new THREE.CylinderGeometry(0.12, 0.18, 0.3, 12),
         new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.2 })
@@ -329,7 +386,6 @@
 
     function lerp(a, b, t) { return a + (b - a) * t; }
 
-    // Sebar 20 lukisan: 7 di dinding kiri, 7 di dinding kanan, 6 di dinding belakang
     const wallZTop = ROOM_CENTER_Z + ROOM_DEPTH / 2 - 4;
     const wallZBottom = ROOM_CENTER_Z - ROOM_DEPTH / 2 + 4;
     const backXLeft = -(ROOM_WIDTH / 2 - 4);
@@ -356,13 +412,12 @@
     }
 
     // ==========================================
-    // 5. 20 BANNER PAMERAN DI TENGAH RUANGAN (ZIG-ZAG 4 KOLOM x 5 BARIS)
+    // 5. BANNER PAMERAN
     // ==========================================
     function createBannerStand(x, z, data) {
       const standGroup = new THREE.Group();
       standGroup.position.set(x, 0, z);
 
-      // Alas Kaki Banner (gaya roll-up banner)
       const baseMesh = new THREE.Mesh(
         new THREE.BoxGeometry(1.0, 0.12, 0.35),
         new THREE.MeshStandardMaterial({ color: 0x1a1829, roughness: 0.4, metalness: 0.4 })
@@ -370,7 +425,6 @@
       baseMesh.position.y = 0.06;
       standGroup.add(baseMesh);
 
-      // Tiang Penyangga
       const pole = new THREE.Mesh(
         new THREE.CylinderGeometry(0.03, 0.03, 2.3, 8),
         new THREE.MeshStandardMaterial({ color: 0x2a2a2a, metalness: 0.6, roughness: 0.35 })
@@ -378,7 +432,6 @@
       pole.position.set(0, 1.27, -0.15);
       standGroup.add(pole);
 
-      // Kanvas Banner (berdiri tegak, terlihat dari dua sisi)
       const bannerTexture = textureLoader.load(data.url);
       const bannerGeo = new THREE.PlaneGeometry(1.1, 2.2);
       const bannerMat = new THREE.MeshStandardMaterial({ map: bannerTexture, roughness: 0.35, side: THREE.DoubleSide });
@@ -391,7 +444,6 @@
       scene.add(standGroup);
     }
 
-    // Tata letak zig-zag: 5 baris x 4 kolom = 20 banner, baris genap digeser setengah jarak kolom
     const BANNER_ROWS = 5;
     const BANNER_COLS = 4;
     const ROW_GAP = 5.2;
@@ -400,14 +452,13 @@
 
     for (let r = 0; r < BANNER_ROWS; r++) {
       const z = ROOM_CENTER_Z + ((BANNER_ROWS - 1) / 2 - r) * ROW_GAP;
-      const shift = (r % 2 === 1) ? ZIGZAG_OFFSET : 0; // baris ganjil digeser -> pola zig-zag
+      const shift = (r % 2 === 1) ? ZIGZAG_OFFSET : 0; 
       for (let c = 0; c < BANNER_COLS; c++) {
         const x = (c - (BANNER_COLS - 1) / 2) * COL_GAP + shift;
         const idx = r * BANNER_COLS + c;
         createBannerStand(x, z, BANNER_DATA[idx]);
       }
 
-      // Lampu sorot per baris agar seluruh banner di baris itu tersorot rata
       const rowLight = new THREE.SpotLight(0xffffff, 18, 14, 0.9, 0.6);
       rowLight.position.set(0, TINGGI_RUANGAN - 0.3, z);
       rowLight.target.position.set(0, 1.3, z);
@@ -416,7 +467,7 @@
     }
 
     // ==========================================
-    // 6. CONTROLS & NAVIGASI
+    // 6. CONTROLS & NAVIGASI (KEYBOARD & TOUCH HP)
     // ==========================================
     const controls = new PointerLockControls(camera, document.body);
     const startPrompt = document.getElementById('start-prompt');
@@ -430,6 +481,8 @@
     });
 
     const move = { forward: false, backward: false, left: false, right: false };
+
+    // A. Keyboard Event (PC)
     document.addEventListener('keydown', (e) => {
       if (e.code === 'KeyW' || e.code === 'ArrowUp') move.forward = true;
       if (e.code === 'KeyS' || e.code === 'ArrowDown') move.backward = true;
@@ -443,13 +496,65 @@
       if (e.code === 'KeyD' || e.code === 'ArrowRight') move.right = false;
     });
 
-    // Raycaster untuk Klik Objek
+    // B. Touch Event Tombol Virtual D-Pad (HP)
+    function setupTouchButton(id, direction) {
+      const btn = document.getElementById(id);
+      const startMove = (e) => {
+        e.preventDefault();
+        move[direction] = true;
+      };
+      const endMove = (e) => {
+        e.preventDefault();
+        move[direction] = false;
+      };
+
+      btn.addEventListener('touchstart', startMove, { passive: false });
+      btn.addEventListener('touchend', endMove, { passive: false });
+      btn.addEventListener('mousedown', startMove);
+      btn.addEventListener('mouseup', endMove);
+    }
+
+    setupTouchButton('btn-up', 'forward');
+    setupTouchButton('btn-down', 'backward');
+    setupTouchButton('btn-left', 'left');
+    setupTouchButton('btn-right', 'right');
+
+    // C. Touch Drag Rotasi Kamera untuk HP (Melihat Sekitar)
+    let touchStartX = 0, touchStartY = 0;
+    const euler = new THREE.Euler(0, 0, 0, 'YXZ');
+
+    document.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1 && e.target.tagName !== 'BUTTON' && !e.target.classList.contains('dpad-btn')) {
+        touchStartX = e.touches[0].pageX;
+        touchStartY = e.touches[0].pageY;
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1 && e.target.tagName !== 'BUTTON' && !e.target.classList.contains('dpad-btn')) {
+        const touchX = e.touches[0].pageX;
+        const touchY = e.touches[0].pageY;
+
+        const movementX = touchX - touchStartX;
+        const movementY = touchY - touchStartY;
+
+        touchStartX = touchX;
+        touchStartY = touchY;
+
+        euler.setFromQuaternion(camera.quaternion);
+        euler.y -= movementX * 0.004;
+        euler.x -= movementY * 0.004;
+        euler.x = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, euler.x));
+
+        camera.quaternion.setFromEuler(euler);
+      }
+    }, { passive: true });
+
+    // Raycaster untuk Klik Objek (Lukisan / Banner)
     const raycaster = new THREE.Raycaster();
     const modal = document.getElementById('modal');
 
-    document.addEventListener('click', () => {
-      if (!controls.isLocked) return;
-
+    function checkInteraction() {
       raycaster.setFromCamera({ x: 0, y: 0 }, camera);
       const intersects = raycaster.intersectObjects(interactiveObjects, false);
 
@@ -461,8 +566,13 @@
         document.getElementById('modal-desc').textContent = data.deskripsi;
         
         modal.classList.add('active');
-        controls.unlock();
+        if (controls.isLocked) controls.unlock();
       }
+    }
+
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('dpad-btn')) return;
+      if (controls.isLocked) checkInteraction();
     });
 
     document.getElementById('close-modal').addEventListener('click', () => {
@@ -470,7 +580,7 @@
     });
 
     // ==========================================
-    // 7. ANIMASI LOOP & WARNA LED NEON
+    // 7. ANIMASI LOOP
     // ==========================================
     let prevTime = performance.now();
 
@@ -481,20 +591,18 @@
       const delta = (time - prevTime) / 1000;
       prevTime = time;
 
-      // (Track lighting statis — tidak ada animasi warna neon)
+      const speed = 5.0 * delta;
 
-      if (controls.isLocked) {
-        const speed = 5.0 * delta;
-        if (move.forward) controls.moveForward(speed);
-        if (move.backward) controls.moveForward(-speed);
-        if (move.left) controls.moveRight(-speed);
-        if (move.right) controls.moveRight(speed);
+      // Pergerakan Kamera (Bisa dari PC atau Kursor HP)
+      if (move.forward) camera.translateZ(-speed);
+      if (move.backward) camera.translateZ(speed);
+      if (move.left) camera.translateX(-speed);
+      if (move.right) camera.translateX(speed);
 
-        // Batas Wilayah Berjalan (Kamera tidak menembus dinding ruangan lebar)
-        camera.position.x = Math.max(-ROOM_WIDTH / 2 + 0.9, Math.min(ROOM_WIDTH / 2 - 0.9, camera.position.x));
-        camera.position.z = Math.max(ROOM_CENTER_Z - ROOM_DEPTH / 2 + 1.5, Math.min(ENTRANCE_Z, camera.position.z));
-        camera.position.y = 1.7; // Menjaga tinggi mata manusia
-      }
+      // Batas Wilayah Berjalan (Kamera tidak menembus dinding)
+      camera.position.x = Math.max(-ROOM_WIDTH / 2 + 0.9, Math.min(ROOM_WIDTH / 2 - 0.9, camera.position.x));
+      camera.position.z = Math.max(ROOM_CENTER_Z - ROOM_DEPTH / 2 + 1.5, Math.min(ENTRANCE_Z, camera.position.z));
+      camera.position.y = 1.7; // Menjaga tinggi mata
 
       renderer.render(scene, camera);
     }
