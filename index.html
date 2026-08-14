@@ -93,7 +93,7 @@ h1,h2,h3,h4 { font-family: var(--font-display); letter-spacing: -0.01em; }
 }
 .top-bar a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 
-/* ---------- Header & Dropdown Nav ---------- */
+/* ---------- Header & Nav ---------- */
 header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -102,7 +102,7 @@ header {
 }
 .nav-container {
   max-width: 1180px; margin: 0 auto; padding: 0 24px;
-  display: flex; align-items: center; height: 72px; gap: 28px;
+  display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px;
 }
 .logo-area {
   display: flex; align-items: center; gap: 10px; text-decoration: none;
@@ -115,23 +115,27 @@ header {
 }
 .logo-area .accent { color: var(--nux-green); }
 
-.nav-menu { display: flex; list-style: none; height: 100%; align-items: center; gap: 2px; }
+.nav-menu { display: flex; list-style: none; height: 100%; align-items: center; gap: 4px; }
 .nav-item { position: relative; height: 100%; display: flex; align-items: center; }
 .nav-link {
   text-decoration: none; color: var(--ink-soft); font-size: 0.87rem; font-weight: 600;
-  padding: 0 13px; height: 100%; display: flex; align-items: center; gap: 6px;
-  transition: color 0.2s; white-space: nowrap;
+  padding: 0 12px; height: 100%; display: flex; align-items: center; gap: 6px;
+  transition: color 0.2s; white-space: nowrap; cursor: pointer;
 }
 .nav-link:hover { color: var(--nux-green); }
 
+/* Dropdown styling */
 .dropdown {
   position: absolute; top: 100%; left: 0; background: var(--surface); min-width: 230px;
   box-shadow: var(--shadow); border: 1px solid var(--border); border-radius: 0 0 12px 12px;
-  display: none; padding: 8px 0; list-style: none;
+  display: none; padding: 8px 0; list-style: none; z-index: 100;
 }
-.dropdown a { display: block; padding: 9px 18px; text-decoration: none; color: var(--ink-soft); font-size: 0.82rem; transition: 0.2s; }
+.dropdown a { display: block; padding: 10px 18px; text-decoration: none; color: var(--ink-soft); font-size: 0.82rem; transition: 0.2s; }
 .dropdown a:hover { background: var(--surface-2); color: var(--nux-green); padding-left: 22px; }
-.nav-item:hover .dropdown { display: block; }
+
+@media (min-width: 1081px) {
+  .nav-item:hover .dropdown { display: block; }
+}
 
 .verisign-btn-nav {
   background: var(--nux-green);
@@ -151,38 +155,43 @@ header {
 
 .nav-tools { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .tool-btn {
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; justify-content: center;
   background: var(--surface-2); border: 1px solid var(--border); color: var(--ink);
-  padding: 8px 12px; border-radius: 9px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
-  font-family: var(--font-mono); transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  padding: 8px 12px; border-radius: 9px; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+  font-family: var(--font-mono); transition: border-color 0.2s, color 0.2s;
 }
-.tool-btn:hover { border-color: var(--nux-green); color: var(--nux-green); transform: translateY(-1px); }
-.menu-toggle { display: none; font-size: 1.3rem; cursor: pointer; background: none; border: none; color: var(--ink); }
+.tool-btn:hover { border-color: var(--nux-green); color: var(--nux-green); }
+.menu-toggle { display: none; font-size: 1.3rem; cursor: pointer; background: none; border: none; color: var(--ink); padding: 8px; }
 
+/* Mobile Menu Styles */
 @media (max-width: 1080px) {
   .menu-toggle { display: block; }
   .nav-menu {
     display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%;
-    background: var(--surface); height: auto; padding: 16px 0; border-bottom: 3px solid var(--nux-green);
-    box-shadow: var(--shadow);
+    background: var(--surface); height: auto; max-height: 80vh; overflow-y: auto;
+    padding: 12px 0; border-bottom: 3px solid var(--nux-green); box-shadow: var(--shadow);
   }
   .nav-menu.active { display: flex; }
   .nav-item { width: 100%; height: auto; flex-direction: column; align-items: flex-start; }
-  .nav-link { width: 100%; padding: 13px 24px; border-bottom: 1px solid var(--border); }
-  .dropdown { position: static; width: 100%; box-shadow: none; border: none; background: var(--surface-2); display: none; border-radius: 0; }
+  .nav-link { width: 100%; padding: 12px 24px; border-bottom: 1px solid var(--border); justify-content: space-between; }
+  .dropdown { 
+    position: static; width: 100%; box-shadow: none; border: none; 
+    background: var(--surface-2); display: none; border-radius: 0; padding: 4px 0;
+  }
   .nav-item.open .dropdown { display: block; }
+  .dropdown a { padding-left: 36px; }
 }
 
 /* ---------- Hero ---------- */
-.hero { padding: 76px 0 50px; }
-.hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
-.hero h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.1; margin: 16px 0; }
+.hero { padding: 50px 0; }
+.hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 36px; align-items: center; }
+.hero h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.15; margin: 16px 0; }
 .hero h1 .accent { color: var(--nux-green); }
-.hero p { font-size: 1.05rem; color: var(--ink-soft); max-width: 520px; margin-bottom: 28px; }
+.hero p { font-size: 1rem; color: var(--ink-soft); max-width: 520px; margin-bottom: 24px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 26px; }
 
 .btn {
-  padding: 12px 24px; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 0.88rem;
+  padding: 12px 20px; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 0.85rem;
   display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s, background 0.2s;
   border: 1px solid transparent; cursor: pointer;
 }
@@ -191,101 +200,128 @@ header {
 .btn-outline { border-color: var(--border); color: var(--ink); background: var(--surface); }
 .btn-outline:hover { border-color: var(--nux-green); color: var(--nux-green); transform: translateY(-2px); }
 
-/* ---------- Spec Block / Portofolio Items ---------- */
-.portfolio-row { padding: 60px 0; border-bottom: 1px solid var(--border); }
-.row-head { margin-bottom: 28px; }
-.row-title { font-size: 1.8rem; font-weight: 800; margin-top: 8px; }
+@media (max-width: 768px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+  .hero h1 { font-size: 1.85rem; }
+}
 
-.image-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+/* ---------- Spec Block / Portofolio Items ---------- */
+.portfolio-row { padding: 48px 0; border-bottom: 1px solid var(--border); }
+.row-head { margin-bottom: 24px; }
+.row-title { font-size: 1.6rem; font-weight: 800; margin-top: 6px; }
+
+.image-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
 .portfolio-item {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-  overflow: hidden; transition: transform 0.35s cubic-bezier(.22,.9,.32,1.24), border-color 0.35s;
+  overflow: hidden; transition: transform 0.35s ease, border-color 0.35s;
   box-shadow: var(--shadow);
 }
-.portfolio-item:hover { transform: translateY(-6px); border-color: var(--nux-green); }
+.portfolio-item:hover { transform: translateY(-4px); border-color: var(--nux-green); }
 .portfolio-item img { width: 100%; height: 230px; object-fit: cover; display: block; transition: transform 0.5s ease; }
-.portfolio-item:hover img { transform: scale(1.05); }
+.portfolio-item:hover img { transform: scale(1.04); }
 
 /* ---------- Virtual 3D Gallery Frame ---------- */
 .gallery-container-3d {
-  width: 100%; max-width: 1000px; margin: 0 auto 40px auto; background: transparent;
+  width: 100%; max-width: 1000px; margin: 0 auto 30px auto; background: transparent;
 }
 .gallery-viewport-3d {
-  width: 100%; height: 500px; background: #09090b; overflow: hidden; perspective: 600px;
+  width: 100%; height: 480px; background: #09090b; overflow: hidden; perspective: 600px;
   position: relative; border-radius: 16px; border: 1px solid var(--border); cursor: grab;
+  touch-action: none;
 }
+.gallery-viewport-3d:active { cursor: grabbing; }
+
 .gallery-room-3d {
   width: 100%; height: 100%; position: absolute; transform-style: preserve-3d;
-  transform: translateZ(-150px) rotateY(0deg); transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: translateZ(-150px) rotateY(0deg); 
+  will-change: transform;
 }
-.gallery-room-3d.smooth-transition { transition: transform 1.2s ease-in-out !important; }
+.gallery-room-3d.smooth-transition { transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) !important; }
+
 .room-plane { position: absolute; box-sizing: border-box; backface-visibility: hidden; transform-style: preserve-3d; }
 
 .floor-plane {
   width: 1400px; height: 1400px; background-color: #121214;
   background-image: linear-gradient(rgba(45, 45, 50, 0.7) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(45, 45, 50, 0.7) 1.5px, transparent 1.5px);
   background-size: 40px 40px; left: 50%; top: 50%; margin-left: -700px; margin-top: -700px;
-  transform: rotateX(90deg) translateZ(250px); pointer-events: none;
+  transform: rotateX(90deg) translateZ(240px); pointer-events: none;
 }
 .wall-front-3d { width: 1000px; height: 480px; background: #18181b; left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; transform: translateZ(-500px); display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #27272a; }
 .wall-left-3d { width: 1000px; height: 480px; background: #18181b; left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; transform: rotateY(90deg) translateZ(-500px); display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #27272a; }
 .wall-right-3d { width: 1000px; height: 480px; background: #18181b; left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; transform: rotateY(-90deg) translateZ(-500px); display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #27272a; }
 
-.wall-title { color: #52525b; font-size: 13px; letter-spacing: 5px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
+.wall-title { color: #71717a; font-size: 13px; letter-spacing: 4px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
 .artwork-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-.art-frame { background: #27272a; padding: 10px; border: 3px solid #3f3f46; width: 250px; cursor: pointer; transition: all 0.3s ease; }
+.art-frame { background: #27272a; padding: 10px; border: 3px solid #3f3f46; width: 240px; cursor: pointer; transition: all 0.25s ease; }
 .art-frame:hover { border-color: var(--nux-green); transform: scale(1.04); }
-.art-frame img { width: 100%; height: 130px; object-fit: cover; display: block; }
-.art-label { text-align: center; color: #a1a1aa; font-size: 11px; margin-top: 8px; }
+.art-frame img { width: 100%; height: 125px; object-fit: cover; display: block; }
+.art-label { text-align: center; color: #a1a1aa; font-size: 11px; margin-top: 8px; font-weight: 500; }
 
 .gallery-nav-bar {
-  width: 100%; height: 44px; background: var(--surface); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
-  border-radius: 12px; margin-bottom: 16px; font-size: 12px;
+  width: 100%; min-height: 44px; background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; padding: 8px 16px;
+  border-radius: 12px; margin-bottom: 12px; font-size: 12px; gap: 10px; flex-wrap: wrap;
 }
-.play-tour-btn { background: var(--nux-green); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-.fullscreen-btn { background: var(--surface-2); color: var(--ink); border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; cursor: pointer; }
+.play-tour-btn { background: var(--nux-green); color: #fff; border: none; padding: 7px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+.play-tour-btn:hover { background: var(--nux-green-dark); }
+.fullscreen-btn { background: var(--surface-2); color: var(--ink); border: 1px solid var(--border); padding: 7px 14px; border-radius: 6px; cursor: pointer; }
 
 /* Lightbox Overlay */
 .gallery-lightbox-overlay {
-  display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100vw; height: 100vh;
+  display: none; position: fixed; z-index: 999999; left: 0; top: 0; width: 100vw; height: 100vh;
   background: rgba(0,0,0,0.92); align-items: center; justify-content: center; flex-direction: column;
+  padding: 20px;
 }
 .gallery-lightbox-overlay.show-lightbox { display: flex !important; }
-.lightbox-image-content { max-width: 85%; max-height: 75vh; border-radius: 8px; border: 2px solid var(--nux-green); }
-.lightbox-close-btn { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; }
-.lightbox-caption-text { color: var(--nux-green); font-weight: bold; margin-top: 14px; text-transform: uppercase; }
+.lightbox-image-content { max-width: 90%; max-height: 75vh; border-radius: 8px; border: 2px solid var(--nux-green); object-fit: contain; }
+.lightbox-close-btn { position: absolute; top: 20px; right: 25px; color: #fff; font-size: 36px; cursor: pointer; font-weight: bold; }
+.lightbox-caption-text { color: var(--nux-green); font-weight: bold; margin-top: 14px; text-transform: uppercase; letter-spacing: 1px; }
+
+@media (max-width: 600px) {
+  .gallery-viewport-3d { height: 380px; perspective: 450px; }
+  .art-frame { width: 130px; padding: 6px; }
+  .art-frame img { height: 75px; }
+  .artwork-grid { gap: 10px; }
+  .wall-title { font-size: 10px; margin-bottom: 10px; }
+}
 
 /* ---------- Slide Heyzine Container ---------- */
 .portfolio-slider-container {
-  position: relative; width: 100%; max-width: 1180px; margin: 40px auto;
+  position: relative; width: 100%; max-width: 1180px; margin: 30px auto;
   padding-top: 56.25%; border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
   box-shadow: var(--shadow); background: var(--surface);
 }
 .heyzine-iframe { position: absolute; top:0; left:0; width:100%; height:100%; border:none; }
 
 /* ---------- Footer ---------- */
-footer { background: var(--surface-2); border-top: 1px solid var(--border); padding: 60px 0 30px; margin-top: 60px; }
-.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 36px; margin-bottom: 40px; }
-.footer-brand h2 { color: var(--nux-green); font-size: 1.4rem; margin-bottom: 12px; }
-.footer-brand p { color: var(--ink-soft); font-size: 0.9rem; }
-.footer-col h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; color: var(--ink-soft); font-family: var(--font-mono); }
+footer { background: var(--surface-2); border-top: 1px solid var(--border); padding: 50px 0 30px; margin-top: 40px; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 32px; margin-bottom: 30px; }
+.footer-brand h2 { color: var(--nux-green); font-size: 1.3rem; margin-bottom: 10px; }
+.footer-brand p { color: var(--ink-soft); font-size: 0.88rem; }
+.footer-col h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; color: var(--ink-soft); font-family: var(--font-mono); }
 .footer-col ul { list-style: none; }
-.footer-col li { margin-bottom: 10px; }
-.footer-col a { color: var(--ink-soft); text-decoration: none; font-size: 0.87rem; transition: 0.2s; }
+.footer-col li { margin-bottom: 8px; }
+.footer-col a { color: var(--ink-soft); text-decoration: none; font-size: 0.85rem; transition: 0.2s; }
 .footer-col a:hover { color: var(--nux-green); padding-left: 4px; }
-.footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; text-align: center; color: var(--ink-soft); font-size: 0.82rem; }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 20px; text-align: center; color: var(--ink-soft); font-size: 0.8rem; }
+
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
 
 /* WhatsApp Floating Button */
 .whatsapp-floating {
-  position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+  position: fixed; bottom: 24px; right: 24px; width: 54px; height: 54px;
   background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 9999; transition: transform 0.2s;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25); z-index: 999; transition: transform 0.2s;
 }
 .whatsapp-floating:hover { transform: scale(1.1); }
-.whatsapp-floating svg { width: 32px; height: 32px; fill: #fff; }
+.whatsapp-floating svg { width: 28px; height: 28px; fill: #fff; }
 
-/* ---------- Verisign Modal Custom Styling ---------- */
+/* ---------- Verisign Modal Styling ---------- */
 #verisign-overlay-root {
   --bg-color: #030712; 
   --card-bg: #0b0f19; 
@@ -298,7 +334,6 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
 .fade-in { animation: fadeIn .35s ease; }
 @keyframes fadeIn { from { opacity:0; transform: translateY(6px);} to {opacity:1; transform: translateY(0);} }
 #toast-wrap { position: fixed; bottom: 20px; right: 20px; z-index: 1000000; display:flex; flex-direction:column; gap:8px; }
-.toast { background: #0b0f19; border: 1px solid #1f2937; color: #f9fafb; }
 </style>
 </head>
 <body>
@@ -317,15 +352,13 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
       BUDI<span class="accent">ARCHITECT</span>
     </a>
 
-    <button class="menu-toggle" id="mobile-btn" aria-label="Buka menu"><i class="fas fa-bars"></i></button>
-
     <ul class="nav-menu" id="nav-list">
       <li class="nav-item">
         <a href="#beranda" class="nav-link">Beranda</a>
       </li>
 
       <li class="nav-item">
-        <a href="#" class="nav-link">Portofolio Proyek <i class="fa fa-caret-down"></i></a>
+        <a class="nav-link">Portofolio Proyek <i class="fa fa-caret-down"></i></a>
         <ul class="dropdown">
           <li><a href="#proyek-1">Desain 1 (Koleksi Eksklusif)</a></li>
           <li><a href="#proyek-2">Desain 2 (Konseptual)</a></li>
@@ -339,7 +372,7 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
       </li>
 
       <li class="nav-item">
-        <a href="#" class="nav-link">Resource &amp; Plugin <i class="fa fa-caret-down"></i></a>
+        <a class="nav-link">Resource &amp; Plugin <i class="fa fa-caret-down"></i></a>
         <ul class="dropdown">
           <li><a href="https://raw.githubusercontent.com/CANVAARS/Ta-Render/main/Ta-Render.rbz" target="_blank">Plugin Ta-Render SketchUp</a></li>
           <li><a href="/Galeri/Galeri_Seni_Modern.html" target="_blank">Galeri Seni Modern</a></li>
@@ -347,7 +380,9 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
         </ul>
       </li>
 
-      <li><a href="https://ta-render.budiarchitect.site/" target="_blank">Ta-Render</a></li>
+      <li class="nav-item">
+        <a href="https://ta-render.budiarchitect.site/" target="_blank" class="nav-link">Ta-Render</a>
+      </li>
     </ul>
 
     <div class="nav-tools">
@@ -355,6 +390,7 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
         <i class="fa-solid fa-shield-halved"></i> Verisign
       </button>
       <button class="tool-btn" id="theme-toggle" aria-label="Ganti tema"><i class="fas fa-moon"></i></button>
+      <button class="menu-toggle" id="mobile-btn" aria-label="Buka menu"><i class="fas fa-bars"></i></button>
     </div>
   </div>
 </header>
@@ -390,7 +426,7 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
 
       <div class="gallery-container-3d">
         <div class="gallery-nav-bar">
-          <div><i class="fa-solid fa-arrows-up-down-left-right mr-2"></i> Scroll: Zoom | Drag: Menoleh</div>
+          <div><i class="fa-solid fa-arrows-up-down-left-right mr-2"></i> Scroll/Drag untuk Kontrol Ruang</div>
           <div style="display:flex; gap:8px;">
             <button class="play-tour-btn" id="playTourBtn">▶ Play Tour</button>
             <button class="fullscreen-btn" id="fullscreenBtn">⛶ Fullscreen</button>
@@ -405,8 +441,8 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
             <div class="room-plane wall-front-3d" data-wall-name="front">
               <div class="wall-title">DINDING UTAMA</div>
               <div class="artwork-grid">
-                <div class="art-frame" data-wall="front"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhf1LtBcJWTSoTaIjaceZFJMQdQexiRhq073t-ONb5bHgxzRzGBHB1Io_SztI_28OjkvTffbVv9O6U0dJnmesztnrOILnmIsq_XmcZqJlllNAShUIyx7rSVMm_m9TJ-pjIdCLRde0EM1UxcFtmUdvm-Qgskw4iOld4WQ_AkOOWmQzedaegcahdTRWFhMYQ/s1600/Gemini_Generated_Image_yle8gayle8gayle8.png" /><div class="art-label">Karya 1</div></div>
-                <div class="art-frame" data-wall="front"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXuSE9aMDbeXU4pHa6nPG9e8XZJ5BCouBQlFVFFSYLLbng8pB294pr-p8v9ZJhs-oPdciJgq6Sgp-jCBO6WaxiLlyJZB6412H7KC92hTuYYuhCcoVXkwg0W-jolEz2cK04T7C0_eC7yX5cMx5okFzjmXopSI5Rrp5HJ-RpSlPKACMUw7bFxsp-zFDT-X0/s1536/ChatGPT%20Image%206%20Okt%202025,%2011.49.03.png" /><div class="art-label">Karya 2</div></div>
+                <div class="art-frame" data-title="Karya 1 - Modern Classic"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhf1LtBcJWTSoTaIjaceZFJMQdQexiRhq073t-ONb5bHgxzRzGBHB1Io_SztI_28OjkvTffbVv9O6U0dJnmesztnrOILnmIsq_XmcZqJlllNAShUIyx7rSVMm_m9TJ-pjIdCLRde0EM1UxcFtmUdvm-Qgskw4iOld4WQ_AkOOWmQzedaegcahdTRWFhMYQ/s1600/Gemini_Generated_Image_yle8gayle8gayle8.png" /><div class="art-label">Karya 1</div></div>
+                <div class="art-frame" data-title="Karya 2 - Bungalow IKHW"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXuSE9aMDbeXU4pHa6nPG9e8XZJ5BCouBQlFVFFSYLLbng8pB294pr-p8v9ZJhs-oPdciJgq6Sgp-jCBO6WaxiLlyJZB6412H7KC92hTuYYuhCcoVXkwg0W-jolEz2cK04T7C0_eC7yX5cMx5okFzjmXopSI5Rrp5HJ-RpSlPKACMUw7bFxsp-zFDT-X0/s1536/ChatGPT%20Image%206%20Okt%202025,%2011.49.03.png" /><div class="art-label">Karya 2</div></div>
               </div>
             </div>
 
@@ -414,8 +450,8 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
             <div class="room-plane wall-left-3d" data-wall-name="left">
               <div class="wall-title">SISI KIRI</div>
               <div class="artwork-grid">
-                <div class="art-frame" data-wall="left"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifK2bsbgjpgPdIjINxjxtmkZR7y7swWJdysf6r5_EOkPGDwKf4aWkXtJd9y6pKcoVgLDSj33BX783IbZkMD3Uq00P1oGe9Fb9uW8H-s-C60m8GyuQmcR_kl7ZC-3wDLMyd8laZWBaq2b1QmtNCAyA3kewfv0b9zMwjgQKG___E5LTN10Eb_e7Eg6RcqEM/s1600/Gemini_Generated_Image_65s0zk65s0zk65s0.png" /><div class="art-label">Karya 5</div></div>
-                <div class="art-frame" data-wall="left"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg8FAqfdI0nKmTZ__6smQkj612GX058o_J6EUSrmkYQwJ8VKt5OG7oFLEOUyjBoZUnz4p9U59dqEE4O0vOlFmmo8ETPwP9iTSGN6TWfnytQ1XFl_wOPwI33euYGeQyfC3IqzskAfvO0wR5GcGnOTzVz2C-nnkqGtGYhK0P32iikfgKn2W7nZgNnwG-hOLo/s1600/Gemini_Generated_Image_p68er4p68er4p68e.png" /><div class="art-label">Karya 6</div></div>
+                <div class="art-frame" data-title="Karya 5 - Eksterior Minimalis"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifK2bsbgjpgPdIjINxjxtmkZR7y7swWJdysf6r5_EOkPGDwKf4aWkXtJd9y6pKcoVgLDSj33BX783IbZkMD3Uq00P1oGe9Fb9uW8H-s-C60m8GyuQmcR_kl7ZC-3wDLMyd8laZWBaq2b1QmtNCAyA3kewfv0b9zMwjgQKG___E5LTN10Eb_e7Eg6RcqEM/s1600/Gemini_Generated_Image_65s0zk65s0zk65s0.png" /><div class="art-label">Karya 5</div></div>
+                <div class="art-frame" data-title="Karya 6 - Desain Perumahan"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg8FAqfdI0nKmTZ__6smQkj612GX058o_J6EUSrmkYQwJ8VKt5OG7oFLEOUyjBoZUnz4p9U59dqEE4O0vOlFmmo8ETPwP9iTSGN6TWfnytQ1XFl_wOPwI33euYGeQyfC3IqzskAfvO0wR5GcGnOTzVz2C-nnkqGtGYhK0P32iikfgKn2W7nZgNnwG-hOLo/s1600/Gemini_Generated_Image_p68er4p68er4p68e.png" /><div class="art-label">Karya 6</div></div>
               </div>
             </div>
 
@@ -423,15 +459,15 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
             <div class="room-plane wall-right-3d" data-wall-name="right">
               <div class="wall-title">SISI KANAN</div>
               <div class="artwork-grid">
-                <div class="art-frame" data-wall="right"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgsGdwHwuXSfdr-4FhvSJT8XOZhyphenhyphen4KTc78Uccyw8gWzSC1EoCLFdyn8uAy8z2PBQyCsk0zKj2tMVyUWp999DrF7ffnoSnCOF-5P1sJq_1sdcuDVzMUWLl7_XGPETQUD5Yace__AVSXW5MY0-4tAKhO5H6eO86oiPATyjgdL1ILPsAlkn0qDbX8rzCLYotw/s1365/Gemini_Generated_Image_buxxcbbuxxcbbuxx.png" /><div class="art-label">Karya 9</div></div>
-                <div class="art-frame" data-wall="right"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitJktzRvYIo-vr_FNjbsv6qH9QXzkckSo7O4C-ackf_-6gpGc880SZEqMcqVNnsJLBpGzZ69uLVXjuKe9azTva-Or0ddk1oVsC6ARYS9ol_k459hvpftO2V81ybF4qSyUoV7CJLdt4NVNbt4jWNEaGJiqwLR5AOp22uPMtzzjNn9-b4Fu0av9ApbZTg1I/s1920/Enscape_2024-02-21-22-15-52.pngg" /><div class="art-label">Karya 10</div></div>
+                <div class="art-frame" data-title="Karya 9 - Desain Kawasan"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgsGdwHwuXSfdr-4FhvSJT8XOZhyphenhyphen4KTc78Uccyw8gWzSC1EoCLFdyn8uAy8z2PBQyCsk0zKj2tMVyUWp999DrF7ffnoSnCOF-5P1sJq_1sdcuDVzMUWLl7_XGPETQUD5Yace__AVSXW5MY0-4tAKhO5H6eO86oiPATyjgdL1ILPsAlkn0qDbX8rzCLYotw/s1365/Gemini_Generated_Image_buxxcbbuxxcbbuxx.png" /><div class="art-label">Karya 9</div></div>
+                <div class="art-frame" data-title="Karya 10 - Interior Rendering"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitJktzRvYIo-vr_FNjbsv6qH9QXzkckSo7O4C-ackf_-6gpGc880SZEqMcqVNnsJLBpGzZ69uLVXjuKe9azTva-Or0ddk1oVsC6ARYS9ol_k459hvpftO2V81ybF4qSyUoV7CJLdt4NVNbt4jWNEaGJiqwLR5AOp22uPMtzzjNn9-b4Fu0av9ApbZTg1I/s1920/Enscape_2024-02-21-22-15-52.png" /><div class="art-label">Karya 10</div></div>
               </div>
             </div>
 
           </div>
 
           <div class="gallery-lightbox-overlay" id="lightboxOverlay">
-            <span class="lightbox-close-btn">&times;</span>
+            <span class="lightbox-close-btn" id="closeLightbox">&times;</span>
             <img class="lightbox-image-content" id="lightboxImg" src="" alt="Zoom Visual">
             <div class="lightbox-caption-text" id="lightboxCaption">Judul Karya</div>
           </div>
@@ -640,7 +676,7 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
 </footer>
 
 <!-- WHATSAPP FLOATING BUTTON -->
-<a href="https://wa.me/6285173287839" class="whatsapp-floating" target="_blank" rel="noopener noreferrer">
+<a href="https://wa.me/6285173287839" class="whatsapp-floating" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Chat">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
     <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.948h.003c4.368 0 7.926-3.559 7.93-7.93a7.9 7.9 0 0 0-2.326-5.592zm-5.607 11.366a6.52 6.52 0 0 1-3.303-.893l-.237-.14-2.455.644.656-2.39-.153-.244a6.52 6.52 0 0 1-1.001-3.493c.003-3.605 2.943-6.545 6.549-6.545 1.748 0 3.392.68 4.625 1.913a6.5 6.5 0 0 1 1.912 4.63c-.004 3.605-2.943 6.545-6.55 6.545m3.515-4.803c-.192-.097-1.14-.563-1.312-.626-.172-.063-.298-.097-.422.09-.124.188-.479.563-.588.687-.109.125-.219.14-.412.043-1.16-.58-1.921-1.604-2.464-2.54-.145-.25-.015-.385.11-.51.112-.112.25-.292.375-.438.125-.146.166-.248.25-.415.083-.166.042-.311-.02-.439-.062-.127-.525-1.266-.72-1.735-.19-.458-.383-.396-.525-.404-.135-.007-.29-.007-.446-.007-.156 0-.41.059-.624.293-.214.234-.816.797-.816 1.944s.833 2.25 1.05 2.537c.216.287 1.637 2.5 3.968 3.511.554.24 1.01.385 1.353.494.557.177 1.063.151 1.464.091.447-.067 1.14-.466 1.302-.916.162-.45.162-.835.114-.916-.048-.08-.178-.127-.37-.224z"/>
   </svg>
@@ -653,13 +689,11 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
   <div id="toast-wrap"></div>
 
   <div class="relative w-full max-w-5xl bg-[#030712] border border-slate-800 rounded-2xl p-6 max-h-[90vh] overflow-y-auto shadow-2xl">
-    <!-- TOMBOL CLOSE OVERLAY -->
     <button onclick="toggleVerisignOverlay(false)" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 p-2 rounded-full transition w-10 h-10 flex items-center justify-center">
       <i class="fa-solid fa-xmark text-lg"></i>
     </button>
 
-    <!-- HEADER VERISIGN -->
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800 pr-12">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800 pr-12">
       <div class="flex items-center gap-3">
         <span class="text-white text-xl font-black tracking-wider uppercase">Nusachain <span class="text-emerald-400">Verisign</span></span>
         <span class="bg-emerald-950/60 border border-emerald-500/30 px-3 py-0.5 rounded-full text-[10px] text-emerald-400 font-mono tracking-widest uppercase">Testscan Connected</span>
@@ -671,7 +705,6 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
       </nav>
     </div>
 
-    <!-- KONTEN MODAL -->
     <main class="space-y-6">
       <div id="section-generator" class="bg-[#0b0f19] rounded-2xl p-6 glow-box fade-in">
         <h2 class="text-lg font-bold text-white mb-1">Generator Hash SHA-256 File</h2>
@@ -692,7 +725,7 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
 
         <div id="genResult" class="mt-4 p-4 rounded-xl bg-[#030712] border border-slate-800 hidden-page space-y-2">
           <div class="flex items-center justify-between">
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Kolom Hasil SHA-256 Hash</span>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Hasil SHA-256 Hash</span>
             <button onclick="copyHash()" class="text-xs bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 px-3 py-1.5 rounded-lg transition font-semibold">
               <i class="fa-regular fa-copy mr-1"></i> Salin Hash
             </button>
@@ -703,22 +736,22 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
 
       <div id="section-verifier" class="bg-[#0b0f19] rounded-2xl p-6 glow-box hidden-page fade-in space-y-6">
         <div>
-          <h2 class="text-lg font-bold text-white mb-1">Verifikasi File dengan Testnet Explorer &amp; Database TXID</h2>
+          <h2 class="text-lg font-bold text-white mb-1">Verifikasi File dengan Testnet Explorer</h2>
           <p class="text-xs text-slate-400">Pilih file untuk verifikasi otomatis dengan blockchain testnet.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="space-y-2">
-            <label class="text-xs font-bold uppercase tracking-wider text-slate-400">1. Unggah File yang Ingin Dicheck</label>
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-400">1. Unggah File Verifikasi</label>
             <div class="border-2 border-dashed border-cyan-500/30 bg-cyan-500/5 rounded-xl p-6 text-center cursor-pointer relative hover:bg-cyan-500/10 transition">
               <input type="file" id="verFileInput" onchange="handleVerFileSelect(this.files)" class="absolute inset-0 opacity-0 cursor-pointer">
               <i class="fa-solid fa-file-shield text-cyan-400 text-2xl mb-2"></i>
-              <p id="verFileText" class="text-xs font-bold text-slate-200">Klik atau seret file verifikasi</p>
+              <p id="verFileText" class="text-xs font-bold text-slate-200">Klik atau seret file ke sini</p>
             </div>
           </div>
 
           <div class="space-y-2">
-            <label for="manualTxInput" class="text-xs font-bold uppercase tracking-wider text-slate-400">2. Masukkan TXID Verisign (Opsional)</label>
+            <label for="manualTxInput" class="text-xs font-bold uppercase tracking-wider text-slate-400">2. TXID Verisign (Opsional)</label>
             <input type="text" id="manualTxInput" placeholder="Kosongkan jika ingin deteksi otomatis..." class="w-full bg-[#030712] border border-slate-800 rounded-xl px-4 py-3 text-xs font-mono text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50">
           </div>
         </div>
@@ -735,7 +768,7 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
               <span id="verActualHash" class="text-slate-200 break-all"></span>
             </div>
             <div>
-              <span class="text-[10px] uppercase text-slate-400 block font-sans">Sumber / TXID Ditemukan:</span>
+              <span class="text-[10px] uppercase text-slate-400 block font-sans">Hasil Verifikasi:</span>
               <span id="verFoundSource" class="text-emerald-400 break-all"></span>
             </div>
           </div>
@@ -745,10 +778,14 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
   </div>
 </div>
 
+<!-- ========================================== -->
+<!-- JAVASCRIPT FIXED ENGINE                    -->
+<!-- ========================================== -->
 <script>
-/* ---------- TOGGLE THEME ---------- */
+/* ---------- TEMA & MOBIL NAV ---------- */
 const root = document.documentElement;
 const themeBtn = document.getElementById('theme-toggle');
+
 function applyTheme(t) {
   root.setAttribute('data-theme', t);
   themeBtn.innerHTML = t === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
@@ -760,20 +797,164 @@ themeBtn.addEventListener('click', () => {
   applyTheme(theme);
 });
 
-/* ---------- MOBILE MENU ---------- */
+// Mobile menu toggle
 const mobileBtn = document.getElementById('mobile-btn');
 const navList = document.getElementById('nav-list');
 mobileBtn.addEventListener('click', () => {
   navList.classList.toggle('active');
   const icon = mobileBtn.querySelector('i');
   icon.classList.toggle('fa-bars');
-  icon.classList.toggle('fa-times');
+  icon.classList.toggle('fa-xmark');
 });
 
-/* ---------- VERISIGN MODAL & API SCRIPT ---------- */
-const SPREADSHEET_API_URL = "https://script.google.com/macros/s/AKfycbxU8ZKmY5CSsauHHpLGLui6cZKFsa0O3ITJ5wzv0PhJaZkNksgio8KCj2k5wdaD5wAURg/exec";
-const API_BASE = 'https://apitest.taobot.org';
+// Dropdown click untuk mobile
+document.querySelectorAll('.nav-item').forEach(item => {
+  const link = item.querySelector('.nav-link');
+  if (item.querySelector('.dropdown')) {
+    link.addEventListener('click', (e) => {
+      if (window.innerWidth <= 1080) {
+        e.preventDefault();
+        item.classList.toggle('open');
+      }
+    });
+  }
+});
 
+// Tutup menu saat link diklik
+document.querySelectorAll('.dropdown a, .nav-link[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', () => {
+    if (window.innerWidth <= 1080) {
+      navList.classList.remove('active');
+      const icon = mobileBtn.querySelector('i');
+      icon.classList.add('fa-bars');
+      icon.classList.remove('fa-xmark');
+    }
+  });
+});
+
+/* ---------- 3D VIRTUAL ROOM ENGINE (FIXED BUGS) ---------- */
+const viewport3D = document.getElementById('viewport3D');
+const room3D = document.getElementById('room3D');
+const playTourBtn = document.getElementById('playTourBtn');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+let rotY = 0;
+let zoomZ = -150;
+let isDragging = false;
+let startX = 0;
+let isTourPlaying = false;
+let tourInterval = null;
+
+function updateRoomTransform() {
+  room3D.style.transform = `translateZ(${zoomZ}px) rotateY(${rotY}deg)`;
+}
+
+// DRAG CONTROLS (Mouse & Touch)
+function handleDragStart(e) {
+  if (isTourPlaying) stopTour();
+  isDragging = true;
+  startX = e.touches ? e.touches[0].clientX : e.clientX;
+  room3D.classList.remove('smooth-transition');
+}
+
+function handleDragMove(e) {
+  if (!isDragging) return;
+  const currentX = e.touches ? e.touches[0].clientX : e.clientX;
+  const deltaX = currentX - startX;
+  rotY += deltaX * 0.4;
+  startX = currentX;
+  updateRoomTransform();
+}
+
+function handleDragEnd() {
+  isDragging = false;
+}
+
+viewport3D.addEventListener('mousedown', handleDragStart);
+window.addEventListener('mousemove', handleDragMove);
+window.addEventListener('mouseup', handleDragEnd);
+
+viewport3D.addEventListener('touchstart', handleDragStart, { passive: true });
+window.addEventListener('touchmove', handleDragMove, { passive: true });
+window.addEventListener('touchend', handleDragEnd);
+
+// ZOOM CONTROLS (Mouse Wheel)
+viewport3D.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  zoomZ += e.deltaY * -0.3;
+  zoomZ = Math.min(Math.max(zoomZ, -400), 100); // Batas Zoom
+  updateRoomTransform();
+}, { passive: false });
+
+// AUTOMATIC TOUR CONTROL
+function startTour() {
+  isTourPlaying = true;
+  playTourBtn.innerText = '⏸ Pause Tour';
+  room3D.classList.add('smooth-transition');
+  
+  // Rotasi bertahap ke dinding Depan (0 deg), Kiri (90 deg), dan Kanan (-90 deg)
+  const angles = [0, 90, -90];
+  let currentStep = 0;
+  
+  rotY = angles[0];
+  updateRoomTransform();
+
+  tourInterval = setInterval(() => {
+    currentStep = (currentStep + 1) % angles.length;
+    rotY = angles[currentStep];
+    updateRoomTransform();
+  }, 3500);
+}
+
+function stopTour() {
+  isTourPlaying = false;
+  playTourBtn.innerText = '▶ Play Tour';
+  clearInterval(tourInterval);
+  room3D.classList.remove('smooth-transition');
+}
+
+playTourBtn.addEventListener('click', () => {
+  if (isTourPlaying) {
+    stopTour();
+  } else {
+    startTour();
+  }
+});
+
+// FULLSCREEN CONTROL
+fullscreenBtn.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    viewport3D.requestFullscreen().catch(err => alert(`Gagal Fullscreen: ${err.message}`));
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+// LIGHTBOX MODAL FOR ARTWORK
+const lightboxOverlay = document.getElementById('lightboxOverlay');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxCaption = document.getElementById('lightboxCaption');
+const closeLightbox = document.getElementById('closeLightbox');
+
+document.querySelectorAll('.art-frame').forEach(frame => {
+  frame.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const img = frame.querySelector('img');
+    const title = frame.getAttribute('data-title') || 'Detail Karya';
+    lightboxImg.src = img.src;
+    lightboxCaption.innerText = title;
+    lightboxOverlay.classList.add('show-lightbox');
+  });
+});
+
+closeLightbox.addEventListener('click', () => {
+  lightboxOverlay.classList.remove('show-lightbox');
+});
+lightboxOverlay.addEventListener('click', (e) => {
+  if (e.target === lightboxOverlay) lightboxOverlay.classList.remove('show-lightbox');
+});
+
+/* ---------- VERISIGN MODAL ---------- */
 function toggleVerisignOverlay(open) {
   const overlay = document.getElementById('verisign-overlay-root');
   if (open) {
@@ -850,7 +1031,7 @@ async function executeVerification() {
   const foundSourceEl = document.getElementById('verFoundSource');
 
   resultCard.classList.remove('hidden-page');
-  statusHeader.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-400"></i> Memeriksa TXID...`;
+  statusHeader.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-400"></i> Memeriksa Hash...`;
 
   try {
     const fileHash = await calculateSHA256(selectedVerFile);
