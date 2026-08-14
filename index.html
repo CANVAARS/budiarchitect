@@ -632,14 +632,22 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
 
 <div class="gallery-container-3d">
     
-<div class="gallery-container-3d">
-        <div class="gallery-nav-bar">
-          <div><i class="fa-solid fa-arrows-up-down-left-right mr-2"></i> Scroll/Drag untuk Kontrol Ruang</div>
-          <div style="display:flex; gap:8px;">
-            <button class="play-tour-btn" id="playTourBtn">▶ Play Tour</button>
-            <button class="fullscreen-btn" id="fullscreenBtn">⛶ Fullscreen</button>
-          </div>
+    <div class="gallery-nav-bar">
+        <div class="nav-hints">
+            <div class="hint-item hint-item-desktop">
+                <span class="hint-icon">↕</span>
+                <span>Scroll: Zoom | Drag: Menoleh</span>
+            </div>
         </div>
+        <div class="nav-actions">
+            <button class="play-tour-btn" id="playTourBtn">
+                <span>▶</span> <span id="playBtnText">Play Tour</span>
+            </button>
+            <button class="fullscreen-btn" id="fullscreenBtn">
+                <span>⛶</span> Fullscreen
+            </button>
+        </div>
+    </div>
 
     <div class="gallery-viewport-3d" id="viewport3D">
         <div class="gallery-room-3d" id="room3D">
