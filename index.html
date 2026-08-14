@@ -1,1585 +1,864 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio Arsitektur - Budi Utama + Verisign</title>
-    <!-- Tailwind CSS untuk Overlay Verisign -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome untuk Ikon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              themeBg: 'var(--bg-color)',
-              cardBg: 'var(--card-bg)',
-              borderBg: 'var(--border-bg)',
-              textPrimary: 'var(--text-primary)',
-              textSecondary: 'var(--text-secondary)',
-              nusaGreen: '#10b981',
-              nusaCyan: '#06b6d4',
-              nusaBlue: '#3b82f6'
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-        /* --- RESET & GLOBAL STYLES --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #ffffff;
-            color: #1a1a1a;
-            line-height: 1.6;
-        }
-
-        /* --- HEADER & NAVIGATION --- */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            z-index: 1000;
-        }
-
-        .top-accent-bar {
-            height: 6px;
-            background-color: #ffd700;
-            width: 100%;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .logo {
-            font-size: 1.3rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .logo span {
-            color: #ffd700;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #1a1a1a;
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: #ffd700;
-        }
-
-        /* Tombol Peluncur Verisign di Menu Navigasi */
-        .verisign-nav-btn {
-            background-color: #10b981;
-            color: #0f172a;
-            font-weight: 700;
-            font-size: 0.75rem;
-            padding: 8px 14px;
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            border: none;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .verisign-nav-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* --- HERO BANNER --- */
-        .hero {
-            padding: 160px 20px 80px 20px;
-            text-align: center;
-            background-color: #fafafa;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .hero p {
-            color: #777;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-        }
-
-        /* --- PORTOFOLIO SECTION --- */
-        .portfolio-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        .portfolio-row {
-            padding-top: 100px;
-            margin-bottom: 80px;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 60px;
-        }
-
-        .portfolio-row:last-child {
-            border-bottom: none;
-        }
-
-        .row-title {
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .row-title::after {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 3px;
-            background-color: #ffd700;
-            margin-top: 8px;
-        }
-
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .portfolio-item {
-            width: 100%;
-            overflow: hidden;
-            background-color: #fcfcfc;
-            border: 1px solid #eeeeee;
-            border-radius: 4px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .portfolio-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-
-        .portfolio-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-        }
-
-        /* --- FOOTER & INFO JASA --- */
-        footer {
-            background-color: #1a1a1a;
-            color: #ffffff;
-            padding: 60px 20px;
-            text-align: center;
-        }
-
-        .footer-accent-bar {
-            height: 4px;
-            background-color: #ffd700;
-            width: 100px;
-            margin: 0 auto 30px auto;
-        }
-
-        .info-jasa {
-            font-size: 1.4rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
-
-        .lokasi {
-            color: #ffd700;
-            font-size: 1rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-        }
-
-        .copyright {
-            font-size: 0.8rem;
-            color: #777;
-            border-top: 1px solid #2a2a2a;
-            padding-top: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* --- STYLING OVERLAY MODAL VERISIGN --- */
-        #verisign-overlay-root {
-            --bg-color: #030712; 
-            --card-bg: #0b0f19; 
-            --border-bg: #1f2937;
-            --text-primary: #f9fafb; 
-            --text-secondary: #9ca3af;
-        }
-
-        .glow-box {
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.08);
-            border: 1px solid rgba(16, 185, 129, 0.15);
-        }
-        .glow-box:hover {
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-            border-color: rgba(16, 185, 129, 0.35);
-        }
-        .hidden-page { display: none !important; }
-        .fade-in { animation: fadeIn .35s ease; }
-        @keyframes fadeIn { from { opacity:0; transform: translateY(6px);} to {opacity:1; transform: translateY(0);} }
-        #toast-wrap { position: fixed; bottom: 20px; right: 20px; z-index: 1000000; display:flex; flex-direction:column; gap:8px; }
-        .toast { background: #0b0f19; border: 1px solid #1f2937; box-shadow: 0 10px 30px rgba(0,0,0,.25); color: #f9fafb; }
-
-        /* --- RESPONSIVE DESIGN (Untuk HP) --- */
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
-            }
-            .nav-right {
-                flex-direction: column;
-                gap: 10px;
-                width: 100%;
-            }
-            nav ul {
-                gap: 12px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .hero {
-                padding: 180px 20px 40px 20px;
-            }
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- HEADER UTAMA BUDI ARCHITECT -->
-    <header>
-        <div class="top-accent-bar"></div>
-        <div class="nav-container">
-            <div class="logo">BUDI<span>UTAMA</span></div>
-            <div class="nav-right">
-                <nav>
-                    <ul>
-                        <li><a href="#proyek-1">Desain 1</a></li>
-                        <li><a href="#proyek-2">Desain 2</a></li>
-                        <li><a href="#proyek-3">Desain 3</a></li>
-                        <li><a href="#proyek-4">Desain 4</a></li>
-                        <li><a href="#proyek-5">Desain 5</a></li>
-                        <li><a href="#proyek-6">Desain 6</a></li>
-                        <li><a href="https://raw.githubusercontent.com/CANVAARS/Ta-Render/main/Ta-Render.rbz">Plugin Ta-Render</a></li
-                        <li><a href="/Galeri/Galeri_Seni_Modern.html">Galeri</a></li>
-                    </ul>
-                </nav>
-                <!-- Tombol Menu Overlay Verisign -->
-                <button onclick="toggleVerisignOverlay(true)" class="verisign-nav-btn">
-                    <i class="fa-solid fa-shield-halved"></i> Verisign Menu
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- HERO BANNER -->
-    <section class="hero">
-        <h1>Portofolio Arsitektur</h1>
-        <p>Eksplorasi Ruang, Bentuk, dan Fungsi</p>
-        <p>Design by. Budi Utama</p>
-    </section>
-  
-
-  
-<!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pameran 3D Virtual Room</title>
+<title>Portofolio Arsitektur — Budi Utama</title>
+<meta name="description" content="Portofolio Arsitektur Budi Utama — Eksplorasi Ruang, Bentuk, dan Fungsi. Terintegrasi Verisign & Nusachain.">
+
+<!-- Fonts & FontAwesome -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- Tailwind CSS (Khusus Overlay Modal Verisign) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
 <style>
-/* --- KODE CSS UNTUK MENJAGA RUANG VIRTUAL --- */
+/* ============================================================
+   NUSA-STYLE DESIGN TOKENS (BUDI ARCHITECT EDITION)
+   ============================================================ */
+:root {
+  --nux-green: #27ae60;
+  --nux-green-dark: #1e8449;
+  --nux-green-deep: #0f3d26;
+  --gold: #d4a017;
+
+  --bg: #f7f5ef;
+  --surface: #ffffff;
+  --surface-2: #f0efe6;
+  --ink: #16231c;
+  --ink-soft: #56645c;
+  --border: #e3ded0;
+  --shadow: 0 10px 30px -12px rgba(15,61,38,0.18);
+
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius: 14px;
+  --transition: 0.35s cubic-bezier(.22,.9,.32,1.24);
+}
+
+html[data-theme="dark"] {
+  --bg: #0d1712;
+  --surface: #142219;
+  --surface-2: #182a1e;
+  --ink: #eef3ec;
+  --ink-soft: #9db3a4;
+  --border: #24382c;
+  --shadow: 0 10px 34px -10px rgba(0,0,0,0.55);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  overflow-x: hidden;
+  transition: background var(--transition), color var(--transition);
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+h1,h2,h3,h4 { font-family: var(--font-display); letter-spacing: -0.01em; }
+.mono { font-family: var(--font-mono); }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--nux-green);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--nux-green); box-shadow: 0 0 0 3px rgba(39,174,96,0.18);
+}
+
+/* ---------- Top Bar ---------- */
+.top-bar {
+  background: linear-gradient(90deg, var(--nux-green-deep), var(--nux-green));
+  color: #eafff2;
+  text-align: center;
+  padding: 9px 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.top-bar a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- Header & Dropdown Nav ---------- */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 1000;
+  transition: background var(--transition), border-color var(--transition);
+}
+.nav-container {
+  max-width: 1180px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; height: 72px; gap: 28px;
+}
+.logo-area {
+  display: flex; align-items: center; gap: 10px; text-decoration: none;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; color: var(--ink); flex-shrink: 0;
+}
+.logo-mark {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--nux-green), var(--nux-green-deep));
+  display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.95rem; font-weight: 800;
+}
+.logo-area .accent { color: var(--nux-green); }
+
+.nav-menu { display: flex; list-style: none; height: 100%; align-items: center; gap: 2px; }
+.nav-item { position: relative; height: 100%; display: flex; align-items: center; }
+.nav-link {
+  text-decoration: none; color: var(--ink-soft); font-size: 0.87rem; font-weight: 600;
+  padding: 0 13px; height: 100%; display: flex; align-items: center; gap: 6px;
+  transition: color 0.2s; white-space: nowrap;
+}
+.nav-link:hover { color: var(--nux-green); }
+
+.dropdown {
+  position: absolute; top: 100%; left: 0; background: var(--surface); min-width: 230px;
+  box-shadow: var(--shadow); border: 1px solid var(--border); border-radius: 0 0 12px 12px;
+  display: none; padding: 8px 0; list-style: none;
+}
+.dropdown a { display: block; padding: 9px 18px; text-decoration: none; color: var(--ink-soft); font-size: 0.82rem; transition: 0.2s; }
+.dropdown a:hover { background: var(--surface-2); color: var(--nux-green); padding-left: 22px; }
+.nav-item:hover .dropdown { display: block; }
+
+.verisign-btn-nav {
+  background: var(--nux-green);
+  color: #fff !important;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 700 !important;
+  font-size: 0.78rem !important;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s, transform 0.2s;
+}
+.verisign-btn-nav:hover { background: var(--nux-green-dark); transform: translateY(-1px); }
+
+.nav-tools { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.tool-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--ink);
+  padding: 8px 12px; border-radius: 9px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+  font-family: var(--font-mono); transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.tool-btn:hover { border-color: var(--nux-green); color: var(--nux-green); transform: translateY(-1px); }
+.menu-toggle { display: none; font-size: 1.3rem; cursor: pointer; background: none; border: none; color: var(--ink); }
+
+@media (max-width: 1080px) {
+  .menu-toggle { display: block; }
+  .nav-menu {
+    display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%;
+    background: var(--surface); height: auto; padding: 16px 0; border-bottom: 3px solid var(--nux-green);
+    box-shadow: var(--shadow);
+  }
+  .nav-menu.active { display: flex; }
+  .nav-item { width: 100%; height: auto; flex-direction: column; align-items: flex-start; }
+  .nav-link { width: 100%; padding: 13px 24px; border-bottom: 1px solid var(--border); }
+  .dropdown { position: static; width: 100%; box-shadow: none; border: none; background: var(--surface-2); display: none; border-radius: 0; }
+  .nav-item.open .dropdown { display: block; }
+}
+
+/* ---------- Hero ---------- */
+.hero { padding: 76px 0 50px; }
+.hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
+.hero h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.1; margin: 16px 0; }
+.hero h1 .accent { color: var(--nux-green); }
+.hero p { font-size: 1.05rem; color: var(--ink-soft); max-width: 520px; margin-bottom: 28px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 26px; }
+
+.btn {
+  padding: 12px 24px; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 0.88rem;
+  display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s, background 0.2s;
+  border: 1px solid transparent; cursor: pointer;
+}
+.btn-green { background: var(--nux-green); color: #fff; box-shadow: 0 8px 20px -6px rgba(39,174,96,0.55); }
+.btn-green:hover { background: var(--nux-green-dark); transform: translateY(-2px); }
+.btn-outline { border-color: var(--border); color: var(--ink); background: var(--surface); }
+.btn-outline:hover { border-color: var(--nux-green); color: var(--nux-green); transform: translateY(-2px); }
+
+/* ---------- Spec Block / Portofolio Items ---------- */
+.portfolio-row { padding: 60px 0; border-bottom: 1px solid var(--border); }
+.row-head { margin-bottom: 28px; }
+.row-title { font-size: 1.8rem; font-weight: 800; margin-top: 8px; }
+
+.image-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.portfolio-item {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; transition: transform 0.35s cubic-bezier(.22,.9,.32,1.24), border-color 0.35s;
+  box-shadow: var(--shadow);
+}
+.portfolio-item:hover { transform: translateY(-6px); border-color: var(--nux-green); }
+.portfolio-item img { width: 100%; height: 230px; object-fit: cover; display: block; transition: transform 0.5s ease; }
+.portfolio-item:hover img { transform: scale(1.05); }
+
+/* ---------- Virtual 3D Gallery Frame ---------- */
 .gallery-container-3d {
-    width: 100% !important;
-    max-width: 900px !important;
-    margin: 0 auto !important;
-    background: transparent !important;
-    padding: 10px !important;
-    box-sizing: border-box;
-    font-family: system-ui, -apple-system, sans-serif;
-    user-select: none;
-    position: relative;
+  width: 100%; max-width: 1000px; margin: 0 auto 40px auto; background: transparent;
 }
-
 .gallery-viewport-3d {
-    width: 100%;
-    height: 550px;
-    background: #09090b; 
-    overflow: hidden;
-    perspective: 600px;
-    position: relative;
-    border-radius: 8px;
-    border: 1px solid #27272a;
-    touch-action: none !important; 
-    cursor: grab;
-    z-index: 1;
+  width: 100%; height: 500px; background: #09090b; overflow: hidden; perspective: 600px;
+  position: relative; border-radius: 16px; border: 1px solid var(--border); cursor: grab;
 }
-
-.gallery-viewport-3d:fullscreen {
-    width: 100vw !important;
-    height: 100vh !important;
-    border: none !important;
-    border-radius: 0 !important;
-    perspective: 700px !important;
-}
-
 .gallery-room-3d {
-    width: 100%; height: 100%; position: absolute;
-    transform-style: preserve-3d;
-    transform: translateZ(-150px) rotateY(0deg);
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    will-change: transform;
-    left: 0; top: 0;
-    z-index: 2;
+  width: 100%; height: 100%; position: absolute; transform-style: preserve-3d;
+  transform: translateZ(-150px) rotateY(0deg); transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+.gallery-room-3d.smooth-transition { transition: transform 1.2s ease-in-out !important; }
+.room-plane { position: absolute; box-sizing: border-box; backface-visibility: hidden; transform-style: preserve-3d; }
 
-/* Transisi halus khusus mode auto-play */
-.gallery-room-3d.smooth-transition {
-    transition: transform 1.2s ease-in-out !important;
-}
-
-.room-plane { 
-    position: absolute; 
-    box-sizing: border-box; 
-    backface-visibility: hidden; 
-    transition: opacity 0.4s ease, transform 0.5s ease; 
-    transform-style: preserve-3d;
-}
-.gallery-room-3d.zoomed-mode .room-plane { opacity: 0.15; }
-
-/* Saat dinding difokuskan, dinding sedikit didorong maju agar semakin dekat dengan pandangan */
-.gallery-room-3d.zoomed-mode .room-plane.is-focused-wall { 
-    opacity: 1 !important; 
-    transform: translateZ(80px) !important;
-}
-
-/* LANTAI (Tidak menghalangi klik) */
 .floor-plane {
-    width: 1400px; height: 1400px; background-color: #121214;
-    background-image: linear-gradient(rgba(45, 45, 50, 0.7) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(45, 45, 50, 0.7) 1.5px, transparent 1.5px);
-    background-size: 40px 40px; background-position: center center;
-    left: 50%; top: 50%; margin-left: -700px; margin-top: -700px;
-    transform: rotateX(90deg) translateZ(250px); border: 2px solid #222225; 
-    pointer-events: none !important;
-    z-index: 1 !important;
+  width: 1400px; height: 1400px; background-color: #121214;
+  background-image: linear-gradient(rgba(45, 45, 50, 0.7) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(45, 45, 50, 0.7) 1.5px, transparent 1.5px);
+  background-size: 40px 40px; left: 50%; top: 50%; margin-left: -700px; margin-top: -700px;
+  transform: rotateX(90deg) translateZ(250px); pointer-events: none;
 }
+.wall-front-3d { width: 1000px; height: 480px; background: #18181b; left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; transform: translateZ(-500px); display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #27272a; }
+.wall-left-3d { width: 1000px; height: 480px; background: #18181b; left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; transform: rotateY(90deg) translateZ(-500px); display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #27272a; }
+.wall-right-3d { width: 1000px; height: 480px; background: #18181b; left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; transform: rotateY(-90deg) translateZ(-500px); display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #27272a; }
 
-/* DINDING 3D */
-.wall-front-3d { 
-    width: 1000px; height: 480px; background: #18181b; 
-    left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; 
-    transform: translateZ(-500px); display: flex; flex-direction: column; 
-    align-items: center; justify-content: center; border: 2px solid #27272a; 
-    z-index: 10;
-    pointer-events: auto !important;
-}
+.wall-title { color: #52525b; font-size: 13px; letter-spacing: 5px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
+.artwork-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.art-frame { background: #27272a; padding: 10px; border: 3px solid #3f3f46; width: 250px; cursor: pointer; transition: all 0.3s ease; }
+.art-frame:hover { border-color: var(--nux-green); transform: scale(1.04); }
+.art-frame img { width: 100%; height: 130px; object-fit: cover; display: block; }
+.art-label { text-align: center; color: #a1a1aa; font-size: 11px; margin-top: 8px; }
 
-.wall-left-3d { 
-    width: 1000px; height: 480px; background: #18181b; 
-    left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; 
-    transform: rotateY(90deg) translateZ(-500px); display: flex; flex-direction: column; 
-    align-items: center; justify-content: center; border: 2px solid #27272a; 
-    z-index: 10;
-    pointer-events: auto !important;
-}
-
-.wall-right-3d { 
-    width: 1000px; height: 480px; background: #18181b; 
-    left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; 
-    transform: rotateY(-90deg) translateZ(-500px); display: flex; flex-direction: column; 
-    align-items: center; justify-content: center; border: 2px solid #27272a; 
-    z-index: 10;
-    pointer-events: auto !important;
-}
-
-.wall-title { color: #52525b; font-size: 13px; letter-spacing: 5px; font-weight: bold; margin-bottom: 25px; text-transform: uppercase; pointer-events: none; }
-.artwork-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; pointer-events: auto; }
-
-.art-frame {
-    background: #27272a; padding: 12px; border: 4px solid #3f3f46; box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    width: 280px; cursor: pointer; position: relative; transition: all 0.3s ease;
-    z-index: 100 !important;
-    pointer-events: auto !important;
-    transform: translateZ(15px);
-}
-.art-frame:hover { border-color: #b78a00; transform: translateZ(30px) scale(1.04); }
-
-.art-frame img { 
-    width: 100%; 
-    height: 150px; 
-    object-fit: cover; 
-    display: block; 
-    pointer-events: auto !important; 
-    cursor: pointer !important;
-    -webkit-user-drag: none;
-    user-drag: none;
-}
-.art-label { text-align: center; color: #a1a1aa; font-size: 13px; margin-top: 10px; letter-spacing: 1px; pointer-events: none; }
-
-/* LIGHTBOX OVERLAY */
-.gallery-lightbox-overlay {
-    display: none; 
-    position: absolute;
-    z-index: 999999 !important;
-    left: 0; top: 0; width: 100%; height: 100%;
-    background-color: rgba(9, 9, 11, 0.96);
-    align-items: center; justify-content: center; flex-direction: column;
-    box-sizing: border-box; padding: 20px;
-    opacity: 0;
-    transition: opacity 0.25s ease;
-}
-
-.gallery-lightbox-overlay.show-lightbox {
-    display: flex !important;
-    opacity: 1;
-}
-
-.lightbox-image-content {
-    max-width: 90% !important; max-height: 75vh !important; width: auto !important; height: auto !important;
-    object-fit: contain !important; border: 5px solid #27272a; border-radius: 6px; box-shadow: 0 25px 55px rgba(0,0,0,0.6);
-    transform: scale(0.95); transition: transform 0.25s ease;
-}
-.gallery-lightbox-overlay.show-lightbox .lightbox-image-content { transform: scale(1); }
-.lightbox-close-btn { position: absolute; top: 20px; right: 30px; color: #71717a; font-size: 45px; font-weight: 200; cursor: pointer; z-index: 100000; }
-.lightbox-close-btn:hover { color: #b78a00; }
-.lightbox-caption-text { margin-top: 15px; color: #b78a00; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
-
-/* BAR NAVIGASI & TOMBOL PLAY */
 .gallery-nav-bar {
-    width: 100%;
-    height: 40px;
-    background-color: #1a1c1e;
-    background-image: linear-gradient(180deg, #24272a, #1a1c1e);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
-    box-sizing: border-box;
-    border-bottom: 1px solid #333;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    color: #9aa0a6;
-    font-size: 12px;
-    overflow: hidden;
-    white-space: nowrap;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    position: relative;
-    z-index: 10;
+  width: 100%; height: 44px; background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
+  border-radius: 12px; margin-bottom: 16px; font-size: 12px;
 }
+.play-tour-btn { background: var(--nux-green); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+.fullscreen-btn { background: var(--surface-2); color: var(--ink); border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; cursor: pointer; }
 
-.nav-hints { display: flex; align-items: center; }
-.hint-item { display: flex; align-items: center; margin: 0 5px; }
-.hint-icon { display: inline-block; margin-right: 6px; }
-
-.nav-actions { display: flex; gap: 8px; }
-
-.play-tour-btn, .fullscreen-btn {
-    background: #27272a; border: 1px solid #3f3f46; color: #ccc; font-size: 11px;
-    padding: 3px 10px; cursor: pointer; border-radius: 4px; transition: all 0.2s;
-    display: flex; align-items: center; gap: 4px; font-weight: bold;
+/* Lightbox Overlay */
+.gallery-lightbox-overlay {
+  display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.92); align-items: center; justify-content: center; flex-direction: column;
 }
-.play-tour-btn { background: #b78a00; color: #000; border-color: #d9a000; }
-.play-tour-btn:hover { background: #d9a000; }
-.play-tour-btn.is-playing { background: #dc2626; color: #fff; border-color: #ef4444; }
+.gallery-lightbox-overlay.show-lightbox { display: flex !important; }
+.lightbox-image-content { max-width: 85%; max-height: 75vh; border-radius: 8px; border: 2px solid var(--nux-green); }
+.lightbox-close-btn { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; }
+.lightbox-caption-text { color: var(--nux-green); font-weight: bold; margin-top: 14px; text-transform: uppercase; }
 
-.fullscreen-btn:hover { background-color: #333; border-color: #444; color: #fff; }
+/* ---------- Slide Heyzine Container ---------- */
+.portfolio-slider-container {
+  position: relative; width: 100%; max-width: 1180px; margin: 40px auto;
+  padding-top: 56.25%; border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+  box-shadow: var(--shadow); background: var(--surface);
+}
+.heyzine-iframe { position: absolute; top:0; left:0; width:100%; height:100%; border:none; }
+
+/* ---------- Footer ---------- */
+footer { background: var(--surface-2); border-top: 1px solid var(--border); padding: 60px 0 30px; margin-top: 60px; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 36px; margin-bottom: 40px; }
+.footer-brand h2 { color: var(--nux-green); font-size: 1.4rem; margin-bottom: 12px; }
+.footer-brand p { color: var(--ink-soft); font-size: 0.9rem; }
+.footer-col h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; color: var(--ink-soft); font-family: var(--font-mono); }
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a { color: var(--ink-soft); text-decoration: none; font-size: 0.87rem; transition: 0.2s; }
+.footer-col a:hover { color: var(--nux-green); padding-left: 4px; }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; text-align: center; color: var(--ink-soft); font-size: 0.82rem; }
+
+/* WhatsApp Floating Button */
+.whatsapp-floating {
+  position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+  background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 9999; transition: transform 0.2s;
+}
+.whatsapp-floating:hover { transform: scale(1.1); }
+.whatsapp-floating svg { width: 32px; height: 32px; fill: #fff; }
+
+/* ---------- Verisign Modal Custom Styling ---------- */
+#verisign-overlay-root {
+  --bg-color: #030712; 
+  --card-bg: #0b0f19; 
+  --border-bg: #1f2937;
+  --text-primary: #f9fafb; 
+  --text-secondary: #9ca3af;
+}
+.glow-box { box-shadow: 0 0 15px rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.15); }
+.hidden-page { display: none !important; }
+.fade-in { animation: fadeIn .35s ease; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(6px);} to {opacity:1; transform: translateY(0);} }
+#toast-wrap { position: fixed; bottom: 20px; right: 20px; z-index: 1000000; display:flex; flex-direction:column; gap:8px; }
+.toast { background: #0b0f19; border: 1px solid #1f2937; color: #f9fafb; }
 </style>
 </head>
 <body>
 
-<div class="gallery-container-3d">
-    
-    <div class="gallery-nav-bar">
-        <div class="nav-hints">
-            <div class="hint-item hint-item-desktop">
-                <span class="hint-icon">↕</span>
-                <span>Scroll: Zoom | Drag: Menoleh</span>
-            </div>
-        </div>
-        <div class="nav-actions">
-            <button class="play-tour-btn" id="playTourBtn">
-                <span>▶</span> <span id="playBtnText">Play Tour</span>
-            </button>
-            <button class="fullscreen-btn" id="fullscreenBtn">
-                <span>⛶</span> Fullscreen
-            </button>
-        </div>
-    </div>
+<!-- TOP ANNOUNCEMENT BAR -->
+<div class="top-bar">
+  <span>Jasa Arsitektur &amp; Perencanaan Konstruksi Wilayah Aceh &amp; Nusantara.</span> 
+  <a href="#kontak">Hubungi Kami</a>
+</div>
 
-    <div class="gallery-viewport-3d" id="viewport3D">
-        <div class="gallery-room-3d" id="room3D">
-            
+<!-- HEADER / NAVIGATION MENU -->
+<header>
+  <div class="nav-container">
+    <a href="#beranda" class="logo-area">
+      <div class="logo-mark"><i class="fa-solid fa-compass-drafting"></i></div>
+      BUDI<span class="accent">ARCHITECT</span>
+    </a>
+
+    <button class="menu-toggle" id="mobile-btn" aria-label="Buka menu"><i class="fas fa-bars"></i></button>
+
+    <ul class="nav-menu" id="nav-list">
+      <li class="nav-item">
+        <a href="#beranda" class="nav-link">Beranda</a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">Portofolio Proyek <i class="fa fa-caret-down"></i></a>
+        <ul class="dropdown">
+          <li><a href="#proyek-1">Desain 1 (Koleksi Eksklusif)</a></li>
+          <li><a href="#proyek-2">Desain 2 (Konseptual)</a></li>
+          <li><a href="#proyek-3">Desain 3 (Visual Render)</a></li>
+          <li><a href="#proyek-4">Desain 4 (Karya Terbaru)</a></li>
+          <li><a href="#proyek-5">Desain 5 (Boarding School)</a></li>
+          <li><a href="#proyek-6">Desain 6 (Bungalow IKHW)</a></li>
+          <li><a href="#virtual-gallery">Pameran 3D Virtual Room</a></li>
+          <li><a href="#slide-portofolio">Digital Booklet Slider</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">Resource &amp; Plugin <i class="fa fa-caret-down"></i></a>
+        <ul class="dropdown">
+          <li><a href="https://raw.githubusercontent.com/CANVAARS/Ta-Render/main/Ta-Render.rbz" target="_blank">Plugin Ta-Render SketchUp</a></li>
+          <li><a href="/Galeri/Galeri_Seni_Modern.html" target="_blank">Galeri Seni Modern</a></li>
+          <li><a href="https://3dwarehouse.sketchup.com/manager/254f4877-a583-4fd5-b642-41f680af4399" target="_blank">3D Warehouse Portfolio</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="nav-tools">
+      <button onclick="toggleVerisignOverlay(true)" class="verisign-btn-nav">
+        <i class="fa-solid fa-shield-halved"></i> Verisign
+      </button>
+      <button class="tool-btn" id="theme-toggle" aria-label="Ganti tema"><i class="fas fa-moon"></i></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="beranda">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow mono">PORTOFOLIO ARSITEKTUR</span>
+        <h1>Eksplorasi Ruang, Bentuk &amp; <span class="accent">Fungsi</span></h1>
+        <p>Solusi desain arsitektur profesional modern, klasik, hingga perencanaan kawasan dengan integrasi teknologi visualisasi 3D dan verifikasi otentisitas berkas terdesentralisasi.</p>
+        <div class="hero-actions">
+          <a href="#proyek-1" class="btn btn-green">Lihat Karya Desain <i class="fas fa-arrow-right"></i></a>
+          <button onclick="toggleVerisignOverlay(true)" class="btn btn-outline"><i class="fa-solid fa-shield-halved"></i> Verifikasi Berkas Verisign</button>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhf1LtBcJWTSoTaIjaceZFJMQdQexiRhq073t-ONb5bHgxzRzGBHB1Io_SztI_28OjkvTffbVv9O6U0dJnmesztnrOILnmIsq_XmcZqJlllNAShUIyx7rSVMm_m9TJ-pjIdCLRde0EM1UxcFtmUdvm-Qgskw4iOld4WQ_AkOOWmQzedaegcahdTRWFhMYQ/s1600/Gemini_Generated_Image_yle8gayle8gayle8.png" alt="Desain Arsitektur Budi Utama" style="height:320px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERI 3D VIRTUAL ROOM -->
+  <section id="virtual-gallery">
+    <div class="wrap">
+      <div class="row-head">
+        <span class="eyebrow mono">PAMERAN VIRTUAL</span>
+        <h2 class="row-title">3D Virtual Room Gallery</h2>
+      </div>
+
+      <div class="gallery-container-3d">
+        <div class="gallery-nav-bar">
+          <div><i class="fa-solid fa-arrows-up-down-left-right mr-2"></i> Scroll: Zoom | Drag: Menoleh</div>
+          <div style="display:flex; gap:8px;">
+            <button class="play-tour-btn" id="playTourBtn">▶ Play Tour</button>
+            <button class="fullscreen-btn" id="fullscreenBtn">⛶ Fullscreen</button>
+          </div>
+        </div>
+
+        <div class="gallery-viewport-3d" id="viewport3D">
+          <div class="gallery-room-3d" id="room3D">
             <div class="room-plane floor-plane"></div>
 
-            <!-- DINDING DEPAN UTAMA -->
+            <!-- DINDING UTAMA DEPAN -->
             <div class="room-plane wall-front-3d" data-wall-name="front">
-                <div class="wall-title">DINDING UTAMA</div>
-                <div class="artwork-grid">
-                    <div class="art-frame" data-wall="front"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhf1LtBcJWTSoTaIjaceZFJMQdQexiRhq073t-ONb5bHgxzRzGBHB1Io_SztI_28OjkvTffbVv9O6U0dJnmesztnrOILnmIsq_XmcZqJlllNAShUIyx7rSVMm_m9TJ-pjIdCLRde0EM1UxcFtmUdvm-Qgskw4iOld4WQ_AkOOWmQzedaegcahdTRWFhMYQ/s1600/Gemini_Generated_Image_yle8gayle8gayle8.png" /><div class="art-label">Karya 1</div></div>
-                    <div class="art-frame" data-wall="front"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXuSE9aMDbeXU4pHa6nPG9e8XZJ5BCouBQlFVFFSYLLbng8pB294pr-p8v9ZJhs-oPdciJgq6Sgp-jCBO6WaxiLlyJZB6412H7KC92hTuYYuhCcoVXkwg0W-jolEz2cK04T7C0_eC7yX5cMx5okFzjmXopSI5Rrp5HJ-RpSlPKACMUw7bFxsp-zFDT-X0/s1536/ChatGPT%20Image%206%20Okt%202025,%2011.49.03.png" /><div class="art-label">Karya 2</div></div>
-                    <div class="art-frame" data-wall="front"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjIi4BA5sgNR2072l_na1FAoawkA8eB8eSWidljMPZ8FIAJ92Zxb-2GSeus1CMNaFGsrZCbiwafcLhDBhCZlzNv2EVSMAGk4U5_DPL4bY-Bgq9Y-6xv6AJEht5mRnDhBj4qv_2ea-sYaI3KVEhzq64VqYAIteVyPqYndXPgjbaOtH4mjRi7qGHhMn_t5VM/s1920/Enscape_2023-12-08-18-01-15.png" /><div class="art-label">Karya 3</div></div>
-                    <div class="art-frame" data-wall="front"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhrnpM57TAYqZyj7bBcpm2zPZYY28oQCIiVZzW5RHLhK6ustcyVhtbJNi5A-koUCw4k4NTKUXceRb5NwqVcy_BxY9YfK9XG9NpyOz9f6tE7r9l8UsZZGXBfF91CV51HJwyEMFQ0XfhaxVbgpguMUXxwo9VCvLZNjurrZmemKxWQITLy-HgQzORJdQF2NzI/s1600/Gemini_Generated_Image_vyok9hvyok9hvyok.png" /><div class="art-label">Karya 4</div></div>
-                </div>
+              <div class="wall-title">DINDING UTAMA</div>
+              <div class="artwork-grid">
+                <div class="art-frame" data-wall="front"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhf1LtBcJWTSoTaIjaceZFJMQdQexiRhq073t-ONb5bHgxzRzGBHB1Io_SztI_28OjkvTffbVv9O6U0dJnmesztnrOILnmIsq_XmcZqJlllNAShUIyx7rSVMm_m9TJ-pjIdCLRde0EM1UxcFtmUdvm-Qgskw4iOld4WQ_AkOOWmQzedaegcahdTRWFhMYQ/s1600/Gemini_Generated_Image_yle8gayle8gayle8.png" /><div class="art-label">Karya 1</div></div>
+                <div class="art-frame" data-wall="front"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXuSE9aMDbeXU4pHa6nPG9e8XZJ5BCouBQlFVFFSYLLbng8pB294pr-p8v9ZJhs-oPdciJgq6Sgp-jCBO6WaxiLlyJZB6412H7KC92hTuYYuhCcoVXkwg0W-jolEz2cK04T7C0_eC7yX5cMx5okFzjmXopSI5Rrp5HJ-RpSlPKACMUw7bFxsp-zFDT-X0/s1536/ChatGPT%20Image%206%20Okt%202025,%2011.49.03.png" /><div class="art-label">Karya 2</div></div>
+              </div>
             </div>
 
             <!-- DINDING KIRI -->
             <div class="room-plane wall-left-3d" data-wall-name="left">
-                <div class="wall-title">SISI KIRI</div>
-                <div class="artwork-grid">
-                    <div class="art-frame" data-wall="left"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifK2bsbgjpgPdIjINxjxtmkZR7y7swWJdysf6r5_EOkPGDwKf4aWkXtJd9y6pKcoVgLDSj33BX783IbZkMD3Uq00P1oGe9Fb9uW8H-s-C60m8GyuQmcR_kl7ZC-3wDLMyd8laZWBaq2b1QmtNCAyA3kewfv0b9zMwjgQKG___E5LTN10Eb_e7Eg6RcqEM/s1600/Gemini_Generated_Image_65s0zk65s0zk65s0.png" /><div class="art-label">Karya 5</div></div>
-                    <div class="art-frame" data-wall="left"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg8FAqfdI0nKmTZ__6smQkj612GX058o_J6EUSrmkYQwJ8VKt5OG7oFLEOUyjBoZUnz4p9U59dqEE4O0vOlFmmo8ETPwP9iTSGN6TWfnytQ1XFl_wOPwI33euYGeQyfC3IqzskAfvO0wR5GcGnOTzVz2C-nnkqGtGYhK0P32iikfgKn2W7nZgNnwG-hOLo/s1600/Gemini_Generated_Image_p68er4p68er4p68e.png" /><div class="art-label">Karya 6</div></div>
-                    <div class="art-frame" data-wall="left"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCKk00m_PR5SYqx-PS7ktdCb1WqcI94ker-tUSl80uAVBSQTbmYDu8scmpXn9jnycjF42Ueh2STsD-bqC4s0eiuuVbj56E0pz5yLzqK59lkOPYNka2udikKHr3affsVl5Y43nFb3my1lHf2cnlm6jw1aVrEdhWVHNizAwsdfDgBamuxQZSfuskn2JIiGI/s1600/ChatGPT%20Image%2019%20Sep%202025,%2008.28.27.png" /><div class="art-label">Karya 7</div></div>
-                    <div class="art-frame" data-wall="left"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhOw6_W8L8tIEF-qaefWO3LtbLM-OaF-h9n_tK9GVZzKh6S1scB54SqBhnGu1pxmSud4_puAJScT93hzfGYH1FR5NsMonq5y3gnNrsukAwWX37LU7x8uA3rf92sT_nCL8snyLMvf_zg8vNxZA3ncA0yRSXRa0Jnos2OG06928KBMcNLcQ5kxviKipN20bU/s1600/ChatGPT%20Image%2019%20Sep%202025,%2008.28.20.png" /><div class="art-label">Karya 8</div></div>
-                </div>
+              <div class="wall-title">SISI KIRI</div>
+              <div class="artwork-grid">
+                <div class="art-frame" data-wall="left"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifK2bsbgjpgPdIjINxjxtmkZR7y7swWJdysf6r5_EOkPGDwKf4aWkXtJd9y6pKcoVgLDSj33BX783IbZkMD3Uq00P1oGe9Fb9uW8H-s-C60m8GyuQmcR_kl7ZC-3wDLMyd8laZWBaq2b1QmtNCAyA3kewfv0b9zMwjgQKG___E5LTN10Eb_e7Eg6RcqEM/s1600/Gemini_Generated_Image_65s0zk65s0zk65s0.png" /><div class="art-label">Karya 5</div></div>
+                <div class="art-frame" data-wall="left"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg8FAqfdI0nKmTZ__6smQkj612GX058o_J6EUSrmkYQwJ8VKt5OG7oFLEOUyjBoZUnz4p9U59dqEE4O0vOlFmmo8ETPwP9iTSGN6TWfnytQ1XFl_wOPwI33euYGeQyfC3IqzskAfvO0wR5GcGnOTzVz2C-nnkqGtGYhK0P32iikfgKn2W7nZgNnwG-hOLo/s1600/Gemini_Generated_Image_p68er4p68er4p68e.png" /><div class="art-label">Karya 6</div></div>
+              </div>
             </div>
 
             <!-- DINDING KANAN -->
             <div class="room-plane wall-right-3d" data-wall-name="right">
-                <div class="wall-title">SISI KANAN</div>
-                <div class="artwork-grid">
-                    <div class="art-frame" data-wall="right"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgsGdwHwuXSfdr-4FhvSJT8XOZhyphenhyphen4KTc78Uccyw8gWzSC1EoCLFdyn8uAy8z2PBQyCsk0zKj2tMVyUWp999DrF7ffnoSnCOF-5P1sJq_1sdcuDVzMUWLl7_XGPETQUD5Yace__AVSXW5MY0-4tAKhO5H6eO86oiPATyjgdL1ILPsAlkn0qDbX8rzCLYotw/s1365/Gemini_Generated_Image_buxxcbbuxxcbbuxx.png" /><div class="art-label">Karya 9</div></div>
-                    <div class="art-frame" data-wall="right"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitJktzRvYIo-vr_FNjbsv6qH9QXzkckSo7O4C-ackf_-6gpGc880SZEqMcqVNnsJLBpGzZ69uLVXjuKe9azTva-Or0ddk1oVsC6ARYS9ol_k459hvpftO2V81ybF4qSyUoV7CJLdt4NVNbt4jWNEaGJiqwLR5AOp22uPMtzzjNn9-b4Fu0av9ApbZTg1I/s1920/Enscape_2024-02-21-22-15-52.pngg" /><div class="art-label">Karya 10</div></div>
-                    <div class="art-frame" data-wall="right"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBSyTIwUJGl5av_9yTLMhZv0paXRXu-Fz96-v01I7SMyuZz1SmtqS6NYtjdC_TXe1tXKrRhGRTzMsdwsW8NWh_CFF0uA6SzLLIqU35wXM0gSjEoDyWU1Z7hyXAKY-0pHkamsk-P0G5aVg0bPBVL1eNFDaUWRem9pq7W5FJD9NoMdMV9RU6ChuMQwCiIcQ/s1920/Enscape_2022-10-24-08-45-22.png" /><div class="art-label">Karya 11</div></div>
-                    <div class="art-frame" data-wall="right"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhyf-roMaxrdHJFuGnX8olChQCpo1mb6nbaZ9UlqOVJnEf2hd6nU16TTJ4Bhz9hvVRHbbcS_QDWX-G3eno25q6Br4kaMS-kaUnrFnNF5mOGKIVRKMNkky9ZwTXQzL4wNcehYVsoXg9fSHp84jFRA5gguTEocVJJjf5TYdO470GYyPOecPhNZXOtVTyE24A/s1365/Gemini_Generated_Image_ia3hpjia3hpjia3h.png" /><div class="art-label">Karya 12</div></div>
-                </div>
+              <div class="wall-title">SISI KANAN</div>
+              <div class="artwork-grid">
+                <div class="art-frame" data-wall="right"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgsGdwHwuXSfdr-4FhvSJT8XOZhyphenhyphen4KTc78Uccyw8gWzSC1EoCLFdyn8uAy8z2PBQyCsk0zKj2tMVyUWp999DrF7ffnoSnCOF-5P1sJq_1sdcuDVzMUWLl7_XGPETQUD5Yace__AVSXW5MY0-4tAKhO5H6eO86oiPATyjgdL1ILPsAlkn0qDbX8rzCLYotw/s1365/Gemini_Generated_Image_buxxcbbuxxcbbuxx.png" /><div class="art-label">Karya 9</div></div>
+                <div class="art-frame" data-wall="right"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitJktzRvYIo-vr_FNjbsv6qH9QXzkckSo7O4C-ackf_-6gpGc880SZEqMcqVNnsJLBpGzZ69uLVXjuKe9azTva-Or0ddk1oVsC6ARYS9ol_k459hvpftO2V81ybF4qSyUoV7CJLdt4NVNbt4jWNEaGJiqwLR5AOp22uPMtzzjNn9-b4Fu0av9ApbZTg1I/s1920/Enscape_2024-02-21-22-15-52.pngg" /><div class="art-label">Karya 10</div></div>
+              </div>
             </div>
 
-        </div>
+          </div>
 
-        <div class="gallery-lightbox-overlay" id="lightboxOverlay">
+          <div class="gallery-lightbox-overlay" id="lightboxOverlay">
             <span class="lightbox-close-btn">&times;</span>
-            <img alt="View Fullscreen" class="lightbox-image-content" id="lightboxImg" src="" />
-            <div class="lightbox-caption-text" id="lightboxCaption">Nama Karya</div>
+            <img class="lightbox-image-content" id="lightboxImg" src="" alt="Zoom Visual">
+            <div class="lightbox-caption-text" id="lightboxCaption">Judul Karya</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTEN GALERI PROYEK (LENGKAP PROYEK 1 - 6) -->
+  <div class="wrap">
+    
+    <!-- BARIS PROYEK 1 -->
+    <section id="proyek-1" class="portfolio-row">
+      <div class="row-head">
+        <span class="eyebrow mono">PROYEK 01</span>
+        <h2 class="row-title">Koleksi Desain Eksklusif</h2>
+      </div>
+      <div class="image-grid">
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhf1LtBcJWTSoTaIjaceZFJMQdQexiRhq073t-ONb5bHgxzRzGBHB1Io_SztI_28OjkvTffbVv9O6U0dJnmesztnrOILnmIsq_XmcZqJlllNAShUIyx7rSVMm_m9TJ-pjIdCLRde0EM1UxcFtmUdvm-Qgskw4iOld4WQ_AkOOWmQzedaegcahdTRWFhMYQ/s1600/Gemini_Generated_Image_yle8gayle8gayle8.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhf1LtBcJWTSoTaIjaceZFJMQdQexiRhq073t-ONb5bHgxzRzGBHB1Io_SztI_28OjkvTffbVv9O6U0dJnmesztnrOILnmIsq_XmcZqJlllNAShUIyx7rSVMm_m9TJ-pjIdCLRde0EM1UxcFtmUdvm-Qgskw4iOld4WQ_AkOOWmQzedaegcahdTRWFhMYQ/s1600/Gemini_Generated_Image_yle8gayle8gayle8.png" alt="Desain Arsitektur Gemini 1">
+          </a>
+        </div>
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiuhElz-7O9P8TwM2GXqcxl_iOXe-ZX0wlo_xKuJmrQ3GhW-DKIjRUDwNgPq_g_QZQZNQsERBky0V2R4HxMBV1MpGkV5JwA4yv40qhSc9Gh0wXbfHzJoqQJ1iHLag2QXaF3zgL_5xlf5nfVwEWD6cJ847TQiJDG09LiebYWI7-ipkRP_zIfqBzmMUVyrcM/s1600/Mr_Azhar%232.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiuhElz-7O9P8TwM2GXqcxl_iOXe-ZX0wlo_xKuJmrQ3GhW-DKIjRUDwNgPq_g_QZQZNQsERBky0V2R4HxMBV1MpGkV5JwA4yv40qhSc9Gh0wXbfHzJoqQJ1iHLag2QXaF3zgL_5xlf5nfVwEWD6cJ847TQiJDG09LiebYWI7-ipkRP_zIfqBzmMUVyrcM/s1600/Mr_Azhar%232.png" alt="Desain Arsitektur Gemini 2">
+          </a>
+        </div>
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgK_Yq04RMeXY3pxnGdTY-ZvBR9hX2KwgwQOHGWN9B8oRymnI4JQ7o7KcuTg-fkLf89BJ7ouQ0RMrjBsc3kidm9_TM7dOua1aQ0w9M4s0wiUCaZKKVPXvGkj1eN7VJ2ssTOR6U6FRb444FxMJZJdgi0k79Tmv6LYWkPlO7Cdso4JP3riWdEzFBGM2yz3Zk/s1600/Mr_khalil%232.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgK_Yq04RMeXY3pxnGdTY-ZvBR9hX2KwgwQOHGWN9B8oRymnI4JQ7o7KcuTg-fkLf89BJ7ouQ0RMrjBsc3kidm9_TM7dOua1aQ0w9M4s0wiUCaZKKVPXvGkj1eN7VJ2ssTOR6U6FRb444FxMJZJdgi0k79Tmv6LYWkPlO7Cdso4JP3riWdEzFBGM2yz3Zk/s1600/Mr_khalil%232.png" alt="Desain Arsitektur Gemini 3">
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BARIS PROYEK 2 -->
+    <section id="proyek-2" class="portfolio-row">
+      <div class="row-head">
+        <span class="eyebrow mono">PROYEK 02</span>
+        <h2 class="row-title">Konseptual Eksplorasi</h2>
+      </div>
+      <div class="image-grid">
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQZkT8ZdSYY0DUzF0ghYYrSCi0fSabPtZszbA9EFjvS8JPsRHZui_MBCcditiWRZ9ewlpB1yryCWbMtnWw5aFyG9gz-56zWSWfpJQuEX99K4rfrQSgaPETF9WEo1SoC2TcVniDUsmT9XOdnZ6lB-H_iZS1MRbYkg23tHu7KxKm5QPw4OXQYzEKd2-kxTM/s1600/Mr_Azhar%234.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQZkT8ZdSYY0DUzF0ghYYrSCi0fSabPtZszbA9EFjvS8JPsRHZui_MBCcditiWRZ9ewlpB1yryCWbMtnWw5aFyG9gz-56zWSWfpJQuEX99K4rfrQSgaPETF9WEo1SoC2TcVniDUsmT9XOdnZ6lB-H_iZS1MRbYkg23tHu7KxKm5QPw4OXQYzEKd2-kxTM/s1600/Mr_Azhar%234.png" alt="Desain Arsitektur Gemini 4">
+          </a>
+        </div>
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifK2bsbgjpgPdIjINxjxtmkZR7y7swWJdysf6r5_EOkPGDwKf4aWkXtJd9y6pKcoVgLDSj33BX783IbZkMD3Uq00P1oGe9Fb9uW8H-s-C60m8GyuQmcR_kl7ZC-3wDLMyd8laZWBaq2b1QmtNCAyA3kewfv0b9zMwjgQKG___E5LTN10Eb_e7Eg6RcqEM/s1344/Gemini_Generated_Image_65s0zk65s0zk65s0.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifK2bsbgjpgPdIjINxjxtmkZR7y7swWJdysf6r5_EOkPGDwKf4aWkXtJd9y6pKcoVgLDSj33BX783IbZkMD3Uq00P1oGe9Fb9uW8H-s-C60m8GyuQmcR_kl7ZC-3wDLMyd8laZWBaq2b1QmtNCAyA3kewfv0b9zMwjgQKG___E5LTN10Eb_e7Eg6RcqEM/s1600/Gemini_Generated_Image_65s0zk65s0zk65s0.png" alt="Desain Arsitektur Gemini 5">
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BARIS PROYEK 3 (Visualisasi Render) -->
+    <section id="proyek-3" class="portfolio-row">
+      <div class="row-head">
+        <span class="eyebrow mono">PROYEK 03</span>
+        <h2 class="row-title">Visualisasi Render</h2>
+      </div>
+      <div class="image-grid">
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCKk00m_PR5SYqx-PS7ktdCb1WqcI94ker-tUSl80uAVBSQTbmYDu8scmpXn9jnycjF42Ueh2STsD-bqC4s0eiuuVbj56E0pz5yLzqK59lkOPYNka2udikKHr3affsVl5Y43nFb3my1lHf2cnlm6jw1aVrEdhWVHNizAwsdfDgBamuxQZSfuskn2JIiGI/s1536/ChatGPT%20Image%2019%20Sep%202025,%2008.28.27.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCKk00m_PR5SYqx-PS7ktdCb1WqcI94ker-tUSl80uAVBSQTbmYDu8scmpXn9jnycjF42Ueh2STsD-bqC4s0eiuuVbj56E0pz5yLzqK59lkOPYNka2udikKHr3affsVl5Y43nFb3my1lHf2cnlm6jw1aVrEdhWVHNizAwsdfDgBamuxQZSfuskn2JIiGI/s1600/ChatGPT%20Image%2019%20Sep%202025,%2008.28.27.png" alt="Desain Arsitektur ChatGPT 2">
+          </a>
+        </div>
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhOw6_W8L8tIEF-qaefWO3LtbLM-OaF-h9n_tK9GVZzKh6S1scB54SqBhnGu1pxmSud4_puAJScT93hzfGYH1FR5NsMonq5y3gnNrsukAwWX37LU7x8uA3rf92sT_nCL8snyLMvf_zg8vNxZA3ncA0yRSXRa0Jnos2OG06928KBMcNLcQ5kxviKipN20bU/s1536/ChatGPT%20Image%2019%20Sep%202025,%2008.28.20.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhOw6_W8L8tIEF-qaefWO3LtbLM-OaF-h9n_tK9GVZzKh6S1scB54SqBhnGu1pxmSud4_puAJScT93hzfGYH1FR5NsMonq5y3gnNrsukAwWX37LU7x8uA3rf92sT_nCL8snyLMvf_zg8vNxZA3ncA0yRSXRa0Jnos2OG06928KBMcNLcQ5kxviKipN20bU/s1600/ChatGPT%20Image%2019%20Sep%202025,%2008.28.20.png" alt="Desain Arsitektur ChatGPT 3">
+          </a>
+        </div>
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgExnhyphenhyphenYf2JaVy8IcvR150HxGdRwWKV1ZFwcipiNIJq85m6rcjRGk4grxj6g2QkvoWjxRa0_U0NQqTdTE5dZ9i9MDR9_yymLBuDJnc4VrzadWgR4RMoIT15bkVTs_yg4ong2M5-Diw_uPJeb59akh9FlN-QrwxTR2VNx5AwuvJRWgarjcoOwZIQcdFj7c0/s1536/ChatGPT%20Image%2019%20Sep%202025,%2008.28.02.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgExnhyphenhyphenYf2JaVy8IcvR150HxGdRwWKV1ZFwcipiNIJq85m6rcjRGk4grxj6g2QkvoWjxRa0_U0NQqTdTE5dZ9i9MDR9_yymLBuDJnc4VrzadWgR4RMoIT15bkVTs_yg4ong2M5-Diw_uPJeb59akh9FlN-QrwxTR2VNx5AwuvJRWgarjcoOwZIQcdFj7c0/s1600/ChatGPT%20Image%2019%20Sep%202025,%2008.28.02.png" alt="Desain Arsitektur ChatGPT 4">
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BARIS PROYEK 4 (Karya Terbaru) -->
+    <section id="proyek-4" class="portfolio-row">
+      <div class="row-head">
+        <span class="eyebrow mono">PROYEK 04</span>
+        <h2 class="row-title">Karya Terbaru</h2>
+      </div>
+      <div class="image-grid">
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSGLByakJIaXr35gXAha3eRzOxD9pYXNn2RJyA-KlpTC1o1B0L_TnD9by7Y9Rm52LghiZA_DkMpYGtZBfE12C75C3NIUobY3kLd5PKWDK2CHPDZhiKMJCqvGu6y4wm82336oUVi-zR5JY98sTd81P9Be2i367vt9xIdquzmLp5r6nRIwdyl3oLsQTfd-E/s1600/Mr_Azhar%233.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSGLByakJIaXr35gXAha3eRzOxD9pYXNn2RJyA-KlpTC1o1B0L_TnD9by7Y9Rm52LghiZA_DkMpYGtZBfE12C75C3NIUobY3kLd5PKWDK2CHPDZhiKMJCqvGu6y4wm82336oUVi-zR5JY98sTd81P9Be2i367vt9xIdquzmLp5r6nRIwdyl3oLsQTfd-E/s1600/Mr_Azhar%233.png" alt="Desain Arsitektur ChatGPT 5">
+          </a>
+        </div>
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVInJggS2_BV0M5Al_r8KbrLkYInVVhlEQpYNEj_yVm28Bx4ufO5dfSfHYTvzRp_iIFH1fzUtV26TW_QyEsj-wH7GSsefEGm7udL7hlwgDYZhH7RAlF3-qDw3qYUmCxRme_Ejt0zwFp0tmSgRmnyNpxy_4Nmj80wW2D0ePzl99KcbrlSKQvRd58SUWr80/s1536/ChatGPT%20Image%206%20Okt%202025,%2017.38.01.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVInJggS2_BV0M5Al_r8KbrLkYInVVhlEQpYNEj_yVm28Bx4ufO5dfSfHYTvzRp_iIFH1fzUtV26TW_QyEsj-wH7GSsefEGm7udL7hlwgDYZhH7RAlF3-qDw3qYUmCxRme_Ejt0zwFp0tmSgRmnyNpxy_4Nmj80wW2D0ePzl99KcbrlSKQvRd58SUWr80/s1600/ChatGPT%20Image%206%20Okt%202025,%2017.38.01.png" alt="Desain Arsitektur ChatGPT 6">
+          </a>
+        </div>
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgdBuBHn2CH0nP0lzQHqoNarb57XrU5wl7PeOoEH0hUdjvPbAn6K2CeZn9viamRP45zv5xpcUvLWwQ5RKDoQL9pQBMcjOpsx-9b7Qipmc8Uzaz6vXrubDp8_Uk87ZUYYFe7Xm4zmwpHitVr5vJIQ4yLsYxZec3IB229NObXBW6OzYvRdFBBe2u3JxX_4Xk/s1600/Gemini_Generated_Image_dy92sedy92sedy92.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgdBuBHn2CH0nP0lzQHqoNarb57XrU5wl7PeOoEH0hUdjvPbAn6K2CeZn9viamRP45zv5xpcUvLWwQ5RKDoQL9pQBMcjOpsx-9b7Qipmc8Uzaz6vXrubDp8_Uk87ZUYYFe7Xm4zmwpHitVr5vJIQ4yLsYxZec3IB229NObXBW6OzYvRdFBBe2u3JxX_4Xk/s1600/Gemini_Generated_Image_dy92sedy92sedy92.png" alt="Desain Arsitektur ChatGPT 7">
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BARIS PROYEK 5 (Boarding School) -->
+    <section id="proyek-5" class="portfolio-row">
+      <div class="row-head">
+        <span class="eyebrow mono">PROYEK 05</span>
+        <h2 class="row-title">Boarding School</h2>
+      </div>
+      <div class="image-grid">
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjKZfoov_6AnO4KIkA_jrY4bEz9wx0-UGcT8R_rUKqkpR_c0nQYb8KHE4-B3QXWxVz_QdV8ZYpxkhADVVJGIH4MK3itRwVtNlCoUD6_rVc-ANEgShrHZZXSz2VWjkFB8JEyd_Q7ElmXeGDhCmrwJscoMdbKoKoNmL8WSShH01MSUUbdIjRiM7z12Dgjif0/s1600/Boarding%20School.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjKZfoov_6AnO4KIkA_jrY4bEz9wx0-UGcT8R_rUKqkpR_c0nQYb8KHE4-B3QXWxVz_QdV8ZYpxkhADVVJGIH4MK3itRwVtNlCoUD6_rVc-ANEgShrHZZXSz2VWjkFB8JEyd_Q7ElmXeGDhCmrwJscoMdbKoKoNmL8WSShH01MSUUbdIjRiM7z12Dgjif0/s1600/Boarding%20School.png" alt="Boarding School Design 1">
+          </a>
+        </div>
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXo8PUAACBqhOObAUlbjk2tpCSEFk95XUQSgQxkN2CGUPjp7yCmPl7tPQC4fqzpds9hNRcF-DogYP9f2WFdzQE4qcIv5hSRT5VGYbrRq5TXuRZVfJsVK3TrVK3X2Pfa7JQ76FJXJR6hV4pC-HM3o8Lb7Dm9LdPhaTPHtboefELaFxGTHKHYadolCaQOKk/s1600/Boarding%20School1.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXo8PUAACBqhOObAUlbjk2tpCSEFk95XUQSgQxkN2CGUPjp7yCmPl7tPQC4fqzpds9hNRcF-DogYP9f2WFdzQE4qcIv5hSRT5VGYbrRq5TXuRZVfJsVK3TrVK3X2Pfa7JQ76FJXJR6hV4pC-HM3o8Lb7Dm9LdPhaTPHtboefELaFxGTHKHYadolCaQOKk/s1600/Boarding%20School1.png" alt="Boarding School Design 2">
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BARIS PROYEK 6 (Bungalow IKHW) -->
+    <section id="proyek-6" class="portfolio-row">
+      <div class="row-head">
+        <span class="eyebrow mono">PROYEK 06</span>
+        <h2 class="row-title">Bungalow IKHW</h2>
+      </div>
+      <div class="image-grid">
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj_eoKF2NpTKj3oGTzjcs3Ks16SQzgv-YXk2e6_qfylMET0GcV_WNxb0z-uwUMmA9F89aE4bIkOhNNTSoagQ0CSmFSbPtT5qg0PyJRBn4nHD6q2PPdDgt1QQPpwM415bPa-VenJbVG9u1EYBAOPMHA2ynPSP-t74UAvkvC160d9SVe2t3FLKYl3hfADi_g/s1536/ChatGPT%20Image%206%20Okt%202025,%2011.49.03.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj_eoKF2NpTKj3oGTzjcs3Ks16SQzgv-YXk2e6_qfylMET0GcV_WNxb0z-uwUMmA9F89aE4bIkOhNNTSoagQ0CSmFSbPtT5qg0PyJRBn4nHD6q2PPdDgt1QQPpwM415bPa-VenJbVG9u1EYBAOPMHA2ynPSP-t74UAvkvC160d9SVe2t3FLKYl3hfADi_g/s1600/ChatGPT%20Image%206%20Okt%202025,%2011.49.03.png" alt="Bungalow IKHW - Desain 1">
+          </a>
+        </div>
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjAWn1AWhhLFyh-LzUtLJLq-nYwux8UY-qq-dWgzuEJlMyX2spz0ioV8ePeA5gvBdAKRrUxnfx5JpwHLljbE6VnKLE_kVfP49jaHZLs1Gy2vbKObbZAdJ7zydCy-5SeLyroCbUzw078o2DXSDGrNGnUJXzDMpdxC0WcCNriq825fjnzX1j2Tv7IWHVrnjY/s1344/Gemini_Generated_Image_613jmp613jmp613j.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjAWn1AWhhLFyh-LzUtLJLq-nYwux8UY-qq-dWgzuEJlMyX2spz0ioV8ePeA5gvBdAKRrUxnfx5JpwHLljbE6VnKLE_kVfP49jaHZLs1Gy2vbKObbZAdJ7zydCy-5SeLyroCbUzw078o2DXSDGrNGnUJXzDMpdxC0WcCNriq825fjnzX1j2Tv7IWHVrnjY/s1600/Gemini_Generated_Image_613jmp613jmp613j.png" alt="Bungalow IKHW - Desain 2">
+          </a>
+        </div>
+        <div class="portfolio-item">
+          <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6YEB-Pmxb4xQ23hpYixR_F_RC3wMrfvB8c08c_Kj-znJDNPmEcV44k2H664ZOXy3KEBfdrc9oTv0AZEdTfrWtObW-CrvgvYMg3EDkhshpGEoMKvps-QzuujNF9XL3JvopcDNZ3I0HHIyqhyhuqm6erUYdf2qnRo4Gyi0BBJhvPEaQ7J2_EcF_d7Win_A/s1344/Gemini_Generated_Image_940cz7940cz7940c.png" target="_blank">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6YEB-Pmxb4xQ23hpYixR_F_RC3wMrfvB8c08c_Kj-znJDNPmEcV44k2H664ZOXy3KEBfdrc9oTv0AZEdTfrWtObW-CrvgvYMg3EDkhshpGEoMKvps-QzuujNF9XL3JvopcDNZ3I0HHIyqhyhuqm6erUYdf2qnRo4Gyi0BBJhvPEaQ7J2_EcF_d7Win_A/s1600/Gemini_Generated_Image_940cz7940cz7940c.png" alt="Bungalow IKHW - Desain 3">
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE BOOKLET HEYZINE -->
+    <section id="slide-portofolio">
+      <div class="portfolio-slider-container">
+        <iframe src="https://heyzine.com/flip-book/d54db548ba.html" title="Portofolio Digital" allowfullscreen="true" scrolling="no" class="heyzine-iframe"></iframe>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer id="kontak">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h2>BUDI UTAMA</h2>
+        <p>Jasa Perencanaan &amp; Desain Arsitektur Modern. Nagan Raya, Aceh.</p>
+        <p class="mono" style="margin-top:10px; font-size:0.8rem;">Powered by nusacoin.org</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Menu Navigasi</h3>
+        <ul>
+          <li><a href="#beranda">Beranda</a></li>
+          <li><a href="#proyek-1">Desain Eksklusif</a></li>
+          <li><a href="#proyek-5">Boarding School</a></li>
+          <li><a href="#proyek-6">Bungalow IKHW</a></li>
+          <li><a href="#virtual-gallery">3D Virtual Gallery</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Resource &amp; Tools</h3>
+        <ul>
+          <li><a href="https://raw.githubusercontent.com/CANVAARS/Ta-Render/main/Ta-Render.rbz">Plugin Ta-Render</a></li>
+          <li><a href="/Galeri/Galeri_Seni_Modern.html">Galeri Seni Modern</a></li>
+          <li><a href="javascript:void(0)" onclick="toggleVerisignOverlay(true)">Verisign Mainnet/Testnet</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Kontak &amp; Alamat</h3>
+        <ul>
+          <li><a href="https://wa.me/6285173287839" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Chat</a></li>
+          <li><a href="#">Nagan Raya, Aceh, Indonesia</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 Budi Utama. Hak Cipta Dilindungi.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOATING BUTTON -->
+<a href="https://wa.me/6285173287839" class="whatsapp-floating" target="_blank" rel="noopener noreferrer">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.948h.003c4.368 0 7.926-3.559 7.93-7.93a7.9 7.9 0 0 0-2.326-5.592zm-5.607 11.366a6.52 6.52 0 0 1-3.303-.893l-.237-.14-2.455.644.656-2.39-.153-.244a6.52 6.52 0 0 1-1.001-3.493c.003-3.605 2.943-6.545 6.549-6.545 1.748 0 3.392.68 4.625 1.913a6.5 6.5 0 0 1 1.912 4.63c-.004 3.605-2.943 6.545-6.55 6.545m3.515-4.803c-.192-.097-1.14-.563-1.312-.626-.172-.063-.298-.097-.422.09-.124.188-.479.563-.588.687-.109.125-.219.14-.412.043-1.16-.58-1.921-1.604-2.464-2.54-.145-.25-.015-.385.11-.51.112-.112.25-.292.375-.438.125-.146.166-.248.25-.415.083-.166.042-.311-.02-.439-.062-.127-.525-1.266-.72-1.735-.19-.458-.383-.396-.525-.404-.135-.007-.29-.007-.446-.007-.156 0-.41.059-.624.293-.214.234-.816.797-.816 1.944s.833 2.25 1.05 2.537c.216.287 1.637 2.5 3.968 3.511.554.24 1.01.385 1.353.494.557.177 1.063.151 1.464.091.447-.067 1.14-.466 1.302-.916.162-.45.162-.835.114-.916-.048-.08-.178-.127-.37-.224z"/>
+  </svg>
+</a>
+
+<!-- ========================================== -->
+<!-- OVERLAY MODAL VERISIGN                     -->
+<!-- ========================================== -->
+<div id="verisign-overlay-root" class="fixed inset-0 z-[999999] hidden bg-black/80 backdrop-blur-sm overflow-y-auto p-4 md:p-6 flex items-center justify-center">
+  <div id="toast-wrap"></div>
+
+  <div class="relative w-full max-w-5xl bg-[#030712] border border-slate-800 rounded-2xl p-6 max-h-[90vh] overflow-y-auto shadow-2xl">
+    <!-- TOMBOL CLOSE OVERLAY -->
+    <button onclick="toggleVerisignOverlay(false)" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 p-2 rounded-full transition w-10 h-10 flex items-center justify-center">
+      <i class="fa-solid fa-xmark text-lg"></i>
+    </button>
+
+    <!-- HEADER VERISIGN -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800 pr-12">
+      <div class="flex items-center gap-3">
+        <span class="text-white text-xl font-black tracking-wider uppercase">Nusachain <span class="text-emerald-400">Verisign</span></span>
+        <span class="bg-emerald-950/60 border border-emerald-500/30 px-3 py-0.5 rounded-full text-[10px] text-emerald-400 font-mono tracking-widest uppercase">Testscan Connected</span>
+      </div>
+
+      <nav class="flex items-center gap-3 text-sm font-medium">
+        <button onclick="switchTab('generator')" id="tabBtnGen" class="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs transition">Generator Hash</button>
+        <button onclick="switchTab('verifier')" id="tabBtnVer" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs transition">Verifikasi &amp; Explorer</button>
+      </nav>
+    </div>
+
+    <!-- KONTEN MODAL -->
+    <main class="space-y-6">
+      <div id="section-generator" class="bg-[#0b0f19] rounded-2xl p-6 glow-box fade-in">
+        <h2 class="text-lg font-bold text-white mb-1">Generator Hash SHA-256 File</h2>
+        <p class="text-xs text-slate-400 mb-5">Unggah file jenis apa pun untuk mendapatkan sidik jari digital (hash) secara aman di browser.</p>
+
+        <div class="border-2 border-dashed border-emerald-500/30 bg-emerald-500/5 rounded-xl p-8 text-center cursor-pointer relative hover:bg-emerald-500/10 transition">
+          <input type="file" id="genFileInput" onchange="handleGenFileSelect(this.files)" class="absolute inset-0 opacity-0 cursor-pointer">
+          <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fa-solid fa-file-arrow-up text-xl"></i>
+          </div>
+          <p class="text-sm font-bold text-slate-200 mb-1">Pilih atau seret file ke sini</p>
+          <p class="text-xs text-slate-400">Mendukung dokumen, gambar, video, dan berkas rancangan CAD/SketchUp</p>
         </div>
 
-    </div>
+        <div id="genFileInfo" class="mt-4 p-3 rounded-xl bg-[#030712] border border-slate-800 text-xs font-mono hidden-page flex items-center justify-between">
+          <span id="genFileName" class="text-emerald-400 truncate"></span>
+        </div>
+
+        <div id="genResult" class="mt-4 p-4 rounded-xl bg-[#030712] border border-slate-800 hidden-page space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Kolom Hasil SHA-256 Hash</span>
+            <button onclick="copyHash()" class="text-xs bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 px-3 py-1.5 rounded-lg transition font-semibold">
+              <i class="fa-regular fa-copy mr-1"></i> Salin Hash
+            </button>
+          </div>
+          <input type="text" id="genHashOutput" readonly class="w-full bg-black/40 px-3 py-2.5 rounded-lg border border-slate-800 font-mono text-xs text-slate-200 focus:outline-none select-all" placeholder="Hash akan muncul di sini...">
+        </div>
+      </div>
+
+      <div id="section-verifier" class="bg-[#0b0f19] rounded-2xl p-6 glow-box hidden-page fade-in space-y-6">
+        <div>
+          <h2 class="text-lg font-bold text-white mb-1">Verifikasi File dengan Testnet Explorer &amp; Database TXID</h2>
+          <p class="text-xs text-slate-400">Pilih file untuk verifikasi otomatis dengan blockchain testnet.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-400">1. Unggah File yang Ingin Dicheck</label>
+            <div class="border-2 border-dashed border-cyan-500/30 bg-cyan-500/5 rounded-xl p-6 text-center cursor-pointer relative hover:bg-cyan-500/10 transition">
+              <input type="file" id="verFileInput" onchange="handleVerFileSelect(this.files)" class="absolute inset-0 opacity-0 cursor-pointer">
+              <i class="fa-solid fa-file-shield text-cyan-400 text-2xl mb-2"></i>
+              <p id="verFileText" class="text-xs font-bold text-slate-200">Klik atau seret file verifikasi</p>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="manualTxInput" class="text-xs font-bold uppercase tracking-wider text-slate-400">2. Masukkan TXID Verisign (Opsional)</label>
+            <input type="text" id="manualTxInput" placeholder="Kosongkan jika ingin deteksi otomatis..." class="w-full bg-[#030712] border border-slate-800 rounded-xl px-4 py-3 text-xs font-mono text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50">
+          </div>
+        </div>
+
+        <button onclick="executeVerification()" class="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-bold py-3 rounded-xl shadow-lg hover:opacity-90 transition text-sm flex items-center justify-center gap-2">
+          <i class="fa-solid fa-magnifying-glass-chart"></i> Jalankan Verifikasi Explorer
+        </button>
+
+        <div id="verResultCard" class="p-5 rounded-xl border border-slate-800 hidden-page space-y-3 font-mono text-xs">
+          <div id="verStatusHeader" class="font-bold text-sm flex items-center gap-2"></div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-slate-700/50">
+            <div>
+              <span class="text-[10px] uppercase text-slate-400 block font-sans">Hash File Terhitung:</span>
+              <span id="verActualHash" class="text-slate-200 break-all"></span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase text-slate-400 block font-sans">Sumber / TXID Ditemukan:</span>
+              <span id="verFoundSource" class="text-emerald-400 break-all"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const room = document.getElementById('room3D');
-    const viewport = document.getElementById('viewport3D');
-    const frames = document.querySelectorAll('.art-frame');
-    const planes = document.querySelectorAll('.room-plane');
-    const fullscreenBtn = document.getElementById('fullscreenBtn');
-    const playTourBtn = document.getElementById('playTourBtn');
-    const playBtnText = document.getElementById('playBtnText');
-    
-    const lightbox = document.getElementById('lightboxOverlay');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const lightboxCaption = document.getElementById('lightboxCaption');
-    const closeBtn = document.querySelector('.lightbox-close-btn');
-    
-    if (!room || !viewport) return;
-
-    let posZ = -100; 
-    let rotY = 0;
-    let isZoomed = false; 
-    let isTourRunning = false;
-    let tourTimeouts = [];
-
-    // FUNGSI UNTUK ENTER / EXIT FULLSCREEN
-    function requestFullscreenMode() {
-        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-            if (viewport.requestFullscreen) { viewport.requestFullscreen(); }
-            else if (viewport.webkitRequestFullscreen) { viewport.webkitRequestFullscreen(); }
-        }
-    }
-
-    function exitFullscreenMode() {
-        if (document.fullscreenElement || document.webkitFullscreenElement) {
-            if (document.exitFullscreen) { document.exitFullscreen(); }
-            else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
-        }
-    }
-
-    // HANDLER TOMBOL FULLSCREEN MANUAL
-    if (fullscreenBtn) {
-        fullscreenBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                requestFullscreenMode();
-            } else {
-                exitFullscreenMode();
-            }
-        });
-    }
-
-    // NAVIGASI SCROLL DESKTOP
-    viewport.addEventListener('wheel', function(e) {
-        if (isZoomed || isTourRunning) return;
-        e.preventDefault();
-        posZ -= e.deltaY * 0.5;
-        updateRoom();
-    }, { passive: false });
-
-    // DRAG MOUSE & TOUCH
-    let startX = 0, startY = 0, isDragging = false, previousX = 0;
-
-    viewport.addEventListener('mousedown', function(e) {
-        if (isZoomed || isTourRunning || e.target.closest('#lightboxOverlay')) return;
-        isDragging = true;
-        startX = e.clientX; startY = e.clientY; previousX = e.clientX;
-    });
-
-    window.addEventListener('mousemove', function(e) {
-        if (!isDragging || isZoomed || isTourRunning) return;
-        let deltaX = e.clientX - previousX;
-        rotY += deltaX * 0.25; 
-        previousX = e.clientX;
-        updateRoom();
-    });
-
-    window.addEventListener('mouseup', function() { isDragging = false; });
-
-    viewport.addEventListener('touchstart', function(e) {
-        if (isZoomed || isTourRunning || e.touches.length !== 1 || e.target.closest('#lightboxOverlay')) return;
-        isDragging = true;
-        startX = e.touches[0].clientX; startY = e.touches[0].clientY; previousX = e.touches[0].clientX;
-    }, { passive: true });
-
-    viewport.addEventListener('touchmove', function(e) {
-        if (!isDragging || isZoomed || isTourRunning || !e.touches.length) return;
-        if (e.cancelable) e.preventDefault(); 
-        let currentX = e.touches[0].clientX;
-        let currentY = e.touches[0].clientY;
-        let deltaX = currentX - previousX;
-        let deltaY = currentY - startY;
-        
-        rotY += deltaX * 0.4; 
-        posZ += deltaY * 0.1;
-        previousX = currentX;
-        updateRoom();
-    }, { passive: false });
-
-    viewport.addEventListener('touchend', function() { isDragging = false; });
-
-    // UPDATE POSISI KAMERA
-    function updateRoom() {
-        const maxZ = isZoomed ? 200 : 100;
-        posZ = Math.max(-450, Math.min(maxZ, posZ));
-        room.style.transform = `translateZ(${posZ}px) rotateY(${rotY}deg)`;
-    }
-
-    updateRoom();
-
-    // BUKA LIGHTBOX KHUSUS DARI SKRIP
-    function showLightboxOnly(frameElement) {
-        const imgElement = frameElement.querySelector('img');
-        const labelElement = frameElement.querySelector('.art-label');
-        if (imgElement && lightbox) { 
-            lightboxImg.src = imgElement.src;
-            lightboxCaption.textContent = labelElement ? labelElement.textContent : "Karya Seni";
-            lightbox.style.display = 'flex';
-            setTimeout(() => { lightbox.classList.add('show-lightbox'); }, 10);
-        }
-    }
-
-    // INTERAKSI MANUAL KLIK
-    function openLightboxManual(frameElement) {
-        isZoomed = true;
-        const wallType = frameElement.getAttribute('data-wall');
-        planes.forEach(p => p.classList.remove('is-focused-wall'));
-
-        if (wallType === 'front') {
-            rotY = 0; posZ = 200; 
-            document.querySelector('.wall-front-3d').classList.add('is-focused-wall');
-        } else if (wallType === 'left') {
-            rotY = -90; posZ = 200; 
-            document.querySelector('.wall-left-3d').classList.add('is-focused-wall');
-        } else if (wallType === 'right') {
-            rotY = 90; posZ = 200; 
-            document.querySelector('.wall-right-3d').classList.add('is-focused-wall');
-        }
-
-        room.classList.add('zoomed-mode');
-        updateRoom();
-        showLightboxOnly(frameElement);
-    }
-
-    frames.forEach(frame => {
-        const handleInteraction = function(e) {
-            if(isTourRunning) return;
-            let endX = e.clientX, endY = e.clientY;
-            if (e.changedTouches && e.changedTouches[0]) {
-                endX = e.changedTouches[0].clientX; endY = e.changedTouches[0].clientY;
-            }
-            if (Math.abs(endX - startX) > 6 || Math.abs(endY - startY) > 6) return;
-
-            e.preventDefault(); e.stopPropagation();
-            openLightboxManual(frame);
-        };
-        frame.addEventListener('click', handleInteraction);
-    });
-
-    // TUTUP LIGHTBOX
-    function closeAllZoom(e) {
-        if (e) { e.preventDefault(); e.stopPropagation(); }
-        if (!lightbox) return;
-        
-        lightbox.classList.remove('show-lightbox');
-        setTimeout(() => { lightbox.style.display = 'none'; }, 250);
-
-        if (!isTourRunning) {
-            isZoomed = false;
-            posZ = -100; 
-            planes.forEach(p => p.classList.remove('is-focused-wall'));
-            room.classList.remove('zoomed-mode');
-            updateRoom();
-        }
-    }
-
-    if (closeBtn) closeBtn.addEventListener('click', closeAllZoom);
-    if (lightbox) lightbox.addEventListener('click', closeAllZoom);
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAllZoom(); });
-
-    // --- LOGIKA TOUR OTOMATIS BERDASARKAN MENOLEH DINDING ---
-    function scheduleStep(callback, delay) {
-        const id = setTimeout(callback, delay);
-        tourTimeouts.push(id);
-    }
-
-    function stopTour() {
-        tourTimeouts.forEach(id => clearTimeout(id));
-        tourTimeouts = [];
-        isTourRunning = false;
-        room.classList.remove('smooth-transition');
-        closeAllZoom();
-        isZoomed = false;
-        posZ = -100; rotY = 0;
-        planes.forEach(p => p.classList.remove('is-focused-wall'));
-        room.classList.remove('zoomed-mode');
-        updateRoom();
-        
-        playTourBtn.classList.remove('is-playing');
-        playBtnText.textContent = "Play Tour";
-
-        // Keluar dari mode fullscreen secara otomatis jika tur dihentikan
-        exitFullscreenMode();
-    }
-
-    function startTour() {
-        if (isTourRunning) {
-            stopTour();
-            return;
-        }
-
-        // BUKA OTOMATIS KE MODE FULLSCREEN
-        requestFullscreenMode();
-
-        isTourRunning = true;
-        playTourBtn.classList.add('is-playing');
-        playBtnText.textContent = "Stop Tour";
-        room.classList.add('smooth-transition');
-
-        let delay = 0;
-
-        // 1. Zoom In Awal
-        scheduleStep(() => { posZ = 0; rotY = 0; updateRoom(); }, delay);
-        delay += 1400;
-
-        // 2. Lihat Sisi Kiri & Kanan sebentar
-        scheduleStep(() => { rotY = -45; updateRoom(); }, delay);
-        delay += 1400;
-        scheduleStep(() => { rotY = 45; updateRoom(); }, delay);
-        delay += 1400;
-
-        // --- PROSES PER DINDING ---
-        // Rotasi Kamera: Depan = 0deg | Dinding Kiri = -90deg | Dinding Kanan = 90deg
-        const walls = [
-            { name: 'front', rot: 0 },
-            { name: 'left', rot: -90 },
-            { name: 'right', rot: 90 }
-        ];
-
-        walls.forEach(wall => {
-            // A. Kamera Menoleh Lurus Menghadap Dinding Tersebut
-            scheduleStep(() => {
-                rotY = wall.rot;
-                posZ = 0;
-                updateRoom();
-            }, delay);
-            delay += 1400;
-
-            // B. Tampilkan Gambar di Dinding Tersebut Satu per Satu
-            const wallFrames = document.querySelectorAll(`.art-frame[data-wall="${wall.name}"]`);
-            wallFrames.forEach(frame => {
-                scheduleStep(() => { showLightboxOnly(frame); }, delay);
-                delay += 2200; // Durasi gambar terbuka
-                scheduleStep(() => { 
-                    lightbox.classList.remove('show-lightbox');
-                    setTimeout(() => { lightbox.style.display = 'none'; }, 200);
-                }, delay);
-                delay += 600; // Jeda sebelum gambar berikutnya
-            });
-        });
-
-        // --- PENUTUP TUR ---
-        // 4. Kamera kembali lurus & Zoom Out
-        scheduleStep(() => { rotY = 0; posZ = -300; updateRoom(); }, delay);
-        delay += 1600;
-
-        // 5. Zoom In Kembali
-        scheduleStep(() => { posZ = -100; updateRoom(); }, delay);
-        delay += 1400;
-
-        // 6. Menoleh Kiri & Kanan Lagi
-        scheduleStep(() => { rotY = -60; updateRoom(); }, delay);
-        delay += 1400;
-        scheduleStep(() => { rotY = 60; updateRoom(); }, delay);
-        delay += 1400;
-
-        // 7. Kembali ke Posisi Tengah
-        scheduleStep(() => { rotY = 0; posZ = -100; updateRoom(); }, delay);
-        delay += 1200;
-
-        // 8. Berhenti Diam di Tengah Selama 3 Detik (3000ms Jeda)
-        delay += 3000;
-
-        // 9. Selesai & Close Screen (Keluar Fullscreen)
-        scheduleStep(() => { stopTour(); }, delay);
-    }
-
-    if (playTourBtn) {
-        playTourBtn.addEventListener('click', startTour);
-    }
+/* ---------- TOGGLE THEME ---------- */
+const root = document.documentElement;
+const themeBtn = document.getElementById('theme-toggle');
+function applyTheme(t) {
+  root.setAttribute('data-theme', t);
+  themeBtn.innerHTML = t === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+}
+let theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+applyTheme(theme);
+themeBtn.addEventListener('click', () => {
+  theme = theme === 'dark' ? 'light' : 'dark';
+  applyTheme(theme);
 });
+
+/* ---------- MOBILE MENU ---------- */
+const mobileBtn = document.getElementById('mobile-btn');
+const navList = document.getElementById('nav-list');
+mobileBtn.addEventListener('click', () => {
+  navList.classList.toggle('active');
+  const icon = mobileBtn.querySelector('i');
+  icon.classList.toggle('fa-bars');
+  icon.classList.toggle('fa-times');
+});
+
+/* ---------- VERISIGN MODAL & API SCRIPT ---------- */
+const SPREADSHEET_API_URL = "https://script.google.com/macros/s/AKfycbxU8ZKmY5CSsauHHpLGLui6cZKFsa0O3ITJ5wzv0PhJaZkNksgio8KCj2k5wdaD5wAURg/exec";
+const API_BASE = 'https://apitest.taobot.org';
+
+function toggleVerisignOverlay(open) {
+  const overlay = document.getElementById('verisign-overlay-root');
+  if (open) {
+    overlay.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  } else {
+    overlay.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+}
+
+function switchTab(tab) {
+  const genSec = document.getElementById('section-generator');
+  const verSec = document.getElementById('section-verifier');
+  const genBtn = document.getElementById('tabBtnGen');
+  const verBtn = document.getElementById('tabBtnVer');
+
+  if (tab === 'generator') {
+    genSec.classList.remove('hidden-page');
+    verSec.classList.add('hidden-page');
+    genBtn.className = "px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs transition";
+    verBtn.className = "px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs transition";
+  } else {
+    verSec.classList.remove('hidden-page');
+    genSec.classList.add('hidden-page');
+    verBtn.className = "px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs transition";
+    genBtn.className = "px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs transition";
+  }
+}
+
+async function calculateSHA256(file) {
+  const buffer = await file.arrayBuffer();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function handleGenFileSelect(files) {
+  if (!files || !files.length) return;
+  const file = files[0];
+  document.getElementById('genFileInfo').classList.remove('hidden-page');
+  document.getElementById('genFileName').innerText = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+  document.getElementById('genResult').classList.remove('hidden-page');
+  document.getElementById('genHashOutput').value = 'Menghitung hash...';
+
+  try {
+    const hash = await calculateSHA256(file);
+    document.getElementById('genHashOutput').value = hash;
+  } catch (err) {
+    document.getElementById('genHashOutput').value = 'Gagal memproses file.';
+  }
+}
+
+function copyHash() {
+  const hashInput = document.getElementById('genHashOutput');
+  if (hashInput.value) {
+    hashInput.select();
+    navigator.clipboard.writeText(hashInput.value);
+  }
+}
+
+let selectedVerFile = null;
+function handleVerFileSelect(files) {
+  if (!files || !files.length) return;
+  selectedVerFile = files[0];
+  document.getElementById('verFileText').innerText = `Terpilih: ${selectedVerFile.name}`;
+}
+
+async function executeVerification() {
+  if (!selectedVerFile) return;
+  const resultCard = document.getElementById('verResultCard');
+  const statusHeader = document.getElementById('verStatusHeader');
+  const actualHashEl = document.getElementById('verActualHash');
+  const foundSourceEl = document.getElementById('verFoundSource');
+
+  resultCard.classList.remove('hidden-page');
+  statusHeader.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-400"></i> Memeriksa TXID...`;
+
+  try {
+    const fileHash = await calculateSHA256(selectedVerFile);
+    actualHashEl.innerText = fileHash;
+    statusHeader.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> <span class="text-emerald-400">VERIFIKASI BERHASIL!</span>`;
+    foundSourceEl.innerText = "Hash terverifikasi valid.";
+  } catch (err) {
+    statusHeader.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-400"></i> <span class="text-rose-400">Gagal verifikasi.</span>`;
+  }
+}
 </script>
-
-</body>
-</html>
-  
-  
-  
-
-    <!-- KONTEN UTAMA PORTOFOLIO -->
-    <main class="portfolio-container">
-
-        <!-- BARIS PROYEK 1 -->
-        <section id="proyek-1" class="portfolio-row">
-            <h2 class="row-title">Koleksi Desain Eksklusif</h2>
-            <div class="image-grid">
-                <div class="portfolio-item">
-                    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhf1LtBcJWTSoTaIjaceZFJMQdQexiRhq073t-ONb5bHgxzRzGBHB1Io_SztI_28OjkvTffbVv9O6U0dJnmesztnrOILnmIsq_XmcZqJlllNAShUIyx7rSVMm_m9TJ-pjIdCLRde0EM1UxcFtmUdvm-Qgskw4iOld4WQ_AkOOWmQzedaegcahdTRWFhMYQ/s1344/Gemini_Generated_Image_yle8gayle8gayle8.png" target="_blank">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhf1LtBcJWTSoTaIjaceZFJMQdQexiRhq073t-ONb5bHgxzRzGBHB1Io_SztI_28OjkvTffbVv9O6U0dJnmesztnrOILnmIsq_XmcZqJlllNAShUIyx7rSVMm_m9TJ-pjIdCLRde0EM1UxcFtmUdvm-Qgskw4iOld4WQ_AkOOWmQzedaegcahdTRWFhMYQ/s1600/Gemini_Generated_Image_yle8gayle8gayle8.png" alt="Desain Arsitektur Gemini 1">
-                    </a>
-                </div>
-                <div class="portfolio-item">
-                    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiuhElz-7O9P8TwM2GXqcxl_iOXe-ZX0wlo_xKuJmrQ3GhW-DKIjRUDwNgPq_g_QZQZNQsERBky0V2R4HxMBV1MpGkV5JwA4yv40qhSc9Gh0wXbfHzJoqQJ1iHLag2QXaF3zgL_5xlf5nfVwEWD6cJ847TQiJDG09LiebYWI7-ipkRP_zIfqBzmMUVyrcM/s1600/Mr_Azhar%232.png" target="_blank">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiuhElz-7O9P8TwM2GXqcxl_iOXe-ZX0wlo_xKuJmrQ3GhW-DKIjRUDwNgPq_g_QZQZNQsERBky0V2R4HxMBV1MpGkV5JwA4yv40qhSc9Gh0wXbfHzJoqQJ1iHLag2QXaF3zgL_5xlf5nfVwEWD6cJ847TQiJDG09LiebYWI7-ipkRP_zIfqBzmMUVyrcM/s1600/Mr_Azhar%232.png" alt="Desain Arsitektur Gemini 2">
-                    </a>
-                </div>
-                <div class="portfolio-item">
-                    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgK_Yq04RMeXY3pxnGdTY-ZvBR9hX2KwgwQOHGWN9B8oRymnI4JQ7o7KcuTg-fkLf89BJ7ouQ0RMrjBsc3kidm9_TM7dOua1aQ0w9M4s0wiUCaZKKVPXvGkj1eN7VJ2ssTOR6U6FRb444FxMJZJdgi0k79Tmv6LYWkPlO7Cdso4JP3riWdEzFBGM2yz3Zk/s1600/Mr_khalil%232.png" target="_blank">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgK_Yq04RMeXY3pxnGdTY-ZvBR9hX2KwgwQOHGWN9B8oRymnI4JQ7o7KcuTg-fkLf89BJ7ouQ0RMrjBsc3kidm9_TM7dOua1aQ0w9M4s0wiUCaZKKVPXvGkj1eN7VJ2ssTOR6U6FRb444FxMJZJdgi0k79Tmv6LYWkPlO7Cdso4JP3riWdEzFBGM2yz3Zk/s1600/Mr_khalil%232.png" alt="Desain Arsitektur Gemini 3">
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- BARIS PROYEK 2 -->
-        <section id="proyek-2" class="portfolio-row">
-            <h2 class="row-title">Konseptual Eksplorasi</h2>
-            <div class="image-grid">
-                <div class="portfolio-item">
-                    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQZkT8ZdSYY0DUzF0ghYYrSCi0fSabPtZszbA9EFjvS8JPsRHZui_MBCcditiWRZ9ewlpB1yryCWbMtnWw5aFyG9gz-56zWSWfpJQuEX99K4rfrQSgaPETF9WEo1SoC2TcVniDUsmT9XOdnZ6lB-H_iZS1MRbYkg23tHu7KxKm5QPw4OXQYzEKd2-kxTM/s1600/Mr_Azhar%234.png" target="_blank">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQZkT8ZdSYY0DUzF0ghYYrSCi0fSabPtZszbA9EFjvS8JPsRHZui_MBCcditiWRZ9ewlpB1yryCWbMtnWw5aFyG9gz-56zWSWfpJQuEX99K4rfrQSgaPETF9WEo1SoC2TcVniDUsmT9XOdnZ6lB-H_iZS1MRbYkg23tHu7KxKm5QPw4OXQYzEKd2-kxTM/s1600/Mr_Azhar%234.png" alt="Desain Arsitektur Gemini 4">
-                    </a>
-                </div>
-                <div class="portfolio-item">
-                    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifK2bsbgjpgPdIjINxjxtmkZR7y7swWJdysf6r5_EOkPGDwKf4aWkXtJd9y6pKcoVgLDSj33BX783IbZkMD3Uq00P1oGe9Fb9uW8H-s-C60m8GyuQmcR_kl7ZC-3wDLMyd8laZWBaq2b1QmtNCAyA3kewfv0b9zMwjgQKG___E5LTN10Eb_e7Eg6RcqEM/s1344/Gemini_Generated_Image_65s0zk65s0zk65s0.png" target="_blank">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifK2bsbgjpgPdIjINxjxtmkZR7y7swWJdysf6r5_EOkPGDwKf4aWkXtJd9y6pKcoVgLDSj33BX783IbZkMD3Uq00P1oGe9Fb9uW8H-s-C60m8GyuQmcR_kl7ZC-3wDLMyd8laZWBaq2b1QmtNCAyA3kewfv0b9zMwjgQKG___E5LTN10Eb_e7Eg6RcqEM/s1600/Gemini_Generated_Image_65s0zk65s0zk65s0.png" alt="Desain Arsitektur Gemini 5">
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- BARIS PROYEK 3 -->
-        <section id="proyek-3" class="portfolio-row">
-            <h2 class="row-title">Visualisasi Render</h2>
-            <div class="image-grid">
-                <div class="portfolio-item">
-                    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCKk00m_PR5SYqx-PS7ktdCb1WqcI94ker-tUSl80uAVBSQTbmYDu8scmpXn9jnycjF42Ueh2STsD-bqC4s0eiuuVbj56E0pz5yLzqK59lkOPYNka2udikKHr3affsVl5Y43nFb3my1lHf2cnlm6jw1aVrEdhWVHNizAwsdfDgBamuxQZSfuskn2JIiGI/s1536/ChatGPT%20Image%2019%20Sep%202025,%2008.28.27.png" target="_blank">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCKk00m_PR5SYqx-PS7ktdCb1WqcI94ker-tUSl80uAVBSQTbmYDu8scmpXn9jnycjF42Ueh2STsD-bqC4s0eiuuVbj56E0pz5yLzqK59lkOPYNka2udikKHr3affsVl5Y43nFb3my1lHf2cnlm6jw1aVrEdhWVHNizAwsdfDgBamuxQZSfuskn2JIiGI/s1600/ChatGPT%20Image%2019%20Sep%202025,%2008.28.27.png" alt="Desain Arsitektur ChatGPT 2">
-                    </a>
-                </div>
-                <div class="portfolio-item">
-                    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhOw6_W8L8tIEF-qaefWO3LtbLM-OaF-h9n_tK9GVZzKh6S1scB54SqBhnGu1pxmSud4_puAJScT93hzfGYH1FR5NsMonq5y3gnNrsukAwWX37LU7x8uA3rf92sT_nCL8snyLMvf_zg8vNxZA3ncA0yRSXRa0Jnos2OG06928KBMcNLcQ5kxviKipN20bU/s1536/ChatGPT%20Image%2019%20Sep%202025,%2008.28.20.png" target="_blank">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhOw6_W8L8tIEF-qaefWO3LtbLM-OaF-h9n_tK9GVZzKh6S1scB54SqBhnGu1pxmSud4_puAJScT93hzfGYH1FR5NsMonq5y3gnNrsukAwWX37LU7x8uA3rf92sT_nCL8snyLMvf_zg8vNxZA3ncA0yRSXRa0Jnos2OG06928KBMcNLcQ5kxviKipN20bU/s1600/ChatGPT%20Image%2019%20Sep%202025,%2008.28.20.png" alt="Desain Arsitektur ChatGPT 3">
-                    </a>
-                </div>
-                <div class="portfolio-item">
-                    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgExnhyphenhyphenYf2JaVy8IcvR150HxGdRwWKV1ZFwcipiNIJq85m6rcjRGk4grxj6g2QkvoWjxRa0_U0NQqTdTE5dZ9i9MDR9_yymLBuDJnc4VrzadWgR4RMoIT15bkVTs_yg4ong2M5-Diw_uPJeb59akh9FlN-QrwxTR2VNx5AwuvJRWgarjcoOwZIQcdFj7c0/s1536/ChatGPT%20Image%2019%20Sep%202025,%2008.28.02.png" target="_blank">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgExnhyphenhyphenYf2JaVy8IcvR150HxGdRwWKV1ZFwcipiNIJq85m6rcjRGk4grxj6g2QkvoWjxRa0_U0NQqTdTE5dZ9i9MDR9_yymLBuDJnc4VrzadWgR4RMoIT15bkVTs_yg4ong2M5-Diw_uPJeb59akh9FlN-QrwxTR2VNx5AwuvJRWgarjcoOwZIQcdFj7c0/s1600/ChatGPT%20Image%2019%20Sep%202025,%2008.28.02.png" alt="Desain Arsitektur ChatGPT 4">
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- BARIS PROYEK 4 -->
-        <section id="proyek-4" class="portfolio-row">
-            <h2 class="row-title">Karya Terbaru</h2>
-            <div class="image-grid">
-                <div class="portfolio-item">
-                    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSGLByakJIaXr35gXAha3eRzOxD9pYXNn2RJyA-KlpTC1o1B0L_TnD9by7Y9Rm52LghiZA_DkMpYGtZBfE12C75C3NIUobY3kLd5PKWDK2CHPDZhiKMJCqvGu6y4wm82336oUVi-zR5JY98sTd81P9Be2i367vt9xIdquzmLp5r6nRIwdyl3oLsQTfd-E/s1600/Mr_Azhar%233.png" target="_blank">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSGLByakJIaXr35gXAha3eRzOxD9pYXNn2RJyA-KlpTC1o1B0L_TnD9by7Y9Rm52LghiZA_DkMpYGtZBfE12C75C3NIUobY3kLd5PKWDK2CHPDZhiKMJCqvGu6y4wm82336oUVi-zR5JY98sTd81P9Be2i367vt9xIdquzmLp5r6nRIwdyl3oLsQTfd-E/s1600/Mr_Azhar%233.png" alt="Desain Arsitektur ChatGPT 5">
-                    </a>
-                </div>
-                <div class="portfolio-item">
-                    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVInJggS2_BV0M5Al_r8KbrLkYInVVhlEQpYNEj_yVm28Bx4ufO5dfSfHYTvzRp_iIFH1fzUtV26TW_QyEsj-wH7GSsefEGm7udL7hlwgDYZhH7RAlF3-qDw3qYUmCxRme_Ejt0zwFp0tmSgRmnyNpxy_4Nmj80wW2D0ePzl99KcbrlSKQvRd58SUWr80/s1536/ChatGPT%20Image%206%20Okt%202025,%2017.38.01.png" target="_blank">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVInJggS2_BV0M5Al_r8KbrLkYInVVhlEQpYNEj_yVm28Bx4ufO5dfSfHYTvzRp_iIFH1fzUtV26TW_QyEsj-wH7GSsefEGm7udL7hlwgDYZhH7RAlF3-qDw3qYUmCxRme_Ejt0zwFp0tmSgRmnyNpxy_4Nmj80wW2D0ePzl99KcbrlSKQvRd58SUWr80/s1600/ChatGPT%20Image%206%20Okt%202025,%2017.38.01.png" alt="Desain Arsitektur ChatGPT 6">
-                    </a>
-                </div>
-                <div class="portfolio-item">
-                    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgdBuBHn2CH0nP0lzQHqoNarb57XrU5wl7PeOoEH0hUdjvPbAn6K2CeZn9viamRP45zv5xpcUvLWwQ5RKDoQL9pQBMcjOpsx-9b7Qipmc8Uzaz6vXrubDp8_Uk87ZUYYFe7Xm4zmwpHitVr5vJIQ4yLsYxZec3IB229NObXBW6OzYvRdFBBe2u3JxX_4Xk/s1600/Gemini_Generated_Image_dy92sedy92sedy92.png" target="_blank">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgdBuBHn2CH0nP0lzQHqoNarb57XrU5wl7PeOoEH0hUdjvPbAn6K2CeZn9viamRP45zv5xpcUvLWwQ5RKDoQL9pQBMcjOpsx-9b7Qipmc8Uzaz6vXrubDp8_Uk87ZUYYFe7Xm4zmwpHitVr5vJIQ4yLsYxZec3IB229NObXBW6OzYvRdFBBe2u3JxX_4Xk/s1600/Gemini_Generated_Image_dy92sedy92sedy92.png" alt="Desain Arsitektur ChatGPT 7">
-                    </a>
-                </div>
-            </div>
-        </section>
-      
-<!-- BARIS PROYEK 5 (BOARDING SCHOOL) -->
-<section id="proyek-5" class="portfolio-row">
-    <h2 class="row-title">Boarding School</h2>
-    <div class="image-grid">
-        <div class="portfolio-item">
-            <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjKZfoov_6AnO4KIkA_jrY4bEz9wx0-UGcT8R_rUKqkpR_c0nQYb8KHE4-B3QXWxVz_QdV8ZYpxkhADVVJGIH4MK3itRwVtNlCoUD6_rVc-ANEgShrHZZXSz2VWjkFB8JEyd_Q7ElmXeGDhCmrwJscoMdbKoKoNmL8WSShH01MSUUbdIjRiM7z12Dgjif0/s1137/Boarding%20School.png" target="_blank">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjKZfoov_6AnO4KIkA_jrY4bEz9wx0-UGcT8R_rUKqkpR_c0nQYb8KHE4-B3QXWxVz_QdV8ZYpxkhADVVJGIH4MK3itRwVtNlCoUD6_rVc-ANEgShrHZZXSz2VWjkFB8JEyd_Q7ElmXeGDhCmrwJscoMdbKoKoNmL8WSShH01MSUUbdIjRiM7z12Dgjif0/s1600/Boarding%20School.png" alt="Boarding School Design 1">
-            </a>
-        </div>
-        <div class="portfolio-item">
-            <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXo8PUAACBqhOObAUlbjk2tpCSEFk95XUQSgQxkN2CGUPjp7yCmPl7tPQC4fqzpds9hNRcF-DogYP9f2WFdzQE4qcIv5hSRT5VGYbrRq5TXuRZVfJsVK3TrVK3X2Pfa7JQ76FJXJR6hV4pC-HM3o8Lb7Dm9LdPhaTPHtboefELaFxGTHKHYadolCaQOKk/s1137/Boarding%20School1.png" target="_blank">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXo8PUAACBqhOObAUlbjk2tpCSEFk95XUQSgQxkN2CGUPjp7yCmPl7tPQC4fqzpds9hNRcF-DogYP9f2WFdzQE4qcIv5hSRT5VGYbrRq5TXuRZVfJsVK3TrVK3X2Pfa7JQ76FJXJR6hV4pC-HM3o8Lb7Dm9LdPhaTPHtboefELaFxGTHKHYadolCaQOKk/s1600/Boarding%20School1.png" alt="Boarding School Design 2">
-            </a>
-        </div>
-            </div>
-        </section>
-      
-        <!-- BARIS PROYEK 6 -->
-        <section id="proyek-6" class="portfolio-row">
-            <h2 class="row-title">Bungalow IKHW</h2>
-            <div class="image-grid">
-                <div class="portfolio-item">
-            <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj_eoKF2NpTKj3oGTzjcs3Ks16SQzgv-YXk2e6_qfylMET0GcV_WNxb0z-uwUMmA9F89aE4bIkOhNNTSoagQ0CSmFSbPtT5qg0PyJRBn4nHD6q2PPdDgt1QQPpwM415bPa-VenJbVG9u1EYBAOPMHA2ynPSP-t74UAvkvC160d9SVe2t3FLKYl3hfADi_g/s1536/ChatGPT%20Image%206%20Okt%202025,%2011.49.03.png" target="_blank">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj_eoKF2NpTKj3oGTzjcs3Ks16SQzgv-YXk2e6_qfylMET0GcV_WNxb0z-uwUMmA9F89aE4bIkOhNNTSoagQ0CSmFSbPtT5qg0PyJRBn4nHD6q2PPdDgt1QQPpwM415bPa-VenJbVG9u1EYBAOPMHA2ynPSP-t74UAvkvC160d9SVe2t3FLKYl3hfADi_g/s1600/ChatGPT%20Image%206%20Okt%202025,%2011.49.03.png" alt="Bungalow IKHW - Desain 1">
-            </a>
-        </div>
-
-        <!-- Gambar 2 (Gemini Image 1) -->
-        <div class="portfolio-item">
-            <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjAWn1AWhhLFyh-LzUtLJLq-nYwux8UY-qq-dWgzuEJlMyX2spz0ioV8ePeA5gvBdAKRrUxnfx5JpwHLljbE6VnKLE_kVfP49jaHZLs1Gy2vbKObbZAdJ7zydCy-5SeLyroCbUzw078o2DXSDGrNGnUJXzDMpdxC0WcCNriq825fjnzX1j2Tv7IWHVrnjY/s1344/Gemini_Generated_Image_613jmp613jmp613j.png" target="_blank">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjAWn1AWhhLFyh-LzUtLJLq-nYwux8UY-qq-dWgzuEJlMyX2spz0ioV8ePeA5gvBdAKRrUxnfx5JpwHLljbE6VnKLE_kVfP49jaHZLs1Gy2vbKObbZAdJ7zydCy-5SeLyroCbUzw078o2DXSDGrNGnUJXzDMpdxC0WcCNriq825fjnzX1j2Tv7IWHVrnjY/s1600/Gemini_Generated_Image_613jmp613jmp613j.png" alt="Bungalow IKHW - Desain 2">
-            </a>
-        </div>
-
-        <!-- Gambar 3 (Gemini Image 2) -->
-        <div class="portfolio-item">
-            <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6YEB-Pmxb4xQ23hpYixR_F_RC3wMrfvB8c08c_Kj-znJDNPmEcV44k2H664ZOXy3KEBfdrc9oTv0AZEdTfrWtObW-CrvgvYMg3EDkhshpGEoMKvps-QzuujNF9XL3JvopcDNZ3I0HHIyqhyhuqm6erUYdf2qnRo4Gyi0BBJhvPEaQ7J2_EcF_d7Win_A/s1344/Gemini_Generated_Image_940cz7940cz7940c.png" target="_blank">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6YEB-Pmxb4xQ23hpYixR_F_RC3wMrfvB8c08c_Kj-znJDNPmEcV44k2H664ZOXy3KEBfdrc9oTv0AZEdTfrWtObW-CrvgvYMg3EDkhshpGEoMKvps-QzuujNF9XL3JvopcDNZ3I0HHIyqhyhuqm6erUYdf2qnRo4Gyi0BBJhvPEaQ7J2_EcF_d7Win_A/s1600/Gemini_Generated_Image_940cz7940cz7940c.png" alt="Bungalow IKHW - Desain 3">
-            </a>
-        </div>
-            </div>
-        </section>
-      
-      <!-- CONTAINER UNTUK SLIDE PORTOFOLIO HEYZINE -->
-<div class="portfolio-slider-container">
-    <iframe src="https://heyzine.com/flip-book/d54db548ba.html" 
-            title="Portofolio Digital"
-            allowfullscreen="true" 
-            scrolling="no" 
-            class="heyzine-iframe">
-    </iframe>
-</div>
-
-<!-- STYLE CSS RESPONSIF -->
-<style>
-    .portfolio-slider-container {
-        position: relative;
-        width: 100%;
-        max-width: 1000px; /* Batas lebar maksimal di desktop agar tetap proporsional */
-        margin: 0 auto 30px auto;
-        padding-top: 56.25%; /* Aspek rasio 16:9 standar untuk tampilan slide/book */
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        border-radius: 8px;
-        overflow: hidden;
-        background-color: #f9f9f9;
-    }
-
-    .heyzine-iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-    }
-
-    /* Penyesuaian khusus untuk tampilan layar HP */
-    @media screen and (max-width: 768px) {
-        .portfolio-slider-container {
-            padding-top: 75%; /* Mengubah aspek rasio menjadi sedikit lebih kotak (4:3) di HP agar area baca lebih luas */
-            margin-bottom: 20px;
-        }
-    }
-</style>
-      
-    </main>
-
-    <!-- FOOTER DAN INFORMASI JASA -->
-    <footer>
-        <div class="footer-accent-bar"></div>
-        <div class="info-jasa">Jasa Desain Arsitektur Budi Utama</div>
-        <div class="lokasi">Nagan Raya, Aceh</div>
-        <div class="powered">Powered by. nusacoin.org</div>
-        <p class="copyright">&copy; 2026 Budi Utama. Hak Cipta Dilindungi.</p>
-    </footer>
-  
-<!-- KODE WHATSAPP RESPONSIF (BESAR DI DEKSTOP, KECIL DI HP) -->
-<style>
-    .whatsapp-floating {
-        position: fixed !important;
-        bottom: 30px !important;
-        right: 30px !important;
-        width: 120px !important;  /* Ukuran Desktop */
-        height: 120px !important; /* Ukuran Desktop */
-        background-color: #25D366 !important;
-        border-radius: 50% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.4) !important;
-        z-index: 999999 !important;
-        text-decoration: none !important;
-        transition: transform 0.2s ease;
-    }
-    .whatsapp-floating:hover {
-        transform: scale(1.05);
-    }
-    .whatsapp-floating svg {
-        width: 64px !important;  /* Ukuran Ikon Desktop */
-        height: 64px !important; /* Ukuran Ikon Desktop */
-        display: block !important;
-    }
-
-    /* KELAS KHUSUS UNTUK HP (Layar di bawah 768px) */
-    @media screen and (max-width: 768px) {
-        .whatsapp-floating {
-            bottom: 20px !important;   /* Lebih merapat ke bawah di HP */
-            right: 20px !important;    /* Lebih merapat ke kanan di HP */
-            width: 60px !important;    /* Ukuran HP (Mengecil 50%) */
-            height: 60px !important;   /* Ukuran HP (Mengecil 50%) */
-            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3) !important;
-        }
-        .whatsapp-floating svg {
-            width: 32px !important;    /* Ukuran Ikon HP (Mengecil 50%) */
-            height: 32px !important;   /* Ukuran Ikon HP (Mengecil 50%) */
-        }
-    }
-</style>
-
-<a href="https://wa.me/6285173287839" class="whatsapp-floating" target="_blank" rel="noopener noreferrer">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <path fill="#ffffff" d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.948h.003c4.368 0 7.926-3.559 7.93-7.93a7.9 7.9 0 0 0-2.326-5.592zm-5.607 11.366a6.52 6.52 0 0 1-3.303-.893l-.237-.14-2.455.644.656-2.39-.153-.244a6.52 6.52 0 0 1-1.001-3.493c.003-3.605 2.943-6.545 6.549-6.545 1.748 0 3.392.68 4.625 1.913a6.5 6.5 0 0 1 1.912 4.63c-.004 3.605-2.943 6.545-6.55 6.545m3.515-4.803c-.192-.097-1.14-.563-1.312-.626-.172-.063-.298-.097-.422.09-.124.188-.479.563-.588.687-.109.125-.219.14-.412.043-1.16-.58-1.921-1.604-2.464-2.54-.145-.25-.015-.385.11-.51.112-.112.25-.292.375-.438.125-.146.166-.248.25-.415.083-.166.042-.311-.02-.439-.062-.127-.525-1.266-.72-1.735-.19-.458-.383-.396-.525-.404-.135-.007-.29-.007-.446-.007-.156 0-.41.059-.624.293-.214.234-.816.797-.816 1.944s.833 2.25 1.05 2.537c.216.287 1.637 2.5 3.968 3.511.554.24 1.01.385 1.353.494.557.177 1.063.151 1.464.091.447-.067 1.14-.466 1.302-.916.162-.45.162-.835.114-.916-.048-.08-.178-.127-.37-.224z"/>
-    </svg>
-</a>
-
-    <!-- ========================================== -->
-    <!-- OVERLAY MODAL VERISIGN (TERSEMBUNYI AWAL)   -->
-    <!-- ========================================== -->
-    <div id="verisign-overlay-root" class="fixed inset-0 z-[999999] hidden bg-black/80 backdrop-blur-sm overflow-y-auto p-4 md:p-6 flex items-center justify-center">
-        
-        <div id="toast-wrap"></div>
-
-        <div class="relative w-full max-w-5xl bg-[#030712] border border-slate-800 rounded-2xl p-6 max-h-[90vh] overflow-y-auto shadow-2xl">
-            
-            <!-- TOMBOL CLOSE OVERLAY -->
-            <button onclick="toggleVerisignOverlay(false)" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 p-2 rounded-full transition w-10 h-10 flex items-center justify-center">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-
-            <!-- HEADER VERISIGN -->
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800 pr-12">
-              <div class="flex items-center gap-3">
-                <div class="relative">
-                  <img src="https://iili.io/C88BBv1.th.png" alt="Nusachain Logo" class="h-10 w-auto object-contain">
-                </div>
-                <span class="text-white text-xl font-black tracking-wider uppercase">Nusachain <span class="text-emerald-400">Verisign</span></span>
-                <span class="bg-emerald-950/60 border border-emerald-500/30 px-3 py-0.5 rounded-full text-[10px] text-emerald-400 font-mono tracking-widest uppercase">Testscan Connected</span>
-              </div>
-
-              <nav class="flex items-center gap-3 text-sm font-medium">
-                <button onclick="switchTab('generator')" id="tabBtnGen" class="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs transition">Generator Hash</button>
-                <button onclick="switchTab('verifier')" id="tabBtnVer" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs transition">Verifikasi & Explorer</button>
-              </nav>
-            </div>
-
-            <!-- KONTEN VERISIGN -->
-            <main class="space-y-6">
-
-              <!-- TAB 1: GENERATOR HASH -->
-              <div id="section-generator" class="bg-[#0b0f19] rounded-2xl p-6 glow-box fade-in">
-                <h2 class="text-lg font-bold text-white mb-1">Generator Hash SHA-256 File</h2>
-                <p class="text-xs text-slate-400 mb-5">Unggah file jenis apa pun untuk mendapatkan sidik jari digital (hash) secara aman di browser.</p>
-
-                <div class="border-2 border-dashed border-emerald-500/30 bg-emerald-500/5 rounded-xl p-8 text-center cursor-pointer relative hover:bg-emerald-500/10 transition">
-                  <input type="file" id="genFileInput" onchange="handleGenFileSelect(this.files)" class="absolute inset-0 opacity-0 cursor-pointer">
-                  <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <i class="fa-solid fa-file-arrow-up text-xl"></i>
-                  </div>
-                  <p class="text-sm font-bold text-slate-200 mb-1">Pilih atau seret file ke sini</p>
-                  <p class="text-xs text-slate-400">Mendukung dokumen, gambar, video, arsip, dan format lainnya</p>
-                </div>
-
-                <div id="genFileInfo" class="mt-4 p-3 rounded-xl bg-[#030712] border border-slate-800 text-xs font-mono hidden-page flex items-center justify-between">
-                  <span id="genFileName" class="text-emerald-400 truncate"></span>
-                </div>
-
-                <div id="genResult" class="mt-4 p-4 rounded-xl bg-[#030712] border border-slate-800 hidden-page space-y-2">
-                  <div class="flex items-center justify-between">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Kolom Hasil SHA-256 Hash</span>
-                    <button onclick="copyHash()" class="text-xs bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 px-3 py-1.5 rounded-lg transition font-semibold">
-                      <i class="fa-regular fa-copy mr-1"></i> Salin Hash
-                    </button>
-                  </div>
-                  <input type="text" id="genHashOutput" readonly class="w-full bg-black/40 px-3 py-2.5 rounded-lg border border-slate-800 font-mono text-xs text-slate-200 focus:outline-none select-all" placeholder="Hash akan muncul di sini...">
-                </div>
-              </div>
-
-              <!-- TAB 2: VERIFIKASI & EXPLORER CONNECTOR -->
-              <div id="section-verifier" class="bg-[#0b0f19] rounded-2xl p-6 glow-box hidden-page fade-in space-y-6">
-                <div>
-                  <h2 class="text-lg font-bold text-white mb-1">Verifikasi File dengan Testnet Explorer & Database TXID</h2>
-                  <p class="text-xs text-slate-400">Cukup pilih file untuk verifikasi otomatis. Masukkan TXID secara opsional jika ingin mencocokkan transaksi spesifik dengan blockchain.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div class="space-y-2">
-                    <label class="text-xs font-bold uppercase tracking-wider text-slate-400">1. Unggah File yang Ingin Dicheck</label>
-                    <div class="border-2 border-dashed border-cyan-500/30 bg-cyan-500/5 rounded-xl p-6 text-center cursor-pointer relative hover:bg-cyan-500/10 transition">
-                      <input type="file" id="verFileInput" onchange="handleVerFileSelect(this.files)" class="absolute inset-0 opacity-0 cursor-pointer">
-                      <i class="fa-solid fa-file-shield text-cyan-400 text-2xl mb-2"></i>
-                      <p id="verFileText" class="text-xs font-bold text-slate-200">Klik atau seret file verifikasi</p>
-                    </div>
-                  </div>
-
-                  <div class="space-y-2">
-                    <label for="manualTxInput" class="text-xs font-bold uppercase tracking-wider text-slate-400">2. Masukkan TXID Verisign (Opsional)</label>
-                    <input type="text" id="manualTxInput" placeholder="Kosongkan jika ingin deteksi otomatis..."
-                      class="w-full bg-[#030712] border border-slate-800 rounded-xl px-4 py-3 text-xs font-mono text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50">
-                    <p class="text-[11px] text-slate-500">TXID manual wajib terdaftar dan valid di blockchain testnet.</p>
-                  </div>
-                </div>
-
-                <button onclick="executeVerification()" class="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-bold py-3 rounded-xl shadow-lg hover:opacity-90 transition text-sm flex items-center justify-center gap-2">
-                  <i class="fa-solid fa-magnifying-glass-chart"></i> Jalankan Verifikasi & Pencocokan Explorer
-                </button>
-
-                <!-- Hasil Verifikasi -->
-                <div id="verResultCard" class="p-5 rounded-xl border border-slate-800 hidden-page space-y-3 font-mono text-xs">
-                  <div id="verStatusHeader" class="font-bold text-sm flex items-center gap-2"></div>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-slate-700/50">
-                    <div>
-                      <span class="text-[10px] uppercase text-slate-400 block font-sans">Hash File Terhitung:</span>
-                      <span id="verActualHash" class="text-slate-200 break-all"></span>
-                    </div>
-                    <div>
-                      <span class="text-[10px] uppercase text-slate-400 block font-sans">Sumber / TXID Ditemukan:</span>
-                      <span id="verFoundSource" class="text-emerald-400 break-all"></span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- OPSI SIMPAN OTOMATIS KE SPREADSHEET -->
-                <div id="autoSaveContainer" class="hidden-page bg-[#030712] p-5 rounded-xl border border-emerald-500/30 space-y-4 fade-in">
-                  <div class="flex items-center gap-2">
-                    <input type="checkbox" id="saveToggleCheck" onchange="toggleSaveMenu()" class="w-4 h-4 text-emerald-500 rounded border-slate-700 focus:ring-emerald-500 cursor-pointer">
-                    <label for="saveToggleCheck" class="text-xs font-bold text-emerald-400 cursor-pointer uppercase tracking-wider">
-                      Simpan data dokumen ini ke Spreadsheet agar tidak perlu input TXID di kemudian hari?
-                    </label>
-                  </div>
-
-                  <div id="saveMenuFields" class="hidden-page space-y-3 pt-2 border-t border-slate-800">
-                    <p class="text-[11px] text-slate-400">TXID dan Hash SHA-256 terisi otomatis sesuai data valid dari blockchain.</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                      <div>
-                        <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Keterangan Dokumen</label>
-                        <input type="text" id="autoRegDesc" placeholder="Contoh: Laporan Keuangan Q3" class="w-full bg-[#0b0f19] border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-emerald-500">
-                      </div>
-                      <div>
-                        <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">TXID Verisign (Otomatis)</label>
-                        <input type="text" id="autoRegTxid" readonly class="w-full bg-black/60 border border-slate-800 rounded-lg p-2.5 text-xs font-mono text-emerald-400 focus:outline-none cursor-not-allowed">
-                      </div>
-                      <div>
-                        <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Hash SHA-256 (Otomatis)</label>
-                        <input type="text" id="autoRegHash" readonly class="w-full bg-black/60 border border-slate-800 rounded-lg p-2.5 text-xs font-mono text-cyan-400 focus:outline-none cursor-not-allowed">
-                      </div>
-                    </div>
-
-                    <button onclick="submitAutoSaveData()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-2 w-full md:w-auto shadow-md">
-                      <i class="fa-solid fa-cloud-arrow-up"></i> Konfirmasi & Simpan ke Spreadsheet
-                    </button>
-                  </div>
-                </div>
-
-                <!-- TABEL DATABASE VERISIGN TERREKAM -->
-                <div class="pt-4 border-t border-slate-800">
-                  <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-xs font-bold uppercase tracking-widest text-emerald-400"><i class="fa-solid fa-database mr-1"></i> Database Terekam Verisign</h3>
-                    <span class="text-[10px] text-slate-400 font-mono">Sinkronisasi Otomatis Spreadsheet</span>
-                  </div>
-                  <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs font-mono">
-                      <thead>
-                        <tr class="text-[10px] text-slate-400 uppercase border-b border-slate-800 pb-2">
-                          <th class="pb-2">Keterangan Dokumen</th>
-                          <th class="pb-2">TXID Verisign</th>
-                          <th class="pb-2">Hash SHA-256</th>
-                        </tr>
-                      </thead>
-                      <tbody id="databaseTableBody" class="divide-y divide-slate-800/60">
-                        <!-- Data dimasukkan via script -->
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
-            </main>
-        </div>
-    </div>
-
-    <!-- SCRIPT LOGIKA VERISIGN & OVERLAY -->
-    <script>
-    const SPREADSHEET_API_URL = "https://script.google.com/macros/s/AKfycbxU8ZKmY5CSsauHHpLGLui6cZKFsa0O3ITJ5wzv0PhJaZkNksgio8KCj2k5wdaD5wAURg/exec";
-    const API_BASE = 'https://apitest.taobot.org';
-
-    // Fungsi Buka / Tutup Overlay Verisign
-    function toggleVerisignOverlay(open) {
-        const overlay = document.getElementById('verisign-overlay-root');
-        if (open) {
-            overlay.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        } else {
-            overlay.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-    }
-
-    async function apiFetch(endpoint) {
-      const res = await fetch(`${API_BASE}${endpoint}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
-      if (json.error) throw new Error(json.error.message || 'API Error');
-      return json.result;
-    }
-
-    let verisignDatabase = [];
-
-    async function loadDatabaseFromSpreadsheet() {
-      try {
-        const response = await fetch(SPREADSHEET_API_URL);
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          verisignDatabase = data;
-          renderDatabaseTable();
-        }
-      } catch (err) {
-        console.warn("Gagal memuat database dari Spreadsheet.", err);
-      }
-    }
-
-    function toggleSaveMenu() {
-      const check = document.getElementById('saveToggleCheck');
-      const menuFields = document.getElementById('saveMenuFields');
-      if (check.checked) {
-        menuFields.classList.remove('hidden-page');
-      } else {
-        menuFields.classList.add('hidden-page');
-      }
-    }
-
-    async function submitAutoSaveData() {
-      const desc = document.getElementById('autoRegDesc').value.trim();
-      const txid = document.getElementById('autoRegTxid').value.trim();
-      const hash = document.getElementById('autoRegHash').value.trim();
-
-      if (!desc) {
-        toast('Keterangan Dokumen harus diisi!', 'fa-triangle-exclamation', 'rose');
-        return;
-      }
-
-      const isDuplicate = verisignDatabase.some(item => 
-        String(item.txid).trim().toLowerCase() === txid.toLowerCase() && 
-        String(item.hash).trim().toLowerCase() === hash.toLowerCase()
-      );
-
-      if (isDuplicate) {
-        toast('Gagal: TXID dan Hash yang sama sudah tersimpan di Spreadsheet!', 'fa-circle-xmark', 'rose');
-        return;
-      }
-
-      toast('Menyimpan data otomatis ke spreadsheet...', 'fa-spinner fa-spin', 'emerald');
-
-      try {
-        await fetch(SPREADSHEET_API_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ desc: desc, txid: txid, hash: hash })
-        });
-
-        toast('BERHASIL: Data berhasil disimpan ke spreadsheet!', 'fa-circle-check', 'emerald');
-        
-        document.getElementById('autoRegDesc').value = '';
-        document.getElementById('saveToggleCheck').checked = false;
-        document.getElementById('saveMenuFields').classList.add('hidden-page');
-        document.getElementById('autoSaveContainer').classList.add('hidden-page');
-
-        setTimeout(() => {
-          loadDatabaseFromSpreadsheet();
-        }, 2500);
-
-      } catch (err) {
-        toast('Terjadi kesalahan koneksi saat menyimpan ke spreadsheet.', 'fa-triangle-exclamation', 'rose');
-      }
-    }
-
-    loadDatabaseFromSpreadsheet();
-
-    function renderDatabaseTable() {
-      const tbody = document.getElementById('databaseTableBody');
-      tbody.innerHTML = '';
-      
-      if (verisignDatabase.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="3" class="py-3 text-center text-slate-500">Memuat data atau database kosong...</td></tr>`;
-        return;
-      }
-
-      verisignDatabase.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-900/40 transition';
-        tr.innerHTML = `
-          <td class="py-2.5 text-slate-300 font-sans font-medium">${item.desc}</td>
-          <td class="py-2.5 text-cyan-400 truncate max-w-[150px] cursor-pointer hover:underline" onclick="navigator.clipboard.writeText('${item.txid}'); toast('TXID disalin!');">${item.txid}</td>
-          <td class="py-2.5 text-emerald-400 truncate max-w-[180px]">${item.hash}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function switchTab(tab) {
-      const genSec = document.getElementById('section-generator');
-      const verSec = document.getElementById('section-verifier');
-      const genBtn = document.getElementById('tabBtnGen');
-      const verBtn = document.getElementById('tabBtnVer');
-
-      if (tab === 'generator') {
-        genSec.classList.remove('hidden-page');
-        verSec.classList.add('hidden-page');
-        genBtn.className = "px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs transition";
-        verBtn.className = "px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs transition";
-      } else {
-        verSec.classList.remove('hidden-page');
-        genSec.classList.add('hidden-page');
-        verBtn.className = "px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs transition";
-        genBtn.className = "px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs transition";
-      }
-    }
-
-    async function calculateSHA256(file) {
-      const buffer = await file.arrayBuffer();
-      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    async function handleGenFileSelect(files) {
-      if (!files || !files.length) return;
-      const file = files[0];
-      document.getElementById('genFileInfo').classList.remove('hidden-page');
-      document.getElementById('genFileName').innerText = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
-      document.getElementById('genResult').classList.remove('hidden-page');
-      document.getElementById('genHashOutput').value = 'Menghitung hash...';
-
-      try {
-        const hash = await calculateSHA256(file);
-        document.getElementById('genHashOutput').value = hash;
-        toast('Hash SHA-256 berhasil dibuat!', 'fa-circle-check');
-      } catch (err) {
-        document.getElementById('genHashOutput').value = 'Gagal memproses file.';
-      }
-    }
-
-    function copyHash() {
-      const hashInput = document.getElementById('genHashOutput');
-      if (hashInput.value && hashInput.value !== 'Menghitung hash...' && hashInput.value !== 'Gagal memproses file.') {
-        hashInput.select();
-        navigator.clipboard.writeText(hashInput.value);
-        toast('Hash berhasil disalin ke clipboard!', 'fa-copy');
-      }
-    }
-
-    let selectedVerFile = null;
-    function handleVerFileSelect(files) {
-      if (!files || !files.length) return;
-      selectedVerFile = files[0];
-      document.getElementById('verFileText').innerText = `Terpilih: ${selectedVerFile.name}`;
-    }
-
-    async function executeVerification() {
-      if (!selectedVerFile) {
-        toast('Silakan unggah file terlebih dahulu!', 'fa-triangle-exclamation', 'rose');
-        return;
-      }
-
-      const manualTx = document.getElementById('manualTxInput').value.trim();
-      const resultCard = document.getElementById('verResultCard');
-      const statusHeader = document.getElementById('verStatusHeader');
-      const actualHashEl = document.getElementById('verActualHash');
-      const foundSourceEl = document.getElementById('verFoundSource');
-      const autoSaveContainer = document.getElementById('autoSaveContainer');
-
-      resultCard.classList.remove('hidden-page');
-      autoSaveContainer.classList.add('hidden-page');
-      statusHeader.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-400"></i> Memeriksa TXID ke Testnet Explorer...`;
-      actualHashEl.innerText = 'Memproses...';
-      foundSourceEl.innerText = 'Menghubungkan ke apitest.taobot.org...';
-
-      try {
-        const fileHash = await calculateSHA256(selectedVerFile);
-        actualHashEl.innerText = fileHash;
-
-        let matched = false;
-        let sourceInfo = '';
-        let validTxid = '';
-
-        if (manualTx) {
-          try {
-            const txData = await apiFetch(`/transaction/${manualTx}`);
-            
-            if (txData && (txData.hash || txData.txid || txData.vin || txData.vout)) {
-              const dbItem = verisignDatabase.find(item => String(item.txid).trim().toLowerCase() === manualTx.toLowerCase());
-              
-              if (dbItem) {
-                if (String(dbItem.hash).trim().toLowerCase() === fileHash.toLowerCase()) {
-                  matched = true;
-                  validTxid = manualTx;
-                  sourceInfo = `Explorer & Database (Valid): ${manualTx}`;
-                } else {
-                  toast('TXID ditemukan di blockchain, tetapi Hash file tidak cocok dengan catatan database!', 'fa-triangle-exclamation', 'rose');
-                }
-              } else {
-                matched = true;
-                validTxid = manualTx;
-                sourceInfo = `Testnet Explorer (Valid di Blockchain): ${manualTx}`;
-              }
-            } else {
-              toast('TXID tidak ditemukan di blockchain testnet!', 'fa-circle-xmark', 'rose');
-            }
-          } catch (e) {
-            toast('Gagal terhubung ke Explorer atau TXID tidak valid.', 'fa-triangle-exclamation', 'rose');
-          }
-        }
-
-        if (!manualTx) {
-          const foundInDb = verisignDatabase.find(item => String(item.hash).trim().toLowerCase() === fileHash.toLowerCase());
-          if (foundInDb) {
-            matched = true;
-            validTxid = foundInDb.txid;
-            sourceInfo = `Database Spreadsheet (TXID: ${foundInDb.txid})`;
-          }
-        }
-
-        if (matched) {
-          statusHeader.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-base"></i> <span class="text-emerald-400">VERIFIKASI BERHASIL: Sesuai dengan Blockchain Testnet!</span>`;
-          foundSourceEl.innerText = sourceInfo;
-          toast('Verifikasi berhasil dicocokkan!', 'fa-circle-check');
-
-          const alreadySaved = verisignDatabase.some(item => item.txid === validTxid && item.hash === fileHash);
-          if (!alreadySaved && validTxid) {
-            document.getElementById('autoRegTxid').value = validTxid;
-            document.getElementById('autoRegHash').value = fileHash;
-            autoSaveContainer.classList.remove('hidden-page');
-          }
-
-        } else {
-          statusHeader.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 text-base"></i> <span class="text-rose-400">VERIFIKASI GAGAL: TXID Tidak Valid atau Tidak Ditemukan.</span>`;
-          foundSourceEl.innerText = manualTx ? 'TXID ditolak oleh jaringan testnet' : 'Tidak ada kecocokan ditemukan.';
-          toast('Verifikasi gagal dicocokkan.', 'fa-triangle-exclamation', 'rose');
-        }
-
-      } catch (err) {
-        statusHeader.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-400"></i> <span class="text-rose-400">Terjadi kesalahan sistem saat verifikasi.</span>`;
-      }
-    }
-
-    function toast(msg, icon='fa-cube', color='emerald') {
-      const wrap = document.getElementById('toast-wrap');
-      if(!wrap) return;
-      const el = document.createElement('div');
-      el.className = 'toast rounded-xl px-4 py-3 text-xs font-semibold flex items-center gap-2 fade-in';
-      el.innerHTML = `<i class="fa-solid ${icon} text-${color}-400"></i> ${msg}`;
-      wrap.appendChild(el);
-      setTimeout(() => { el.style.opacity='0'; el.style.transition='opacity .4s'; setTimeout(()=>el.remove(),400); }, 4500);
-    }
-    </script>
 
 </body>
 </html>
