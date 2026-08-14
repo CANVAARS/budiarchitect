@@ -424,21 +424,238 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
         <h2 class="row-title">3D Virtual Room Gallery</h2>
       </div>
 
-      <div class="gallery-container-3d">
-        <div class="gallery-nav-bar">
-          <div><i class="fa-solid fa-arrows-up-down-left-right mr-2"></i> Scroll/Drag untuk Kontrol Ruang</div>
-          <div style="display:flex; gap:8px;">
-            <button class="play-tour-btn" id="playTourBtn">▶ Play Tour</button>
-            <button class="fullscreen-btn" id="fullscreenBtn">⛶ Fullscreen</button>
-          </div>
-        </div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pameran 3D Virtual Room</title>
+<style>
+/* --- KODE CSS UNTUK MENJAGA RUANG VIRTUAL --- */
+.gallery-container-3d {
+    width: 100% !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    background: transparent !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, sans-serif;
+    user-select: none;
+    position: relative;
+}
 
-        <div class="gallery-viewport-3d" id="viewport3D">
-          <div class="gallery-room-3d" id="room3D">
+.gallery-viewport-3d {
+    width: 100%;
+    height: 550px;
+    background: #09090b; 
+    overflow: hidden;
+    perspective: 600px;
+    position: relative;
+    border-radius: 8px;
+    border: 1px solid #27272a;
+    touch-action: none !important; 
+    cursor: grab;
+    z-index: 1;
+}
+
+.gallery-viewport-3d:fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    border: none !important;
+    border-radius: 0 !important;
+    perspective: 700px !important;
+}
+
+.gallery-room-3d {
+    width: 100%; height: 100%; position: absolute;
+    transform-style: preserve-3d;
+    transform: translateZ(-150px) rotateY(0deg);
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    will-change: transform;
+    left: 0; top: 0;
+    z-index: 2;
+}
+
+/* Transisi halus khusus mode auto-play */
+.gallery-room-3d.smooth-transition {
+    transition: transform 1.2s ease-in-out !important;
+}
+
+.room-plane { 
+    position: absolute; 
+    box-sizing: border-box; 
+    backface-visibility: hidden; 
+    transition: opacity 0.4s ease, transform 0.5s ease; 
+    transform-style: preserve-3d;
+}
+.gallery-room-3d.zoomed-mode .room-plane { opacity: 0.15; }
+
+/* Saat dinding difokuskan, dinding sedikit didorong maju agar semakin dekat dengan pandangan */
+.gallery-room-3d.zoomed-mode .room-plane.is-focused-wall { 
+    opacity: 1 !important; 
+    transform: translateZ(80px) !important;
+}
+
+/* LANTAI (Tidak menghalangi klik) */
+.floor-plane {
+    width: 1400px; height: 1400px; background-color: #121214;
+    background-image: linear-gradient(rgba(45, 45, 50, 0.7) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(45, 45, 50, 0.7) 1.5px, transparent 1.5px);
+    background-size: 40px 40px; background-position: center center;
+    left: 50%; top: 50%; margin-left: -700px; margin-top: -700px;
+    transform: rotateX(90deg) translateZ(250px); border: 2px solid #222225; 
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+
+/* DINDING 3D */
+.wall-front-3d { 
+    width: 1000px; height: 480px; background: #18181b; 
+    left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; 
+    transform: translateZ(-500px); display: flex; flex-direction: column; 
+    align-items: center; justify-content: center; border: 2px solid #27272a; 
+    z-index: 10;
+    pointer-events: auto !important;
+}
+
+.wall-left-3d { 
+    width: 1000px; height: 480px; background: #18181b; 
+    left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; 
+    transform: rotateY(90deg) translateZ(-500px); display: flex; flex-direction: column; 
+    align-items: center; justify-content: center; border: 2px solid #27272a; 
+    z-index: 10;
+    pointer-events: auto !important;
+}
+
+.wall-right-3d { 
+    width: 1000px; height: 480px; background: #18181b; 
+    left: 50%; top: 50%; margin-left: -500px; margin-top: -240px; 
+    transform: rotateY(-90deg) translateZ(-500px); display: flex; flex-direction: column; 
+    align-items: center; justify-content: center; border: 2px solid #27272a; 
+    z-index: 10;
+    pointer-events: auto !important;
+}
+
+.wall-title { color: #52525b; font-size: 13px; letter-spacing: 5px; font-weight: bold; margin-bottom: 25px; text-transform: uppercase; pointer-events: none; }
+.artwork-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; pointer-events: auto; }
+
+.art-frame {
+    background: #27272a; padding: 12px; border: 4px solid #3f3f46; box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    width: 280px; cursor: pointer; position: relative; transition: all 0.3s ease;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+    transform: translateZ(15px);
+}
+.art-frame:hover { border-color: #b78a00; transform: translateZ(30px) scale(1.04); }
+
+.art-frame img { 
+    width: 100%; 
+    height: 150px; 
+    object-fit: cover; 
+    display: block; 
+    pointer-events: auto !important; 
+    cursor: pointer !important;
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+.art-label { text-align: center; color: #a1a1aa; font-size: 13px; margin-top: 10px; letter-spacing: 1px; pointer-events: none; }
+
+/* LIGHTBOX OVERLAY */
+.gallery-lightbox-overlay {
+    display: none; 
+    position: absolute;
+    z-index: 999999 !important;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(9, 9, 11, 0.96);
+    align-items: center; justify-content: center; flex-direction: column;
+    box-sizing: border-box; padding: 20px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.gallery-lightbox-overlay.show-lightbox {
+    display: flex !important;
+    opacity: 1;
+}
+
+.lightbox-image-content {
+    max-width: 90% !important; max-height: 75vh !important; width: auto !important; height: auto !important;
+    object-fit: contain !important; border: 5px solid #27272a; border-radius: 6px; box-shadow: 0 25px 55px rgba(0,0,0,0.6);
+    transform: scale(0.95); transition: transform 0.25s ease;
+}
+.gallery-lightbox-overlay.show-lightbox .lightbox-image-content { transform: scale(1); }
+.lightbox-close-btn { position: absolute; top: 20px; right: 30px; color: #71717a; font-size: 45px; font-weight: 200; cursor: pointer; z-index: 100000; }
+.lightbox-close-btn:hover { color: #b78a00; }
+.lightbox-caption-text { margin-top: 15px; color: #b78a00; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+
+/* BAR NAVIGASI & TOMBOL PLAY */
+.gallery-nav-bar {
+    width: 100%;
+    height: 40px;
+    background-color: #1a1c1e;
+    background-image: linear-gradient(180deg, #24272a, #1a1c1e);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #333;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    color: #9aa0a6;
+    font-size: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    position: relative;
+    z-index: 10;
+}
+
+.nav-hints { display: flex; align-items: center; }
+.hint-item { display: flex; align-items: center; margin: 0 5px; }
+.hint-icon { display: inline-block; margin-right: 6px; }
+
+.nav-actions { display: flex; gap: 8px; }
+
+.play-tour-btn, .fullscreen-btn {
+    background: #27272a; border: 1px solid #3f3f46; color: #ccc; font-size: 11px;
+    padding: 3px 10px; cursor: pointer; border-radius: 4px; transition: all 0.2s;
+    display: flex; align-items: center; gap: 4px; font-weight: bold;
+}
+.play-tour-btn { background: #b78a00; color: #000; border-color: #d9a000; }
+.play-tour-btn:hover { background: #d9a000; }
+.play-tour-btn.is-playing { background: #dc2626; color: #fff; border-color: #ef4444; }
+
+.fullscreen-btn:hover { background-color: #333; border-color: #444; color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="gallery-container-3d">
+    
+    <div class="gallery-nav-bar">
+        <div class="nav-hints">
+            <div class="hint-item hint-item-desktop">
+                <span class="hint-icon">↕</span>
+                <span>Scroll: Zoom | Drag: Menoleh</span>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <button class="play-tour-btn" id="playTourBtn">
+                <span>▶</span> <span id="playBtnText">Play Tour</span>
+            </button>
+            <button class="fullscreen-btn" id="fullscreenBtn">
+                <span>⛶</span> Fullscreen
+            </button>
+        </div>
+    </div>
+
+    <div class="gallery-viewport-3d" id="viewport3D">
+        <div class="gallery-room-3d" id="room3D">
+            
             <div class="room-plane floor-plane"></div>
 
-            <!-- DINDING UTAMA DEPAN -->
-           <div class="room-plane wall-front-3d" data-wall-name="front">
+            <!-- DINDING DEPAN UTAMA -->
+            <div class="room-plane wall-front-3d" data-wall-name="front">
                 <div class="wall-title">DINDING UTAMA</div>
                 <div class="artwork-grid">
                     <div class="art-frame" data-wall="front"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhf1LtBcJWTSoTaIjaceZFJMQdQexiRhq073t-ONb5bHgxzRzGBHB1Io_SztI_28OjkvTffbVv9O6U0dJnmesztnrOILnmIsq_XmcZqJlllNAShUIyx7rSVMm_m9TJ-pjIdCLRde0EM1UxcFtmUdvm-Qgskw4iOld4WQ_AkOOWmQzedaegcahdTRWFhMYQ/s1600/Gemini_Generated_Image_yle8gayle8gayle8.png" /><div class="art-label">Karya 1</div></div>
@@ -449,7 +666,7 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
             </div>
 
             <!-- DINDING KIRI -->
-           <div class="room-plane wall-left-3d" data-wall-name="left">
+            <div class="room-plane wall-left-3d" data-wall-name="left">
                 <div class="wall-title">SISI KIRI</div>
                 <div class="artwork-grid">
                     <div class="art-frame" data-wall="left"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifK2bsbgjpgPdIjINxjxtmkZR7y7swWJdysf6r5_EOkPGDwKf4aWkXtJd9y6pKcoVgLDSj33BX783IbZkMD3Uq00P1oGe9Fb9uW8H-s-C60m8GyuQmcR_kl7ZC-3wDLMyd8laZWBaq2b1QmtNCAyA3kewfv0b9zMwjgQKG___E5LTN10Eb_e7Eg6RcqEM/s1600/Gemini_Generated_Image_65s0zk65s0zk65s0.png" /><div class="art-label">Karya 5</div></div>
@@ -458,9 +675,9 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
                     <div class="art-frame" data-wall="left"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhOw6_W8L8tIEF-qaefWO3LtbLM-OaF-h9n_tK9GVZzKh6S1scB54SqBhnGu1pxmSud4_puAJScT93hzfGYH1FR5NsMonq5y3gnNrsukAwWX37LU7x8uA3rf92sT_nCL8snyLMvf_zg8vNxZA3ncA0yRSXRa0Jnos2OG06928KBMcNLcQ5kxviKipN20bU/s1600/ChatGPT%20Image%2019%20Sep%202025,%2008.28.20.png" /><div class="art-label">Karya 8</div></div>
                 </div>
             </div>
-             
+
             <!-- DINDING KANAN -->
-             <div class="room-plane wall-right-3d" data-wall-name="right">
+            <div class="room-plane wall-right-3d" data-wall-name="right">
                 <div class="wall-title">SISI KANAN</div>
                 <div class="artwork-grid">
                     <div class="art-frame" data-wall="right"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgsGdwHwuXSfdr-4FhvSJT8XOZhyphenhyphen4KTc78Uccyw8gWzSC1EoCLFdyn8uAy8z2PBQyCsk0zKj2tMVyUWp999DrF7ffnoSnCOF-5P1sJq_1sdcuDVzMUWLl7_XGPETQUD5Yace__AVSXW5MY0-4tAKhO5H6eO86oiPATyjgdL1ILPsAlkn0qDbX8rzCLYotw/s1365/Gemini_Generated_Image_buxxcbbuxxcbbuxx.png" /><div class="art-label">Karya 9</div></div>
@@ -472,17 +689,308 @@ footer { background: var(--surface-2); border-top: 1px solid var(--border); padd
 
         </div>
 
-          <!-- LIGHTBOX OVERLAY VIRTUAL ROOM -->
-          <div class="gallery-lightbox-overlay" id="lightboxOverlay">
-            <span class="lightbox-close-btn" id="closeLightbox">&times;</span>
-            <img class="lightbox-image-content" id="lightboxImg" src="" alt="Zoom Visual">
-            <div class="lightbox-caption-text" id="lightboxCaption">Judul Karya</div>
-          </div>
-
+        <div class="gallery-lightbox-overlay" id="lightboxOverlay">
+            <span class="lightbox-close-btn">&times;</span>
+            <img alt="View Fullscreen" class="lightbox-image-content" id="lightboxImg" src="" />
+            <div class="lightbox-caption-text" id="lightboxCaption">Nama Karya</div>
         </div>
-      </div>
+
     </div>
-  </section>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const room = document.getElementById('room3D');
+    const viewport = document.getElementById('viewport3D');
+    const frames = document.querySelectorAll('.art-frame');
+    const planes = document.querySelectorAll('.room-plane');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const playTourBtn = document.getElementById('playTourBtn');
+    const playBtnText = document.getElementById('playBtnText');
+    
+    const lightbox = document.getElementById('lightboxOverlay');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const closeBtn = document.querySelector('.lightbox-close-btn');
+    
+    if (!room || !viewport) return;
+
+    let posZ = -100; 
+    let rotY = 0;
+    let isZoomed = false; 
+    let isTourRunning = false;
+    let tourTimeouts = [];
+
+    // FUNGSI UNTUK ENTER / EXIT FULLSCREEN
+    function requestFullscreenMode() {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            if (viewport.requestFullscreen) { viewport.requestFullscreen(); }
+            else if (viewport.webkitRequestFullscreen) { viewport.webkitRequestFullscreen(); }
+        }
+    }
+
+    function exitFullscreenMode() {
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+            if (document.exitFullscreen) { document.exitFullscreen(); }
+            else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+        }
+    }
+
+    // HANDLER TOMBOL FULLSCREEN MANUAL
+    if (fullscreenBtn) {
+        fullscreenBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                requestFullscreenMode();
+            } else {
+                exitFullscreenMode();
+            }
+        });
+    }
+
+    // NAVIGASI SCROLL DESKTOP
+    viewport.addEventListener('wheel', function(e) {
+        if (isZoomed || isTourRunning) return;
+        e.preventDefault();
+        posZ -= e.deltaY * 0.5;
+        updateRoom();
+    }, { passive: false });
+
+    // DRAG MOUSE & TOUCH
+    let startX = 0, startY = 0, isDragging = false, previousX = 0;
+
+    viewport.addEventListener('mousedown', function(e) {
+        if (isZoomed || isTourRunning || e.target.closest('#lightboxOverlay')) return;
+        isDragging = true;
+        startX = e.clientX; startY = e.clientY; previousX = e.clientX;
+    });
+
+    window.addEventListener('mousemove', function(e) {
+        if (!isDragging || isZoomed || isTourRunning) return;
+        let deltaX = e.clientX - previousX;
+        rotY += deltaX * 0.25; 
+        previousX = e.clientX;
+        updateRoom();
+    });
+
+    window.addEventListener('mouseup', function() { isDragging = false; });
+
+    viewport.addEventListener('touchstart', function(e) {
+        if (isZoomed || isTourRunning || e.touches.length !== 1 || e.target.closest('#lightboxOverlay')) return;
+        isDragging = true;
+        startX = e.touches[0].clientX; startY = e.touches[0].clientY; previousX = e.touches[0].clientX;
+    }, { passive: true });
+
+    viewport.addEventListener('touchmove', function(e) {
+        if (!isDragging || isZoomed || isTourRunning || !e.touches.length) return;
+        if (e.cancelable) e.preventDefault(); 
+        let currentX = e.touches[0].clientX;
+        let currentY = e.touches[0].clientY;
+        let deltaX = currentX - previousX;
+        let deltaY = currentY - startY;
+        
+        rotY += deltaX * 0.4; 
+        posZ += deltaY * 0.1;
+        previousX = currentX;
+        updateRoom();
+    }, { passive: false });
+
+    viewport.addEventListener('touchend', function() { isDragging = false; });
+
+    // UPDATE POSISI KAMERA
+    function updateRoom() {
+        const maxZ = isZoomed ? 200 : 100;
+        posZ = Math.max(-450, Math.min(maxZ, posZ));
+        room.style.transform = `translateZ(${posZ}px) rotateY(${rotY}deg)`;
+    }
+
+    updateRoom();
+
+    // BUKA LIGHTBOX KHUSUS DARI SKRIP
+    function showLightboxOnly(frameElement) {
+        const imgElement = frameElement.querySelector('img');
+        const labelElement = frameElement.querySelector('.art-label');
+        if (imgElement && lightbox) { 
+            lightboxImg.src = imgElement.src;
+            lightboxCaption.textContent = labelElement ? labelElement.textContent : "Karya Seni";
+            lightbox.style.display = 'flex';
+            setTimeout(() => { lightbox.classList.add('show-lightbox'); }, 10);
+        }
+    }
+
+    // INTERAKSI MANUAL KLIK
+    function openLightboxManual(frameElement) {
+        isZoomed = true;
+        const wallType = frameElement.getAttribute('data-wall');
+        planes.forEach(p => p.classList.remove('is-focused-wall'));
+
+        if (wallType === 'front') {
+            rotY = 0; posZ = 200; 
+            document.querySelector('.wall-front-3d').classList.add('is-focused-wall');
+        } else if (wallType === 'left') {
+            rotY = -90; posZ = 200; 
+            document.querySelector('.wall-left-3d').classList.add('is-focused-wall');
+        } else if (wallType === 'right') {
+            rotY = 90; posZ = 200; 
+            document.querySelector('.wall-right-3d').classList.add('is-focused-wall');
+        }
+
+        room.classList.add('zoomed-mode');
+        updateRoom();
+        showLightboxOnly(frameElement);
+    }
+
+    frames.forEach(frame => {
+        const handleInteraction = function(e) {
+            if(isTourRunning) return;
+            let endX = e.clientX, endY = e.clientY;
+            if (e.changedTouches && e.changedTouches[0]) {
+                endX = e.changedTouches[0].clientX; endY = e.changedTouches[0].clientY;
+            }
+            if (Math.abs(endX - startX) > 6 || Math.abs(endY - startY) > 6) return;
+
+            e.preventDefault(); e.stopPropagation();
+            openLightboxManual(frame);
+        };
+        frame.addEventListener('click', handleInteraction);
+    });
+
+    // TUTUP LIGHTBOX
+    function closeAllZoom(e) {
+        if (e) { e.preventDefault(); e.stopPropagation(); }
+        if (!lightbox) return;
+        
+        lightbox.classList.remove('show-lightbox');
+        setTimeout(() => { lightbox.style.display = 'none'; }, 250);
+
+        if (!isTourRunning) {
+            isZoomed = false;
+            posZ = -100; 
+            planes.forEach(p => p.classList.remove('is-focused-wall'));
+            room.classList.remove('zoomed-mode');
+            updateRoom();
+        }
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeAllZoom);
+    if (lightbox) lightbox.addEventListener('click', closeAllZoom);
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAllZoom(); });
+
+    // --- LOGIKA TOUR OTOMATIS BERDASARKAN MENOLEH DINDING ---
+    function scheduleStep(callback, delay) {
+        const id = setTimeout(callback, delay);
+        tourTimeouts.push(id);
+    }
+
+    function stopTour() {
+        tourTimeouts.forEach(id => clearTimeout(id));
+        tourTimeouts = [];
+        isTourRunning = false;
+        room.classList.remove('smooth-transition');
+        closeAllZoom();
+        isZoomed = false;
+        posZ = -100; rotY = 0;
+        planes.forEach(p => p.classList.remove('is-focused-wall'));
+        room.classList.remove('zoomed-mode');
+        updateRoom();
+        
+        playTourBtn.classList.remove('is-playing');
+        playBtnText.textContent = "Play Tour";
+
+        // Keluar dari mode fullscreen secara otomatis jika tur dihentikan
+        exitFullscreenMode();
+    }
+
+    function startTour() {
+        if (isTourRunning) {
+            stopTour();
+            return;
+        }
+
+        // BUKA OTOMATIS KE MODE FULLSCREEN
+        requestFullscreenMode();
+
+        isTourRunning = true;
+        playTourBtn.classList.add('is-playing');
+        playBtnText.textContent = "Stop Tour";
+        room.classList.add('smooth-transition');
+
+        let delay = 0;
+
+        // 1. Zoom In Awal
+        scheduleStep(() => { posZ = 0; rotY = 0; updateRoom(); }, delay);
+        delay += 1400;
+
+        // 2. Lihat Sisi Kiri & Kanan sebentar
+        scheduleStep(() => { rotY = -45; updateRoom(); }, delay);
+        delay += 1400;
+        scheduleStep(() => { rotY = 45; updateRoom(); }, delay);
+        delay += 1400;
+
+        // --- PROSES PER DINDING ---
+        // Rotasi Kamera: Depan = 0deg | Dinding Kiri = -90deg | Dinding Kanan = 90deg
+        const walls = [
+            { name: 'front', rot: 0 },
+            { name: 'left', rot: -90 },
+            { name: 'right', rot: 90 }
+        ];
+
+        walls.forEach(wall => {
+            // A. Kamera Menoleh Lurus Menghadap Dinding Tersebut
+            scheduleStep(() => {
+                rotY = wall.rot;
+                posZ = 0;
+                updateRoom();
+            }, delay);
+            delay += 1400;
+
+            // B. Tampilkan Gambar di Dinding Tersebut Satu per Satu
+            const wallFrames = document.querySelectorAll(`.art-frame[data-wall="${wall.name}"]`);
+            wallFrames.forEach(frame => {
+                scheduleStep(() => { showLightboxOnly(frame); }, delay);
+                delay += 2200; // Durasi gambar terbuka
+                scheduleStep(() => { 
+                    lightbox.classList.remove('show-lightbox');
+                    setTimeout(() => { lightbox.style.display = 'none'; }, 200);
+                }, delay);
+                delay += 600; // Jeda sebelum gambar berikutnya
+            });
+        });
+
+        // --- PENUTUP TUR ---
+        // 4. Kamera kembali lurus & Zoom Out
+        scheduleStep(() => { rotY = 0; posZ = -300; updateRoom(); }, delay);
+        delay += 1600;
+
+        // 5. Zoom In Kembali
+        scheduleStep(() => { posZ = -100; updateRoom(); }, delay);
+        delay += 1400;
+
+        // 6. Menoleh Kiri & Kanan Lagi
+        scheduleStep(() => { rotY = -60; updateRoom(); }, delay);
+        delay += 1400;
+        scheduleStep(() => { rotY = 60; updateRoom(); }, delay);
+        delay += 1400;
+
+        // 7. Kembali ke Posisi Tengah
+        scheduleStep(() => { rotY = 0; posZ = -100; updateRoom(); }, delay);
+        delay += 1200;
+
+        // 8. Berhenti Diam di Tengah Selama 3 Detik (3000ms Jeda)
+        delay += 3000;
+
+        // 9. Selesai & Close Screen (Keluar Fullscreen)
+        scheduleStep(() => { stopTour(); }, delay);
+    }
+
+    if (playTourBtn) {
+        playTourBtn.addEventListener('click', startTour);
+    }
+});
+</script>
+
+</body>
+</html>
 
   <!-- KONTEN GALERI PROYEK (LENGKAP PROYEK 1 - 6) -->
   <div class="wrap">
